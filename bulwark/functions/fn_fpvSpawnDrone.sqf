@@ -29,6 +29,9 @@ isNil {
             (_r get "drones") pushBack (createHashMapFromArray [["object",_uav],["state","Spawn"],
                 ["target",objNull],["born",time],["expires",time + (_s get "DRONE_LIFETIME")],
                 ["nextSearch",time + 3],["acquired",time],["blockedSince",-1],["previous",getPosASL _uav]]);
+            // Register even while Zeus is unassigned, so later debug access sees it.
+            { _x addCuratorEditableObjects [[_uav],false] } forEach allCurators;
+            ["zeusRegistered",[_r get "id",_uav,count allCurators]] call bulwark_fnc_fpvLog;
             _r set ["starts",(_r get "starts") + 1];
             _spawned = true;
         };

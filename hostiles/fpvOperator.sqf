@@ -72,6 +72,7 @@ isNil {
 };
 if (!_activated) exitWith {[_id,"setupFailed"] call bulwark_fnc_endFpv};
 ["stationActive",[_id,_position,_r get "operator",_device,_r get "deadline"]] call bulwark_fnc_fpvLog;
+{ _x addCuratorEditableObjects [[_device] + (units _group),false] } forEach allCurators;
 ["active"] remoteExecCall ["bulwark_fnc_fpvNotice",0];
 private _nextMonitor = 0;
 while {(_r get "state") == "active"} do {
