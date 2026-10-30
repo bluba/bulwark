@@ -120,6 +120,12 @@ class CfgCommunicationMenu
 
 class CfgSounds
 {
+    class BW_FPV_AttackBuzz
+    {
+        name = "FPV attack buzz";
+        sound[] = {"sound\fpv_attack_buzz.wav", 2, 1, 150};
+        titles[] = {};
+    };
 	sounds[] = {boxSpin, rageSound};
 	
 	class withDrawPoint

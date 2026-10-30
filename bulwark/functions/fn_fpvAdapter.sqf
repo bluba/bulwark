@@ -30,6 +30,7 @@ switch (_operation) do {
         true
     };
     case "cleanup": {
+        _drone setVariable ["bw_fpvAttackAudio",false,true];
         // Native destruction honours this flag. Delete directly, never kill it.
         _drone setVariable ["UA_FPV_PayloadSwapProtected", true, true];
         _drone setVariable ["bw_fpvTerminal", true, true];

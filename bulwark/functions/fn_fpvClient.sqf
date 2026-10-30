@@ -1,5 +1,15 @@
 // Existing tactical tick handles JIP, respawn and local expiry without extra loops.
 if (!hasInterface) exitWith {[]};
+// Local positional playback; short samples expire naturally after attack/cleanup.
+// Current public object state also supports clients joining during an attack.
+{
+    if (_x getVariable ["bw_fpvOwned",false] && {_x getVariable ["bw_fpvAttackAudio",false]} &&
+        {alive _x} && {player distance _x <= 175} &&
+        {time >= (_x getVariable ["bw_fpvNextBuzzLocal",0])}) then {
+        _x setVariable ["bw_fpvNextBuzzLocal",time+1];
+        _x say3D ["BW_FPV_AttackBuzz",150,1];
+    };
+} forEach vehicles;
 private _s = missionNamespace getVariable ["BW_FPV_STATUS",[]];
 private _phase = (missionNamespace getVariable ["BW_TEAM_STATUS",[]]) param [1,"Ended"];
 private _visible = count _s == 5 && {side group player == west} && {_phase == "Combat"} &&

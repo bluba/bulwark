@@ -143,6 +143,10 @@ private _aliveDrones = [];
         _d set ["nextLog",time+5];
         ["droneHeartbeat",[_r get "id",_uav,_state,getPosATL _uav,velocity _uav,_d get "target"]] call bulwark_fnc_fpvLog;
     };
+    private _attackAudio = _state == "Attack";
+    if ((_uav getVariable ["bw_fpvAttackAudio",false]) != _attackAudio) then {
+        _uav setVariable ["bw_fpvAttackAudio",_attackAudio,true];
+    };
     _d set ["state",_state];
     if (_state == "Cleanup") then {
         ["cleanup",_uav] call bulwark_fnc_fpvAdapter;
