@@ -6,7 +6,20 @@ private _wave = _r get "wave";
 private _s = _r get "settings";
 private _origin = _r get "origin";
 private _sites = ([] call bulwark_fnc_fpvSites) select {_x distance2D _origin >= 300 && {_x distance2D _origin <= 700}};
-["siteSearch",[_id,count _sites,_origin]] call bulwark_fnc_fpvLog;
+private _catalogueCount = count _sites;
+// Deterministic bounded fallback for defence areas far from named settlements.
+// Explicit lists (including []) and authored markers remain authoritative.
+if ((missionNamespace getVariable ["BW_FPV_SITE_SOURCE",""]) == "automatic") then {
+    {
+        private _radius = _x;
+        for "_bearing" from 0 to 345 step 15 do {
+            private _p = _origin getPos [_radius,_bearing];
+            _p set [2,0];
+            _sites pushBack _p;
+        };
+    } forEach [350,500,650];
+};
+["siteSearch",[_id,count _sites,_origin,"catalogueCount",_catalogueCount,"source",missionNamespace getVariable ["BW_FPV_SITE_SOURCE",""]]] call bulwark_fnc_fpvLog;
 if (_sites isEqualTo []) exitWith {[_id,"noSite"] call bulwark_fnc_endFpv};
 private _position = [];
 {
