@@ -24,13 +24,24 @@ private _aliveDrones = [];
             _d set ["target",objNull]; _state = "Search"; _d set ["searchSince",time];
         };
         if (_state == "Search") then {
-            if (time - (_d getOrDefault ["searchSince",time]) >= 10) then {_state = "Cleanup"} else {
+            if (time - (_d getOrDefault ["searchSince",time]) >= 60) then {_state = "Cleanup"} else {
                 if (time >= (_d get "nextSearch")) then {
                     _d set ["nextSearch",time + 2];
                     _target = [_r,_d] call bulwark_fnc_fpvTarget;
                     if (!isNull _target) then {_state = "Approach"};
                 };
             };
+        };
+        if (_state == "Search") then {
+            // Search a known defence area, never an unseen player's position.
+            // Retain terrain/geometry collision checks below and the hard TTL.
+            private _area = ATLToASL (_r get "origin");
+            private _delta = _area vectorDiff _pos;
+            _delta set [2,0];
+            private _horizontal = if (vectorMagnitude _delta > 80) then {(vectorNormalized _delta) vectorMultiply 14} else {[0,0,0]};
+            private _height = (_pos select 2) - getTerrainHeightASL (getPosATL _uav);
+            _horizontal set [2,(-4 max ((25 - _height) * 2 + 0.5)) min 4];
+            _velocity = _horizontal;
         };
         if (_state in ["Approach","Attack"]) then {
             private _aim = eyePos _target;

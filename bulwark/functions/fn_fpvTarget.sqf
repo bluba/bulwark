@@ -6,10 +6,20 @@ private _candidates = [];
 {
     private _uid = getPlayerUID _x;
     private _last = _history getOrDefault [_uid,-1000];
-    if (alive _x && {side group _x == west} && {lifeState _x != "INCAPACITATED"} &&
-        {isNull objectParent _x} && {_uid != ""} && {!(_x in _busy)} &&
-        {time - _last >= ((_r get "settings") get "TARGET_COOLDOWN")} &&
-        {_uav distance2D _x <= 1000} && {[_uav,_x] call bulwark_fnc_fpvVisible}) then {
+    private _reason = switch (true) do {
+        case (!alive _x): {"dead"};
+        case (side group _x != west): {"side"};
+        case (lifeState _x == "INCAPACITATED"): {"incapacitated"};
+        case (!isNull objectParent _x): {"inVehicle"};
+        case (_uid == ""): {"missingUID"};
+        case (_x in _busy): {"assigned"};
+        case (time - _last < ((_r get "settings") get "TARGET_COOLDOWN")): {"cooldown"};
+        case (_uav distance2D _x > 1000): {"range"};
+        case (!([_uav,_x] call bulwark_fnc_fpvVisible)): {"noLineOfSight"};
+        default {""};
+    };
+    if (_reason != "") then {["targetRejected",[_r get "id",_uav,name _x,_reason,_uav distance2D _x]] call bulwark_fnc_fpvLog};
+    if (_reason == "") then {
         private _score = 100 - ((_uav distance2D _x) / 20) - (0 max (120 - (time - _last)));
         _candidates pushBack [_score,random 1,_x];
     };
