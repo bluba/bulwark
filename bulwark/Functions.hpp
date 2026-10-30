@@ -1,0 +1,65 @@
+class bulwark
+{
+    class bulwarkBox
+    {
+        file = "bulwark\functions";
+        class bulwarkLocation {};
+        class findPlaceAround {};        
+        class probeBox {};
+        class purchaseGui {};
+        // Registers function to bring up new GUI panel
+        class purchaseGuiNew {};		
+        class shopTab {};
+        class requestDebugAction {};
+        class debugSpecials {};
+        class debugForced {};
+        class debugAdvanceWave {};
+        class roomCentre {};
+        class roomVolume {};
+        class startWave {};
+        class humanPlayers {};
+        class readyVoters {};
+        class requestReady {};
+        class updateReadyVote {};
+        class readyAction {};
+        class requestPing {};
+        class tacticalState {};
+        class tacticalClient {};
+        class convertMedikits {};
+        class extractionReady {};
+        class spawnAnchor {};
+        class waveActive {};
+        class startStorm {};
+        class endStorm {};
+        class stormClient {};
+        class stormStrike {};
+        class fobAvailable {};
+        class officerSettings {};
+        class officerHuntAvailable {};
+        class startOfficerHunt {};
+        class findOfficerPost {};
+        class controlOfficerPost {};
+        class updateOfficerHunt {};
+        class endOfficerHunt {};
+        class officerNotice {};
+        class removeOfficerUnit {};
+        class enemyGroupAllowed {};
+        class controlEnemyGroup {};
+        class spawnLimited {};
+        class queueHostiles {};
+        class waitForAircraft {};
+        class handleDamage {};
+        class validCaller {};
+        class applyRespawn {};
+        class requestRespawn {};
+        class refreshRespawns {};
+        class receivePurchase {};
+        class activateAlly {};
+        class followBulwark {};
+        class controlAllyGroup {};
+        class heal {};
+        class spinBox {};
+    	class endWave {};
+        class revivePlayer{};
+    };
+};

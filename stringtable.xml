@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="DynamicBulwarks">
+  <Package name="TacticalStatus">
+    <Key ID="STR_BW_OFFICER_SEARCH"><Original>Enemy officer search area</Original><Polish>Obszar poszukiwań wrogiego oficera</Polish></Key>
+    <Key ID="STR_BW_OFFICER_HUD"><Original>Enemy officer active — reinforcements incoming (%1s)</Original><Polish>Wrogi oficer aktywny — nadchodzą posiłki (%1 s)</Polish></Key>
+    <Key ID="STR_BW_OFFICER_START"><Original>Enemy command post detected. Search the marked area and eliminate the officer to stop reinforcements.</Original><Polish>Wykryto wrogi posterunek dowodzenia. Przeszukaj oznaczony obszar i wyeliminuj oficera, aby zatrzymać posiłki.</Polish></Key>
+    <Key ID="STR_BW_OFFICER_KILLED"><Original>Enemy officer eliminated. Reinforcements stopped; surviving guards are attacking.</Original><Polish>Wrogi oficer wyeliminowany. Posiłki zatrzymane; pozostali strażnicy przechodzą do ataku.</Polish></Key>
+    <Key ID="STR_BW_OFFICER_EXPIRED"><Original>Enemy command post is abandoning its position. Reinforcements stopped; the command squad is attacking.</Original><Polish>Wrogi posterunek dowodzenia opuszcza pozycję. Posiłki zatrzymane; oddział dowodzenia przechodzi do ataku.</Polish></Key>
+    <Key ID="STR_BW_MEDICAL_CACHE"><Original>Medical cache (%1s remaining)</Original><Polish>Skład medyczny (pozostało %1 s)</Polish></Key>
+    <Key ID="STR_BW_MEDICAL_INBOUND"><Original>Medical supply aircraft inbound</Original><Polish>Samolot z zaopatrzeniem medycznym w drodze</Polish></Key>
+    <Key ID="STR_BW_MEDICAL_DESCENDING"><Original>Medical supplies descending</Original><Polish>Zaopatrzenie medyczne opada na spadochronie</Polish></Key>
+    <Key ID="STR_BW_ENGINEERING_INBOUND"><Original>Engineering supply aircraft inbound</Original><Polish>Samolot z zaopatrzeniem inżynieryjnym w drodze</Polish></Key>
+    <Key ID="STR_BW_ENGINEERING_DESCENDING"><Original>Engineering supplies descending</Original><Polish>Zaopatrzenie inżynieryjne opada na spadochronie</Polish></Key>
+    <Key ID="STR_BW_ENGINEERING_CACHE"><Original>Engineering cache (%1s remaining)</Original><Polish>Skład inżynieryjny (pozostało %1 s)</Polish></Key>
+    <Key ID="STR_BW_SUPPLY_TEMPORARY"><Original>Temporary shared supply cache. Take what you need. Remaining cargo, including deposited items, disappears when the timer expires or the next combat wave begins. Moving the crate or relocating the Bulwark also cancels it. Supplies already collected or placed are kept.</Original><Polish>Tymczasowy wspólny skład zaopatrzenia. Zabierz potrzebne zapasy. Pozostały ładunek, w tym odłożone przedmioty, zniknie po upływie czasu lub rozpoczęciu następnej fali walki. Przesunięcie skrzyni lub przeniesienie Bulwarka również usuwa skład. Zebrane lub rozmieszczone zapasy pozostają.</Polish></Key>
+    <Key ID="STR_BW_THREAT"><Original>Threat</Original><Polish>Zagrożenie</Polish></Key>
+    <Key ID="STR_BW_SUPPLY"><Original>Supply</Original><Polish>Zaopatrzenie</Polish></Key>
+    <Key ID="STR_BW_REPAIR"><Original>Repair</Original><Polish>Naprawa</Polish></Key>
+    <Key ID="STR_BW_REGROUP"><Original>Regroup</Original><Polish>Zbiórka</Polish></Key>
+    <Key ID="STR_BW_PING_ACTION"><Original>Ping: %1</Original><Polish>Oznacz: %1</Polish></Key>
+    <Key ID="STR_BW_PING_WAIT"><Original>Wait five seconds between reports.</Original><Polish>Odczekaj pięć sekund między zgłoszeniami.</Polish></Key>
+    <Key ID="STR_BW_PING_RANGE"><Original>Aim at a point within 1 km.</Original><Polish>Wskaż punkt w odległości do 1 km.</Polish></Key>
+    <Key ID="STR_BW_Preparation"><Original>Preparation</Original><Polish>Przygotowanie</Polish></Key>
+    <Key ID="STR_BW_Combat"><Original>Combat</Original><Polish>Walka</Polish></Key>
+    <Key ID="STR_BW_Extraction"><Original>Extraction</Original><Polish>Ewakuacja</Polish></Key>
+    <Key ID="STR_BW_Ended"><Original>Ended</Original><Polish>Koniec</Polish></Key>
+    <Key ID="STR_BW_Loading"><Original>Loading</Original><Polish>Wczytywanie</Polish></Key>
+    <Key ID="STR_BW_FOB_OBJECTIVE"><Original>Destroy FOB cache (%1)</Original><Polish>Zniszcz skład FOB (%1)</Polish></Key>
+    <Key ID="STR_BW_BONUS_OBJECTIVE"><Original>Reach white bonus zone</Original><Polish>Dotrzyj do białej strefy premiowej</Polish></Key>
+    <Key ID="STR_BW_DEFEND"><Original>Defend the Bulwark</Original><Polish>Broń Bulwarka</Polish></Key>
+    <Key ID="STR_BW_PREPARE"><Original>Prepare equipment and defenses</Original><Polish>Przygotuj sprzęt i obronę</Polish></Key>
+    <Key ID="STR_BW_BOARD">
+      <Original>&lt;t size='1.1'&gt;Points: %1&lt;/t&gt;&lt;br/&gt;Wave %2 | %3&lt;br/&gt;Tickets: %4 | Bank: %5&lt;br/&gt;&lt;t size='0.85'&gt;%6&lt;/t&gt;</Original>
+      <Polish>&lt;t size='1.1'&gt;Punkty: %1&lt;/t&gt;&lt;br/&gt;Fala %2 | %3&lt;br/&gt;Odrodzenia: %4 | Bank: %5&lt;br/&gt;&lt;t size='0.85'&gt;%6&lt;/t&gt;</Polish>
+    </Key>
+  </Package>
+</Project>

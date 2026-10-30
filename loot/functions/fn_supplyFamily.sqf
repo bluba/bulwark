@@ -1,0 +1,13 @@
+// Only these two server-defined families may select lifecycle namespace keys.
+params [["_family", "medical"]];
+switch (_family) do {
+    case "medical": {[
+        "BW_SUPPLY_CACHE", "BW_SUPPLY_LAST_ATTEMPT", "BW_SUPPLY_LAST_RESULT", "BW_SUPPLY_STATUS",
+        "BW_SUPPLY_ENABLED", "BW_SUPPLY_CHANCE", "BW_SUPPLY_CLASS", "BW_SUPPLY_DELIVERY_STATUS"
+    ]};
+    case "engineering": {[
+        "BW_ENGINEERING_CACHE", "BW_ENGINEERING_LAST_ATTEMPT", "BW_ENGINEERING_LAST_RESULT", "BW_ENGINEERING_STATUS",
+        "BW_ENGINEERING_ENABLED", "BW_ENGINEERING_CHANCE", "BW_ENGINEERING_CLASS", "BW_ENGINEERING_DELIVERY_STATUS"
+    ]};
+    default {[]};
+}
