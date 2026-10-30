@@ -58,3 +58,5 @@ Required engine acceptance: crewless flight stability and sound; exactly one nat
 Verbose server RPT diagnostics default to enabled (`BW_FPV_LOG = true`). Search for `[BW FPV]` for setup, activation, launch attempts (ID, success, active count, launches, station state), target selection, state transitions, five-second position/velocity heartbeats, detonation results and termination reasons. Set the option to false to disable. Runtime log acceptance remains pending.
 
 Placement diagnostics now emit `siteRejected` with the rejected position and stage, or `siteAccepted`. The Altis settlement fallback uses fixed 15-degree bearings at 150/350/550/750 m offsets to reduce sparse-catalogue failures. Existing range, visibility and geometry constraints remain in force. Runtime placement acceptance is pending.
+
+Fixed candidate shuffling: BIS_fnc_arrayShuffle receives the position list directly, rather than a nested singleton list. An empty nearby list now exits before geometry checks. Earlier noSite reports and geometry type errors could result from this incorrect argument shape. Engine retest is required.
