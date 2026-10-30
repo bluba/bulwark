@@ -2,9 +2,10 @@
 if (!hasInterface) exitWith {[]};
 // Local positional playback; short samples expire naturally after attack/cleanup.
 // Current public object state also supports clients joining during an attack.
+// Let positional audio handle distance: Zeus/spectator camera may be far from player.
 {
     if (_x getVariable ["bw_fpvOwned",false] && {_x getVariable ["bw_fpvAttackAudio",false]} &&
-        {alive _x} && {player distance _x <= 175} &&
+        {alive _x} &&
         {time >= (_x getVariable ["bw_fpvNextBuzzLocal",0])}) then {
         _x setVariable ["bw_fpvNextBuzzLocal",time+1];
         _x say3D ["BW_FPV_AttackBuzz",150,1];

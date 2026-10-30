@@ -75,7 +75,7 @@ private _aliveDrones = [];
             private _aim = if (_strike isEqualTo []) then {eyePos _target} else {+_strike};
             private _distance = _pos distance _aim;
             if (_state == "Approach" && {_distance < 70} && {time - (_d get "acquired") >= 3}) then {_state = "Attack"};
-            if (_strike isEqualTo [] && {_distance <= 10}) then {
+            if (_state == "Attack" && {_strike isEqualTo []} && {_distance <= 10}) then {
                 _strike = +_aim;
                 _d set ["strikePoint",_strike];
                 _state = "Attack";
@@ -108,7 +108,10 @@ private _aliveDrones = [];
             if (!terrainIntersectASL [_pos,_up] && {(lineIntersectsSurfaces [_pos,_up,_uav,objNull,true,1,"GEOM","NONE"]) isEqualTo []}) then {_velocity = [0,0,3]};
             _state = "Search"; _d set ["target",objNull];
             _d set ["nextWaypoint",0];
-            if (!(_strike isEqualTo []) || {time - (_d get "blockedSince") >= 5}) then {_state = "Cleanup"};
+            if (!(_strike isEqualTo []) || {time - (_d get "blockedSince") >= 5}) then {
+                ["obstructionCleanup",[_r get "id",_uav,_pos,_strike]] call bulwark_fnc_fpvLog;
+                _state = "Cleanup";
+            };
         } else {_d set ["blockedSince",-1]};
         if (_state == "Detonation") then {
             // The native Hit handler stays disarmed until this atomic commit.
