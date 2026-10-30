@@ -64,7 +64,8 @@ private _aliveDrones = [];
                     {lifeState _target != "INCAPACITATED"} && {_uav distance (ASLToATL eyePos _target) <= 2} &&
                     {[_uav,_target] call bulwark_fnc_fpvVisible}) then {
                     _uav setVariable ["UA_FPV_PayloadSwapProtected",false,true];
-                    ["detonate",_uav] call bulwark_fnc_fpvAdapter;
+                    private _done = ["detonate",_uav] call bulwark_fnc_fpvAdapter;
+                    ["detonationResult",[_r get "id",_done]] call bulwark_fnc_fpvLog;
                 };
             };
             _state = "Cleanup";
@@ -77,6 +78,13 @@ private _aliveDrones = [];
             _uav setVelocity _velocity;
             _d set ["previous",_pos];
         };
+    };
+    if (_state != (_d get "state")) then {
+        ["droneState",[_r get "id",_uav,_d get "state",_state,"alive",alive _uav,"local",local _uav,"shotDown",_uav getVariable ["bw_fpvShotDown",false]]] call bulwark_fnc_fpvLog;
+    };
+    if (time >= (_d getOrDefault ["nextLog",0])) then {
+        _d set ["nextLog",time+5];
+        ["droneHeartbeat",[_r get "id",_uav,_state,getPosATL _uav,velocity _uav,_d get "target"]] call bulwark_fnc_fpvLog;
     };
     _d set ["state",_state];
     if (_state == "Cleanup") then {

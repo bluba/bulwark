@@ -14,4 +14,5 @@ isNil {
         _started = true;
     };
 };
+["startRequest",[_wave,_started]] call bulwark_fnc_fpvLog;
 _started

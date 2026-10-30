@@ -6,6 +6,7 @@ private _wave = _r get "wave";
 private _s = _r get "settings";
 private _origin = _r get "origin";
 private _sites = ([] call bulwark_fnc_fpvSites) select {_x distance2D _origin >= 300 && {_x distance2D _origin <= 700}};
+["siteSearch",[_id,count _sites,_origin]] call bulwark_fnc_fpvLog;
 private _position = [];
 {
     private _p = +_x; _p set [2,0];
@@ -56,6 +57,7 @@ isNil {
     } else {{deleteVehicle _x} forEach units _group; deleteGroup _group};
 };
 if (!_activated) exitWith {[_id,"setupFailed"] call bulwark_fnc_endFpv};
+["stationActive",[_id,_position,_r get "operator",_device,_r get "deadline"]] call bulwark_fnc_fpvLog;
 ["active"] remoteExecCall ["bulwark_fnc_fpvNotice",0];
 private _nextMonitor = 0;
 while {(_r get "state") == "active"} do {

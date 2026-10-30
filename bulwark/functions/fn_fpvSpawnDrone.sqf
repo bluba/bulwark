@@ -34,4 +34,5 @@ isNil {
         };
     };
 };
+["launchAttempt",[_r get "id",_spawned,count (_r get "drones"),_r get "starts",_r get "state"]] call bulwark_fnc_fpvLog;
 _spawned

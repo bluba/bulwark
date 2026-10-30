@@ -34,6 +34,7 @@ BW_FOB_COOLDOWN_WAVES = 2;
 BW_OFFICER_ENABLED = true;
 // FPV Operator: optional Ukraine FPV Drone addon; missing addon skips selection.
 BW_FPV_ENABLED = true;
+BW_FPV_LOG = true; // Verbose server RPT diagnostics.
 BW_FPV_MIN_WAVE = 10;
 BW_FPV_COOLDOWN = 2;
 BW_FPV_GUARDS = 2;

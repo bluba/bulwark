@@ -25,6 +25,7 @@ isNil {
         };
         missionNamespace setVariable ["BW_FPV_STATUS",[],true];
         if (_first) then {
+            ["stationEnded",[_id,_reason,_r get "starts",_assault]] call bulwark_fnc_fpvLog;
             BW_FPV_RESULT = [_id,_reason,serverTime];
             if (_assault && {_reason in ["destroyed","expired","exhausted","relocated"]}) then {["ended"] remoteExecCall ["bulwark_fnc_fpvNotice",0]};
             diag_log format ["Bulwark FPV %1 ended: %2",_id,_reason];

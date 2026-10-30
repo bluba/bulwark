@@ -47,6 +47,7 @@ class bulwark
         class controlEnemyGroup {};
         class spawnLimited {};
         class fpvAdapter {};
+        class fpvLog {};
         class fpvSettings {};
         class fpvAvailable {};
         class fpvSites {};

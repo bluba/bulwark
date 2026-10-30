@@ -14,7 +14,7 @@ private _candidates = [];
         _candidates pushBack [_score,random 1,_x];
     };
 } forEach ([] call bulwark_fnc_humanPlayers);
-if (_candidates isEqualTo []) exitWith {objNull};
+if (_candidates isEqualTo []) exitWith {["noEligibleTarget",[_r get "id",_uav,getPosATL _uav]] call bulwark_fnc_fpvLog; objNull};
 _candidates sort false;
 private _target = (selectRandom (_candidates select [0,3])) select 2;
 // One director owns assignments; selection and reservation do not suspend.
@@ -22,4 +22,5 @@ _d set ["target",_target];
 _history set [getPlayerUID _target,time];
 _d set ["acquired",time];
 ["incoming"] remoteExecCall ["bulwark_fnc_fpvNotice",owner _target];
+["targetAcquired",[_r get "id",_uav,name _target,_uav distance _target]] call bulwark_fnc_fpvLog;
 _target
