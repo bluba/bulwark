@@ -69,7 +69,7 @@ if ((_r getOrDefault ["state",""]) == "active") then {
             private _second = [_r,_other] call bulwark_fnc_fpvTarget;
             [isNull _second || {!(_second isEqualTo _target)},"busy target excluded"] call _check;
             _d set ["target",objNull];
-            private _again = [_r,_d] call bulwark_fnc_fpvTarget;
+            private _again = [_r,_other] call bulwark_fnc_fpvTarget;
             [isNull _again || {!(_again isEqualTo _target)},"UID cooldown enforced"] call _check;
             bulwark_fnc_fpvVisible = _visible;
         };

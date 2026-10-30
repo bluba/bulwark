@@ -13,7 +13,7 @@ private _candidates = [];
         case (!isNull objectParent _x): {"inVehicle"};
         case (_uid == ""): {"missingUID"};
         case (_x in _busy): {"assigned"};
-        case (time - _last < ((_r get "settings") get "TARGET_COOLDOWN")): {"cooldown"};
+        case (_uid != (_d getOrDefault ["lastTargetUID",""]) && {time - _last < ((_r get "settings") get "TARGET_COOLDOWN")}): {"cooldown"};
         case (_uav distance2D _x > 1000): {"range"};
         case (!([_uav,_x] call bulwark_fnc_fpvVisible)): {"noLineOfSight"};
         default {""};
@@ -30,6 +30,7 @@ private _target = (selectRandom (_candidates select [0,3])) select 2;
 // One director owns assignments; selection and reservation do not suspend.
 _d set ["target",_target];
 _history set [getPlayerUID _target,time];
+_d set ["lastTargetUID",getPlayerUID _target];
 _d set ["acquired",time];
 ["incoming"] remoteExecCall ["bulwark_fnc_fpvNotice",owner _target];
 ["targetAcquired",[_r get "id",_uav,name _target,_uav distance _target]] call bulwark_fnc_fpvLog;

@@ -21,6 +21,15 @@ private _aliveDrones = [];
             {lifeState _target == "INCAPACITATED"} || {!isNull objectParent _target} ||
             {!([_uav,_target] call bulwark_fnc_fpvVisible)}
         }) then {
+            private _lostReason = switch (true) do {
+                case (!alive _target): {"deadOrDeleted"};
+                case (!isPlayer _target): {"notPlayer"};
+                case (side group _target != west): {"side"};
+                case (lifeState _target == "INCAPACITATED"): {"incapacitated"};
+                case (!isNull objectParent _target): {"inVehicle"};
+                default {"noLineOfSight"};
+            };
+            ["targetLost",[_r get "id",_uav,_target,_lostReason]] call bulwark_fnc_fpvLog;
             _d set ["target",objNull]; _state = "Search";
         };
         if (_state == "Search" && {time >= (_d get "nextSearch")}) then {
