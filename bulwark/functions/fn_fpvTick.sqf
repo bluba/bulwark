@@ -14,23 +14,19 @@ private _aliveDrones = [];
         private _velocity = [0,0,0];
         if (_state == "Spawn") then {
             _velocity = [0,0,4];
-            if (time >= (_d get "nextSearch")) then {_state = "Search"; _d set ["searchSince",time]};
+            if (time >= (_d get "nextSearch")) then {_state = "Search"};
         };
         if (_state in ["Approach","Attack"] && {
             !alive _target || {!isPlayer _target} || {side group _target != west} ||
             {lifeState _target == "INCAPACITATED"} || {!isNull objectParent _target} ||
             {!([_uav,_target] call bulwark_fnc_fpvVisible)}
         }) then {
-            _d set ["target",objNull]; _state = "Search"; _d set ["searchSince",time];
+            _d set ["target",objNull]; _state = "Search";
         };
-        if (_state == "Search") then {
-            if (time - (_d getOrDefault ["searchSince",time]) >= 60) then {_state = "Cleanup"} else {
-                if (time >= (_d get "nextSearch")) then {
-                    _d set ["nextSearch",time + 2];
-                    _target = [_r,_d] call bulwark_fnc_fpvTarget;
-                    if (!isNull _target) then {_state = "Approach"};
-                };
-            };
+        if (_state == "Search" && {time >= (_d get "nextSearch")}) then {
+            _d set ["nextSearch",time + 2];
+            _target = [_r,_d] call bulwark_fnc_fpvTarget;
+            if (!isNull _target) then {_state = "Approach"};
         };
         if (_state == "Search") then {
             private _origin = _r get "origin";
@@ -84,7 +80,7 @@ private _aliveDrones = [];
             private _up = _pos vectorAdd [0,0,3];
             _velocity = [0,0,0];
             if (!terrainIntersectASL [_pos,_up] && {(lineIntersectsSurfaces [_pos,_up,_uav,objNull,true,1,"GEOM","NONE"]) isEqualTo []}) then {_velocity = [0,0,3]};
-            _state = "Search"; _d set ["target",objNull]; _d set ["searchSince",time];
+            _state = "Search"; _d set ["target",objNull];
             _d set ["nextWaypoint",0];
             if (time - (_d get "blockedSince") >= 5) then {_state = "Cleanup"};
         } else {_d set ["blockedSince",-1]};
