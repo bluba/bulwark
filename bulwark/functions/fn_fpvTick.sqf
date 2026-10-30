@@ -30,7 +30,7 @@ private _aliveDrones = [];
                 default {"noLineOfSight"};
             };
             ["targetLost",[_r get "id",_uav,_target,_lostReason]] call bulwark_fnc_fpvLog;
-            _d set ["target",objNull]; _state = "Search";
+            _d set ["target",objNull]; _target = objNull; _state = "Search";
         };
         if (_state == "Search" && {time >= (_d get "nextSearch")}) then {
             _d set ["nextSearch",time + 2];
@@ -99,7 +99,7 @@ private _aliveDrones = [];
                 if ((_r get "state") == "active" && {alive (_r get "operator")} && {alive (_r get "device")} &&
                     {alive _uav} && {local _uav} && {!(_uav getVariable ["bw_fpvShotDown",false])} &&
                     {[_r get "wave"] call bulwark_fnc_waveActive} && {time < (_r get "deadline")} &&
-                    {alive _target} && {isPlayer _target} && {isNull objectParent _target} &&
+                    {alive _target} && {isPlayer _target} && {side group _target == west} && {isNull objectParent _target} &&
                     {lifeState _target != "INCAPACITATED"} && {_uav distance (ASLToATL eyePos _target) <= 2} &&
                     {[_uav,_target] call bulwark_fnc_fpvVisible}) then {
                     _uav setVariable ["UA_FPV_PayloadSwapProtected",false,true];

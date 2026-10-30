@@ -70,3 +70,5 @@ Use current file contents rather than old review line numbers. Update these docs
 ## FPV Operator source implementation (2026-10-30)
 
 Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.
+
+FPV validation update (2026-10-30): user RPT confirms station activation, physical flight, visibility loss, random search, reacquisition, Attack and native detonation success callback. Visual blast/damage, final deletion, dedicated multiplayer and automated harnesses remain unverified. See [FPV_OPERATOR.md](FPV_OPERATOR.md#review-and-observed-engine-results--2026-10-30) for evidence and review fixes; this supersedes earlier statements that no engine evidence exists.
