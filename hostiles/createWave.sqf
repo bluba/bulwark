@@ -10,26 +10,28 @@ waveSpawned = true;
 _armourStartWave = "ARMOUR_START_WAVE" call BIS_fnc_getParamValue;
 _allSpawnTest= false;
 private _vehiclesEnabled = _armourStartWave < 9999 && {!([attkWave] call bulwark_fnc_debugForced)};
+// Unlock one vehicle family at a time; chances and counts grow from its unlock wave.
+private _vehicleAge = attkWave - _armourStartWave;
 private _humanCount = count ([] call bulwark_fnc_humanPlayers);
 
-if(_vehiclesEnabled && {attkWave >=  (_armourStartWave + 5) && random 100< attkWave + ( (floor (attkWave/2) ) *5)} || _allSpawnTest) then{
-	ArmourCount = floor (attkWave / 20)+1;
+if(_vehiclesEnabled && {_vehicleAge >= 7 && {random 100 < (65 min (15 + 3 * (_vehicleAge - 7)))}} || _allSpawnTest) then{
+	ArmourCount = floor ((_vehicleAge - 7) / 20)+1;
 	ArmourCount = ArmourCount + floor(random (floor (_humanCount / 4)+1));
 	diag_log format ["Bulwark vehicles: wave %1, humans %2, armour %3", attkWave, _humanCount, ArmourCount];
 	_spwnVec = execVM "hostiles\spawnVehicle.sqf";
 	waitUntil {scriptDone _spwnVec};
 };
 
-if(_vehiclesEnabled && {attkWave >=  _armourStartWave && random 100< attkWave + ( (floor (attkWave/1) ) *5)} || _allSpawnTest) then{
-	carCount = floor (attkWave / 10)+2;
+if(_vehiclesEnabled && {_vehicleAge >= 0 && {random 100 < (80 min (20 + 4 * _vehicleAge))}} || _allSpawnTest) then{
+	carCount = floor (_vehicleAge / 10)+1;
 	carCount = carCount + floor(random (floor (_humanCount / 2)+1));
 	diag_log format ["Bulwark vehicles: wave %1, humans %2, armed cars %3", attkWave, _humanCount, carCount];
 	_spwnVec = execVM "hostiles\spawnCar.sqf";
 	waitUntil {scriptDone _spwnVec};
 };
 
-if(_vehiclesEnabled && {attkWave >=  _armourStartWave && random 100< attkWave + ( (floor (attkWave/2) ) *5)} || _allSpawnTest) then{
-	heliCount = floor (attkWave / 10)+1;
+if(_vehiclesEnabled && {_vehicleAge >= 5 && {random 100 < (60 min (15 + 3 * (_vehicleAge - 5)))}} || _allSpawnTest) then{
+	heliCount = floor ((_vehicleAge - 5) / 10)+1;
 	helicount = heliCount + floor(random (floor (_humanCount / 3)+1));
 	diag_log format ["Bulwark vehicles: wave %1, humans %2, attack helicopters %3", attkWave, _humanCount, heliCount];
 	_spwnVec = execVM "hostiles\spawnHeli.sqf";
@@ -37,8 +39,8 @@ if(_vehiclesEnabled && {attkWave >=  _armourStartWave && random 100< attkWave + 
 };
 
 try {
-	if(_vehiclesEnabled && {attkWave >=  _armourStartWave && ((random 100)<(25+attkWave*2))} || _allSpawnTest) then{
-		private _transportCount = 1 + floor random (1 + floor (attkWave / 10));
+	if(_vehiclesEnabled && {_vehicleAge >= 3 && {random 100 < (60 min (15 + 3 * (_vehicleAge - 3)))}} || _allSpawnTest) then{
+		private _transportCount = 1 + floor random (1 + floor ((_vehicleAge - 3) / 10));
 		diag_log format ["Bulwark vehicles: wave %1, transport helicopters %2", attkWave, _transportCount];
 		for "_i" from 1 to _transportCount do {
 			[[([] call bulwark_fnc_spawnAnchor) , "RHS_Mi8mt_Cargo_vvsc", east, configNull], "hostiles\KillTeam.sqf"] call bulwark_fnc_queueHostiles;
@@ -50,8 +52,8 @@ catch {
 };
 
 try {
-	if (_vehiclesEnabled && {attkWave >= _armourStartWave && {random 100 < 30 + attkWave}}) then {
-		private _transportCount = 1 + floor random (1 + floor (attkWave / 9));
+	if (_vehiclesEnabled && {_vehicleAge >= 2 && {random 100 < (65 min (20 + 3 * (_vehicleAge - 2)))}}) then {
+		private _transportCount = 1 + floor random (1 + floor ((_vehicleAge - 2) / 9));
 		diag_log format ["Bulwark vehicles: wave %1, transport trucks %2", attkWave, _transportCount];
 		for "_i" from 1 to _transportCount do {
 			[[[([] call bulwark_fnc_spawnAnchor) , BULWARK_RADIUS+100, BULWARK_RADIUS+300,20,0] call BIS_fnc_findSafePos ], "hostiles\spawnUaz.sqf"] call bulwark_fnc_queueHostiles;
