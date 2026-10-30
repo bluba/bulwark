@@ -5,8 +5,8 @@ private _host = !isDedicated && {owner _caller == 2};
 if (!_host && {admin (owner _caller) == 0}) exitWith {
     ["Debug tools are available to the host or server admins only."] remoteExecCall ["hint", _caller];
 };
-if !(_action in ["killEnemies", "forceSpecial"]) exitWith {};
-if (missionNamespace getVariable ["BW_DEBUG_TRANSITION", false]) exitWith {};
+if !(_action in ["killEnemies", "forceSpecial", "resetZeus"]) exitWith {};
+if (_action != "resetZeus" && {missionNamespace getVariable ["BW_DEBUG_TRANSITION", false]}) exitWith {};
 if (_action == "forceSpecial" && {
     ! (missionNamespace getVariable ["runMissionLoop", false]) ||
     {missionNamespace getVariable ["missionExtract", false]} ||
@@ -24,6 +24,24 @@ isNil {
     };
 };
 if (!_accepted) exitWith {};
+if (_action == "resetZeus") exitWith {
+    private _curator = missionNamespace getVariable ["mainZeus", objNull];
+    if (isNull _curator) exitWith {
+        ["Cannot reset Zeus: the mission's Zeus module is missing."] remoteExecCall ["hint", _caller];
+    };
+    private _assigned = getAssignedCuratorUnit _curator;
+    if (!isNull _assigned && {_assigned != _caller} && {isPlayer _assigned} && {alive _assigned}) exitWith {
+        ["Cannot reset Zeus: another living player owns the module."] remoteExecCall ["hint", _caller];
+    };
+    private _existing = getAssignedCuratorLogic _caller;
+    if (!isNull _existing && {_existing != _curator}) exitWith {
+        ["Cannot reset Zeus: you are assigned to another Zeus module."] remoteExecCall ["hint", _caller];
+    };
+    unassignCurator _curator;
+    _caller assignCurator _curator;
+    diag_log format ["Bulwark debug: %1 (%2) reset Zeus assignment", name _caller, _uid];
+    ["Zeus reassigned. Close the shop, wait a moment, then press Y."] remoteExecCall ["hint", _caller];
+};
 if (_action == "forceSpecial") exitWith {
     // Only the normal mission loop owns cancellation and the next startWave.
     BW_DEBUG_TRANSITION = true;

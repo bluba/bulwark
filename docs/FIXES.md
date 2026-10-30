@@ -1,5 +1,9 @@
 # Bulwark fixes
 
+## Debug Zeus reset (2026-10-30)
+
+Added **Reset Zeus** to Shop + > DEBUG beside the enemy-kill button. The fixed server action unassigns/reassigns `mainZeus` to the requesting host/admin's current unit, retaining existing shop proximity, caller validation and cooldown checks. Missing/conflicting modules and another living player's assignment are refused with feedback. Reset remains available during forced-wave transitions. Close the shop and press Y after a moment to enter Zeus. Source structure/wiring/layout checks passed; Arma UI and multiplayer recovery tests remain unrun. No PBO created.
+
 ## Respawn clearance from the truck (2026-10-30)
 
 The old placement helper tried positions only 2 m from the truck center and ignored the truck in its intersection check. It could also fall back to that center. The replacement searches empty ground beyond a footprint-based exclusion circle: at least 12 m from the center, or the model's horizontal corner radius plus 6 m for larger vehicles. Search candidates avoid nearby vehicles and their projected three-second movement paths, water, occupied infantry positions and blocked standing space. Results retain the ASL coordinate contract and place feet just above terrain rather than at the truck's floor height.

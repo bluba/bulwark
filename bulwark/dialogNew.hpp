@@ -2,7 +2,7 @@ class startBox_DialogNew
 {
 	idd = 9998;
 	movingEnabled = false;
-	onLoad = "{((_this select 0) displayCtrl _x) ctrlShow false} forEach [1611,1010,1510,1612];";
+	onLoad = "{((_this select 0) displayCtrl _x) ctrlShow false} forEach [1611,1010,1510,1612,1613];";
 	
 	class controls
 	{
@@ -62,6 +62,17 @@ class startBox_DialogNew
 			x = 0.29 * safezoneW + safezoneX;
 			y = 0.36 * safezoneH + safezoneY;
 			w = 0.25 * safezoneW;
+			h = 0.056 * safezoneH;
+		};
+		class btnBulwarkDebugResetZeus: RscButton
+		{
+			idc = 1613;
+			action = "[player, 'resetZeus'] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];";
+			text = "Reset Zeus";
+			tooltip = "Restores your Zeus assignment. Close the shop, wait a moment, then press Y.";
+			x = 0.55 * safezoneW + safezoneX;
+			y = 0.36 * safezoneH + safezoneY;
+			w = 0.16 * safezoneW;
 			h = 0.056 * safezoneH;
 		};
 		class txtBulwarkDebug: RscText

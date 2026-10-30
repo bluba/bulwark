@@ -6,6 +6,14 @@ The first button, **Kill all enemies**, runs the previously supplied command on 
 
 Access is limited to the locally hosted server player or an administrator recognized by the dedicated server (logged-in or voted admin). The tab is visible to everyone with explanatory text; its action button is disabled for ordinary clients. The server independently verifies caller ownership, a living conscious player within ten metres of the current Bulwark, and host/admin status. UI visibility is not the authorization boundary. There is no client-supplied script, side list or target list. The action ID is whitelisted; duplicate requests are limited to one per UID every two seconds, with a server RPT audit entry. This endpoint is restricted to server execution in CfgRemoteExec. The mission's pre-existing broad remote-execution policy remains outside this change.
 
+## Reset Zeus
+
+Press **Reset Zeus** beside **Kill all enemies** to restore access when Y only produces the eye notification and ping sound. The server unassigns `mainZeus` and assigns it to the requesting host/admin's current player unit. Close the shop, wait a moment, then press Y. This does not open Zeus automatically or change its editable objects.
+
+The action uses the existing caller/proximity/permission checks and shared two-second cooldown. It remains available during a forced-wave transition. A missing module, another living player owning `mainZeus`, or the requester already owning a different Zeus module produces an explanatory message without changing assignments. A stale corpse assignment can be recovered.
+
+Source checks cover the button ID, visibility/permission wiring, action dispatch, server-only assignment and layout bounds. In-game UI, assignment recovery after respawn and dedicated-admin behavior still require Arma acceptance.
+
 ## Force a special wave
 
 Select one of the **15 implemented specials** in the Debug list, then press **Force selected special**. This ends the current wave and advances the normal mission loop to the next wave number with exactly the selected special plus ordinary infantry. It also works during preparation or the start countdown. The normal preparation/countdown, random modifiers and automatic enemy vehicle/transport additions are skipped for that forced wave. Existing automatic supply-cache/delivery rolls remain independent.
