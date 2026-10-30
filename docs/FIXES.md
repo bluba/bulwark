@@ -1,5 +1,13 @@
 # Bulwark fixes
 
+## Respawn clearance from the truck (2026-10-30)
+
+The old placement helper tried positions only 2 m from the truck center and ignored the truck in its intersection check. It could also fall back to that center. The replacement searches empty ground beyond a footprint-based exclusion circle: at least 12 m from the center, or the model's horizontal corner radius plus 6 m for larger vehicles. Search candidates avoid nearby vehicles and their projected three-second movement paths, water, occupied infantry positions and blocked standing space. Results retain the ASL coordinate contract and place feet just above terrain rather than at the truck's floor height.
+
+There is no fallback inside the truck. If the bounded search finds no suitable ground, respawn retries once per second with damage temporarily disabled; the player's previous damage setting is restored after placement. Initial-spawn relocation uses the same respawn script. The legacy teleport support also uses this helper and now rejects/refunds an unavailable destination instead of applying an empty position. This prevents unsafe initial placement; it does not prevent a driver deliberately running into a player afterward.
+
+Added `tests/respawnClearance.sqf` for real-helper null handling, rotated vanilla/PSZ truck clearance, terrain-height conversion, vehicle obstacles and moving-truck prediction. Static checks passed; this engine harness, concurrent dedicated-server respawns and live driving still need Arma verification.
+
 ## Friendly reinforcements follow the mobile Bulwark (2026-10-29)
 
 Purchased infantry and mobile crewed allies now register one server controller per group after placement. Orders execute on the current group owner, including an HC. Groups follow the actual `bulwarkBox` when it moves, then resume their assigned patrol or camp guard duty after six seconds without detected movement. Infantry patrol targets are within 50 m of the truck; camp groups guard a position around 20 m away. Mobile allies beyond 75 m horizontally are recalled and remain in regroup mode until within 45 m. These are movement orders, not teleportation: terrain, speed and combat can temporarily exceed the boundary. A truck can outdrive infantry.

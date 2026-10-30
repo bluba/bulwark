@@ -18,6 +18,7 @@
 //Spawn AI Around Bulwark
 for ("_i") from 1 to ((floor attkWave / 2) + (floor count allPlayers * 1.5)) do {
     _location = [bulwarkBox] call bulwark_fnc_findPlaceAround;
+    if (_location isEqualTo []) exitWith {diag_log "Bulwark: no clear switcharoo spawn position"};
     _attGroupBand = createGroup [EAST, true];
     _unitClass = selectRandom HOSTILE_LEVEL_1;
     _unit = objNull;

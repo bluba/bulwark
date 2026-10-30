@@ -1,3 +1,7 @@
+// Protect the new body while initialization/searching would leave it at the old spawn.
+private _respawnUnit = player;
+private _restoreDamage = isDamageAllowed _respawnUnit;
+_respawnUnit allowDamage false;
 private _droneSession = missionNamespace getVariable ["BW_droneControlSession", []];
 if !(_droneSession isEqualTo []) then {[_droneSession select 0] call supports_fnc_endDroneControl};
 waitUntil {!isNil "bulwarkBox"};
@@ -24,7 +28,16 @@ removeVest player;
 removeBackpack player;
 removeAllWeapons player;
 removeAllAssignedItems player;
-player setPosASL ([bulwarkBox] call bulwark_fnc_findPlaceAround);
+private _respawnPosition = [];
+waitUntil {
+    _respawnPosition = [bulwarkBox, _respawnUnit] call bulwark_fnc_findPlaceAround;
+    if (_respawnPosition isEqualTo []) then {sleep 1};
+    !(_respawnPosition isEqualTo []) || {player != _respawnUnit} || {!alive _respawnUnit}
+};
+if (player != _respawnUnit || {!alive _respawnUnit}) exitWith {_respawnUnit allowDamage _restoreDamage};
+_respawnUnit setVelocity [0, 0, 0];
+_respawnUnit setPosASL _respawnPosition;
+_respawnUnit allowDamage _restoreDamage;
 
 if(PLAYER_STARTWEAPON) then {
     player addMagazine "16Rnd_9x21_Mag";

@@ -7,8 +7,8 @@ while {true} do {
         switch (true) do {
             // If player is WAYYY outside the bounds. Move them to the bulwark
             case ((_x distance2D bulwarkCity) > BULWARK_RADIUS * 2): {
-                _newLoc = [bulwarkBox] call bulwark_fnc_findPlaceAround;
-                _x setPosASL _newLoc;
+                _newLoc = [bulwarkBox, _x] call bulwark_fnc_findPlaceAround;
+                if !(_newLoc isEqualTo []) then {_x setPosASL _newLoc};
             };
 
             // If player is trying to leave, bounce them back.
