@@ -75,11 +75,21 @@ private _aliveDrones = [];
             private _distance = _pos distance _aim;
             if (_state == "Approach" && {_distance < 70} && {time - (_d get "acquired") >= 3}) then {_state = "Attack"};
             if (_state == "Approach") then {_aim set [2,(_aim select 2) + 12]};
-            _velocity = (vectorNormalized (_aim vectorDiff _pos)) vectorMultiply (if (_state == "Attack") then {22} else {12});
+            // Proportional arrival prevents full-speed reversal around the aim point.
+            private _toAim = _aim vectorDiff _pos;
+            private _speedLimit = if (_state == "Attack") then {22} else {12};
+            _velocity = (vectorNormalized _toAim) vectorMultiply (_speedLimit min (2 * vectorMagnitude _toAim));
             if (_state == "Attack" && {_distance <= 2} && {[_uav,_target] call bulwark_fnc_fpvVisible}) then {_state = "Detonation"};
         };
         // Test swept previous segment and next segment to avoid tunnelling/terrain.
         private _next = _pos vectorAdd (_velocity vectorMultiply 0.25);
+        // Do not test ground/walls BEYOND the player as an obstacle to reaching them.
+        // The actual swept segment and final visibility check still gate impact.
+        if (_state in ["Attack","Detonation"]) then {
+            private _toTarget = (eyePos _target) vectorDiff _pos;
+            private _lookAhead = (vectorMagnitude (_velocity vectorMultiply 0.25)) min (vectorMagnitude _toTarget);
+            _next = _pos vectorAdd ((vectorNormalized _toTarget) vectorMultiply _lookAhead);
+        };
         private _previous = _d get "previous";
         private _blocked = terrainIntersectASL [_pos,_next] || {terrainIntersectASL [_previous,_pos]} ||
             {!((lineIntersectsSurfaces [_pos,_next,_uav,_target,true,1,"GEOM","NONE"]) isEqualTo [])} ||

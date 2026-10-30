@@ -30,8 +30,9 @@ private _target = (selectRandom (_candidates select [0,3])) select 2;
 // One director owns assignments; selection and reservation do not suspend.
 _d set ["target",_target];
 _history set [getPlayerUID _target,time];
+// A brief visibility break must not restart the climb/three-second reaction phase.
+if (getPlayerUID _target != (_d getOrDefault ["lastTargetUID",""])) then {_d set ["acquired",time]};
 _d set ["lastTargetUID",getPlayerUID _target];
-_d set ["acquired",time];
 ["incoming"] remoteExecCall ["bulwark_fnc_fpvNotice",owner _target];
 ["targetAcquired",[_r get "id",_uav,name _target,_uav distance _target]] call bulwark_fnc_fpvLog;
 _target
