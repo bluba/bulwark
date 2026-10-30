@@ -12,7 +12,7 @@ This directory is the documentation entry point for continuing work on the recov
 
 ## Implemented feature slices
 
-[Shop Debug tab](DEBUG_SHOP.md) provides host/admin **Kill all enemies** and **Force selected special** controls for all 15 implemented specials. Forcing ends the current wave and starts the selected one through the normal mission loop. Source checks passed; UI/multiplayer acceptance remains pending.
+[Shop Debug tab](DEBUG_SHOP.md) provides host/admin **Kill all enemies** and **Force selected special** controls for all 16 implemented specials. Forcing ends the current wave and starts the selected one through the normal mission loop. Source checks passed; UI/multiplayer acceptance remains pending.
 
 [Thunderstorm special wave](THUNDERSTORM.md) adds heavy rain, lightning and occasional nearby ground strikes from wave 5 onward. Source checks and an unrun engine harness accompany the implementation; multiplayer acceptance remains pending.
 
@@ -43,3 +43,7 @@ This directory is the documentation entry point for continuing work on the recov
 | [LEGACY_README.md](LEGACY_README.md) | Original README from the older root source; retained separately even where content matches. |
 
 All six existing Markdown files were moved here. The two files originally named readme.md were given distinct names to preserve both originals. New documentation describes the current source; historical reviews are evidence, not a list of still-unfixed bugs.
+
+## FPV Operator source implementation (2026-10-30)
+
+Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.

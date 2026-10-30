@@ -7,6 +7,7 @@ missionNamespace setVariable ["buildPhase", true, true];
 BW_READY_OPEN = false;
 isNil {[] call bulwark_fnc_updateReadyVote};
 [] call bulwark_fnc_endStorm;
+[(missionNamespace getVariable ["BW_FPV_OPERATOR",createHashMap]) getOrDefault ["id",-1],"debugRestart"] call bulwark_fnc_endFpv;
 [(missionNamespace getVariable ["BW_OFFICER_HUNT", createHashMap]) getOrDefault ["id", -1], "debugRestart"] call bulwark_fnc_endOfficerHunt;
 [(BW_SUPPLY_CACHE getOrDefault ["id", -1]), "debugRestart"] call loot_fnc_endSupplyCache;
 [(BW_ENGINEERING_CACHE getOrDefault ["id", -1]), "debugRestart", "engineering"] call loot_fnc_endSupplyCache;

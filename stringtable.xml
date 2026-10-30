@@ -33,5 +33,10 @@
       <Original>&lt;t size='1.1'&gt;Points: %1&lt;/t&gt;&lt;br/&gt;Wave %2 | %3&lt;br/&gt;Tickets: %4 | Bank: %5&lt;br/&gt;&lt;t size='0.85'&gt;%6&lt;/t&gt;</Original>
       <Polish>&lt;t size='1.1'&gt;Punkty: %1&lt;/t&gt;&lt;br/&gt;Fala %2 | %3&lt;br/&gt;Odrodzenia: %4 | Bank: %5&lt;br/&gt;&lt;t size='0.85'&gt;%6&lt;/t&gt;</Polish>
     </Key>
+    <Key ID="STR_BW_FPV_SEARCH"><Original>FPV operator — search area</Original><Polish>Operator FPV — obszar poszukiwań</Polish></Key>
+    <Key ID="STR_BW_FPV_HUD"><Original>FPV station active (%1s): eliminate operator or destroy equipment</Original><Polish>Stanowisko FPV aktywne (%1 s): wyeliminuj operatora lub zniszcz sprzęt</Polish></Key>
+    <Key ID="STR_BW_FPV_START"><Original>Enemy FPV operator detected. Search the orange area. Eliminate the operator or destroy the ammunition box to stop drone attacks. Shoot down incoming drones and use solid cover.</Original><Polish>Wykryto wrogiego operatora FPV. Przeszukaj pomarańczowy obszar. Wyeliminuj operatora lub zniszcz skrzynię amunicyjną, aby przerwać ataki dronów. Zestrzeliwuj nadlatujące drony i korzystaj z osłon.</Polish></Key>
+    <Key ID="STR_BW_FPV_END"><Original>FPV station inactive. Drone attacks stopped; surviving guards are attacking.</Original><Polish>Stanowisko FPV nieaktywne. Ataki dronów zatrzymane; pozostali strażnicy przechodzą do ataku.</Polish></Key>
+    <Key ID="STR_BW_FPV_INCOMING"><Original>FPV drone approaching your position. Take cover!</Original><Polish>Dron FPV zbliża się do twojej pozycji. Szukaj osłony!</Polish></Key>
   </Package>
 </Project>

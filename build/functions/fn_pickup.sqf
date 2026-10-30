@@ -1,5 +1,6 @@
 // Temporary F15 supplies never enter the construction/pickup lifecycle.
 if (((_this select 0) getVariable ["bw_supplyCacheId", -1]) >= 0) exitWith {};
+if (((_this select 0) getVariable ["bw_fpvId", -1]) >= 0) exitWith {};
 _object = _this select 0;
 _caller = _this select 1;
 _pos = _this param [2, []];

@@ -8,13 +8,13 @@ if (!isServer || {!canSuspend} || {missionNamespace getVariable ["runMissionLoop
 };
 if !( ["available"] call bulwark_fnc_fpvAdapter) exitWith {diag_log "FPV probe: addon unavailable"};
 private _position = _origin vectorAdd [0, 30, 20];
-private _result = [_position, 0, "O_UAFPV_OG7V_AP", east] call BIS_fnc_spawnVehicle;
-_result params ["_drone", "_crew", "_group"];
+private _drone = objNull;
+isNil {
+    _drone = createVehicle ["O_UAFPV_OG7V_AP",_position,[],0,"CAN_COLLIDE"];
+    _drone setVariable ["bw_fpvOwned",true,true];
+    ["prepare",_drone] call bulwark_fnc_fpvAdapter;
+};
 if (isNull _drone) exitWith {diag_log "FPV probe: spawn failed"};
-_drone setVariable ["bw_fpvOwned", true, true];
-_group setVariable ["bw_scriptedMovement", true, true];
-_drone setVariable ["UA_FPV_PayloadSwapProtected", true, true];
-{_x disableAI "ALL"} forEach _crew;
 private _start = getPosASL _drone;
 private _deadline = time + 3;
 while {time < _deadline && {alive _drone} && {local _drone}} do {
@@ -26,7 +26,6 @@ private _local = local _drone;
 private _alive = alive _drone;
 private _cleaned = ["cleanup", _drone] call bulwark_fnc_fpvAdapter;
 sleep 0.2;
-diag_log format ["FPV probe: local=%1 alive=%2 displacement=%3 cleanup=%4 crewRemoved=%5", _local, _alive, _distance, _cleaned && {isNull _drone}, (_crew findIf {!isNull _x}) < 0];
+diag_log format ["FPV probe: local=%1 alive=%2 displacement=%3 cleanup=%4", _local, _alive, _distance, _cleaned && {isNull _drone}];
 // Fallback cleanup in this disposable probe if unexpected ownership prevented adapter cleanup.
-if (!_cleaned) then {{deleteVehicle _x} forEach _crew; deleteVehicle _drone};
-deleteGroup _group;
+if (!_cleaned) then {deleteVehicle _drone};

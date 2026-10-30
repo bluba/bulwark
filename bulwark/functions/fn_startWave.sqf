@@ -36,6 +36,7 @@ if (missionExtract || {!runMissionLoop} || {(missionNamespace getVariable ["BW_D
 [(BW_ENGINEERING_CACHE getOrDefault ["id", -1]), "nextWave", "engineering"] call loot_fnc_endSupplyCache;
 
 // Delete
+[(missionNamespace getVariable ["BW_FPV_OPERATOR",createHashMap]) getOrDefault ["id",-1],"nextWave"] call bulwark_fnc_endFpv;
 [(missionNamespace getVariable ["BW_OFFICER_HUNT", createHashMap]) getOrDefault ["id", -1], "nextWave"] call bulwark_fnc_endOfficerHunt;
 _final = waveUnits select ("BODY_CLEANUP" call BIS_fnc_getParamValue);
 {deleteVehicle _x} foreach _final;
@@ -105,7 +106,7 @@ BW_INFANTRY_REMAINING = 0;
 
 	_all = ["specCivs","suicideWave","specMortarWave", "grad","demineWave","defectorWave","nightWave","fogWave","thunderstorm","arty", "paraDrop", "airstrike","encampment","convoy"];
 	_additionalModsAfter15 = ["specMortarWave","paraDrop","convoy"];
-	_nonModified = ["specCivs","suicideWave","specMortarWave","demineWave","defectorWave", "paraDrop", "airstrike","convoy","encampment","officerHunt"];
+	_nonModified = ["specCivs","suicideWave","specMortarWave","demineWave","defectorWave", "paraDrop", "airstrike","convoy","encampment","officerHunt","fpvOperator"];
 
 	_wave = "";
 	_modifier = "";
@@ -122,6 +123,7 @@ BW_INFANTRY_REMAINING = 0;
             !(_x in ["fogWave", "nightWave", "thunderstorm"] && {_x in waveTypes}) &&
             {_x != "encampment" || {[_waveId, waveTypes] call bulwark_fnc_fobAvailable}} &&
             {_x != "officerHunt" || {[_waveId, waveTypes] call bulwark_fnc_officerHuntAvailable}} &&
+            {_x != "fpvOperator" || {[_waveId, waveTypes] call bulwark_fnc_fpvAvailable}} &&
             {_vehicleSpecialsAllowed || {!(_x in ["convoy", "paraDrop", "airstrike", "specMortarWave", "demineWave"])}}
         };
         if !(_eligible isEqualTo []) then {waveTypes pushBack (selectRandom _eligible)};
@@ -185,7 +187,7 @@ BW_INFANTRY_REMAINING = 0;
 
     if (("SPECIAL_WAVES" call BIS_fnc_getParamValue) == 0 && {!_debugForced}) then {waveTypes = []};
     if (!_debugForced && {_vehicleWave >= 9999 || {attkWave < _vehicleWave}}) then {
-        waveTypes = waveTypes - ["convoy", "paraDrop", "airstrike", "specMortarWave", "demineWave"];
+        waveTypes = waveTypes - ["convoy", "paraDrop", "airstrike", "specMortarWave", "demineWave", "fpvOperator"];
     };
     if (_debugForced) then {waveTypes = [_debugSpecial]};
     defectorWave = "defectorWave" in waveTypes;
@@ -237,6 +239,7 @@ BW_INFANTRY_REMAINING = 0;
 			};
             case "thunderstorm": {[_waveId] call bulwark_fnc_startStorm;};
             case "officerHunt": {[_waveId] call bulwark_fnc_startOfficerHunt;};
+            case "fpvOperator": {[_waveId] call bulwark_fnc_startFpv;};
             case "arty": {[_waveId] execVM "hostiles\shelling.sqf";};
             case "grad": {[_waveId] execVM "hostiles\gradSalvo.sqf";};
 			case "convoy":{

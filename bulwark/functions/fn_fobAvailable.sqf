@@ -6,6 +6,8 @@ private _forced = [_wave, "encampment"] call bulwark_fnc_debugForced;
 (_forced || {_wave >= 7 && {("SPECIAL_WAVES" call BIS_fnc_getParamValue) != 0}}) &&
 {!("encampment" in _plan)} &&
 {!("officerHunt" in _plan)} &&
+{!("fpvOperator" in _plan)} &&
+{count (missionNamespace getVariable ["BW_FPV_OPERATOR",createHashMap]) == 0} &&
 {count (missionNamespace getVariable ["BW_OFFICER_HUNT", createHashMap]) == 0} &&
 {!(missionNamespace getVariable ["BW_FOB_SETUP_PENDING", false])} &&
 {((missionNamespace getVariable ["BW_ACTIVE_FOBS", []]) findIf {alive _x}) < 0} &&

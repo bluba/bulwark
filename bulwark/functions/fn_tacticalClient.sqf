@@ -109,7 +109,8 @@ if (_officerVisible) then {
 } else {
     if (_officerMarker != "") then {deleteMarkerLocal _officerMarker; BW_LOCAL_OFFICER_MARKER = ""};
 };
-private _hudState = [_status, player, player getVariable ["killPoints", 0], _hudSupplies, _officer, _officerSeconds];
+private _fpv = [] call bulwark_fnc_fpvClient;
+private _hudState = [_status, player, player getVariable ["killPoints", 0], _hudSupplies, _officer, _officerSeconds, _fpv];
 if (!(_hudState isEqualTo (missionNamespace getVariable ["BW_LAST_TEAM_HUD", []])) ||
     {isNull (uiNamespace getVariable ["KillPointsHud", displayNull])}) then {
     [] call killPoints_fnc_updateHud;

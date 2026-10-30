@@ -99,3 +99,7 @@ Nie uruchamiać klientowskich kopii logiki. Przed ruchem sprawdzać lokalność;
 7. Sprawdzić obciążenie w późnej fali i stos z innymi dozwolonymi modyfikatorami. Akceptacja wymaga skończonej liczby obiektów/zadań, odzyskania FPS po cleanup, braku błędów RPT i braku eksplozji po anulowaniu. Dopiero wtedy włączyć modyfikator domyślnie.
 
 Decyzje do zatwierdzenia przed implementacją: proponowane liczby balansu, przybliżony marker od początku, natychmiastowe neutralizowanie istniejących dronów po utracie stanowiska oraz wykluczenie FOB/Officer Hunt. Pozostałe kroki techniczne wynikają z obecnej architektury; nie są dowodem zgodności moda z tą architekturą.
+
+## FPV Operator source implementation (2026-10-30)
+
+Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.

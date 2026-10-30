@@ -4,6 +4,11 @@ disableSerialization;
 private _state = missionNamespace getVariable ["BW_TEAM_STATUS", [0, "Loading", 0, 0, 0, false]];
 _state params ["_wave", "_phase", "_tickets", "_bank", "_fobs", "_bonus"];
 private _objectives = [];
+private _fpv = missionNamespace getVariable ["BW_FPV_STATUS",[]];
+if (count _fpv == 5 && {_phase == "Combat"} && {side group player == west} &&
+    {(_fpv select 1) == _wave} && {serverTime < (_fpv select 4)}) then {
+    _objectives pushBack format [localize "STR_BW_FPV_HUD",ceil ((_fpv select 4) - serverTime)];
+};
 if (_fobs > 0) then {_objectives pushBack format [localize "STR_BW_FOB_OBJECTIVE", _fobs]};
 if (_bonus) then {_objectives pushBack localize "STR_BW_BONUS_OBJECTIVE"};
 private _officer = missionNamespace getVariable ["BW_OFFICER_STATUS", []];

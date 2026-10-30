@@ -7,6 +7,7 @@ if (!isServer || {!canSuspend}) exitWith {};
 if (missionNamespace getVariable ["runMissionLoop", false] ||
     {(allUnits findIf {alive _x && {side group _x in [east, resistance]}}) >= 0} ||
     {count (missionNamespace getVariable ["BW_OFFICER_HUNT", createHashMap]) > 0} ||
+    {count (missionNamespace getVariable ["BW_FPV_OPERATOR", createHashMap]) > 0} ||
     {!((missionNamespace getVariable ["BW_ACTIVE_FOBS", []]) isEqualTo [])} ||
     {!((missionNamespace getVariable ["BW_SPAWN_QUEUE", []]) isEqualTo [])} ||
     {((missionNamespace getVariable ["BW_SPAWN_JOBS", []]) findIf {!scriptDone _x}) >= 0} ||

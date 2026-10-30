@@ -86,3 +86,7 @@ Sample during ordinary combat, maximum stacking, capacity waits and intermission
 - Keep cash/ticket decisions server-side and validate the caller.
 - Update current guides and fix records; mark historical findings resolved instead of silently rewriting their original evidence.
 - Run static validation, document unrun engine tests and honor the no-PBO instruction.
+
+## FPV Operator source implementation (2026-10-30)
+
+Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.

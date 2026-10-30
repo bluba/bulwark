@@ -2,6 +2,7 @@ if (!isServer) exitWith {};
 playersInWave = [];
 publicVariable "playersInWave";
 missionNamespace setVariable ["buildPhase", true, true];
+[(missionNamespace getVariable ["BW_FPV_OPERATOR",createHashMap]) getOrDefault ["id",-1],"preparation"] call bulwark_fnc_endFpv;
 [(missionNamespace getVariable ["BW_OFFICER_HUNT", createHashMap]) getOrDefault ["id", -1], "preparation"] call bulwark_fnc_endOfficerHunt;
 [] call bulwark_fnc_endStorm;
 // Remove rounds still airborne so wave artillery cannot hit the build phase.

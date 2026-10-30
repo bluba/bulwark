@@ -7,5 +7,5 @@
     ["arty", "Artillery"], ["grad", "Grad barrage"],
     ["convoy", "Convoy"], ["paraDrop", "Paradrop"],
     ["airstrike", "Airstrike"], ["encampment", "Enemy FOB"],
-    ["officerHunt", "Officer Hunt"]
+    ["officerHunt", "Officer Hunt"], ["fpvOperator", "FPV Drone Operator"]
 ]

@@ -86,3 +86,7 @@ solidobject.sqf maintains one watcher per defense object, pauses while held and 
 clearStuck samples local, on-foot managed rush/creep infantry with an outstanding MOVE/FOLLOW order. It requires two consecutive 60-second samples with little movement toward a stable distant destination, excludes combat/player/scripted groups and requires distance from players. It never destroys a vehicle based on a crew sample. Nonlocal/HC infantry is skipped by this server cleanup.
 
 All of these behaviors still require the engine tests listed in [DEVELOPMENT.md](DEVELOPMENT.md).
+
+## FPV Operator source implementation (2026-10-30)
+
+Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.

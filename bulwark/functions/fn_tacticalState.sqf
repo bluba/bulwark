@@ -1,6 +1,7 @@
 // Reuse existing server phase ticks. No world/unit scan or new polling script.
 if (!isServer || {isRemoteExecuted}) exitWith {};
 [] call bulwark_fnc_updateOfficerHunt;
+[] call bulwark_fnc_updateFpv;
 // Keep cleanup's read/modify/publish atomic with incoming remoteExecCall requests.
 isNil {
 private _running = missionNamespace getVariable ["runMissionLoop", false];

@@ -32,6 +32,21 @@ BW_FOB_COOLDOWN_WAVES = 2;
 
 // Officer Hunt: small infantry command post; never stacks with an enemy FOB.
 BW_OFFICER_ENABLED = true;
+// FPV Operator: optional Ukraine FPV Drone addon; missing addon skips selection.
+BW_FPV_ENABLED = true;
+BW_FPV_MIN_WAVE = 10;
+BW_FPV_COOLDOWN = 2;
+BW_FPV_GUARDS = 2;
+BW_FPV_CAP = 2;
+BW_FPV_START_LIMIT = 10;
+BW_FPV_LIFETIME = 480;
+BW_FPV_DRONE_LIFETIME = 90;
+BW_FPV_FIRST_DELAY = 30;
+BW_FPV_INTERVAL_MIN = 35;
+BW_FPV_INTERVAL_MAX = 50;
+BW_FPV_TARGET_COOLDOWN = 20;
+BW_FPV_SETUP_TIMEOUT = 30;
+// Optional explicit ATL site list: BW_FPV_SITES = [[x,y,0], ...]; [] disables placement.
 BW_OFFICER_MIN_WAVE = 10;
 BW_OFFICER_COOLDOWN_WAVES = 2;
 BW_OFFICER_GUARDS = 4;

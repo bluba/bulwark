@@ -24,6 +24,15 @@ BW_ACTIVE_FOBS = [];
 BW_FOB_LAST_WAVE = -1;
 BW_FOB_SETUP_PENDING = false;
 BW_OFFICER_SERIAL = 0;
+BW_FPV_SERIAL = 0;
+BW_FPV_LAST_WAVE = -1;
+BW_FPV_OPERATOR = createHashMap;
+BW_FPV_RESULT = [];
+missionNamespace setVariable ["BW_FPV_STATUS",[],true];
+[] call bulwark_fnc_fpvSites;
+if ((missionNamespace getVariable ["BW_FPV_ENABLED",true]) isEqualTo true && {!(["available"] call bulwark_fnc_fpvAdapter)}) then {
+    diag_log "Bulwark FPV: optional Ukraine FPV Drone addon/classes unavailable; modifier excluded";
+};
 BW_OFFICER_LAST_WAVE = -1;
 BW_OFFICER_HUNT = createHashMap;
 BW_OFFICER_RESULT = [];
@@ -91,6 +100,7 @@ while {runMissionLoop} do {
     if (BW_DEBUG_NEXT_SPECIAL == "") then {[] call bulwark_fnc_endWave};
 };
 runMissionLoop = false;
+[(BW_FPV_OPERATOR getOrDefault ["id",-1]),"missionEnded"] call bulwark_fnc_endFpv;
 [(BW_OFFICER_HUNT getOrDefault ["id", -1]), "missionEnded"] call bulwark_fnc_endOfficerHunt;
 [] call bulwark_fnc_endStorm;
 [(BW_SUPPLY_CACHE getOrDefault ["id", -1]), if (missionExtract) then {"extraction"} else {"missionEnded"}] call loot_fnc_endSupplyCache;

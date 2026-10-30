@@ -24,7 +24,7 @@ The active baseline was extracted from Workshop item 2995798737:
 
 ## Work already implemented
 
-The Debug shop now lists all 15 implemented specials and can end/drain the current wave before starting the selected special at the next wave number. The mission loop remains the only start owner. One-wave overrides bypass selection gates; shared capacity/content validation remain. Static checks passed; transition/UI/dedicated acceptance and both debug harnesses are unrun. See [DEBUG_SHOP.md](DEBUG_SHOP.md).
+The Debug shop now lists all 16 implemented specials and can end/drain the current wave before starting the selected special at the next wave number. The mission loop remains the only start owner. One-wave overrides bypass selection gates; shared capacity/content validation remain. Static checks passed; transition/UI/dedicated acceptance and both debug harnesses are unrun. See [DEBUG_SHOP.md](DEBUG_SHOP.md).
 
 [Shop Debug tab](DEBUG_SHOP.md), added 2026-10-30, exposes a host/admin-only **Kill all enemies** action in Shop +. The server validates caller/proximity/admin status, accepts a fixed action ID and rate-limits duplicate requests. It kills current enemy AI without cancelling reinforcement producers or destroying FOB caches. Static checks passed; the new debug harness and actual UI/dedicated/HC acceptance remain unrun.
 
@@ -66,3 +66,7 @@ The local log search found no running Arma process and no RPT in the default loc
 8. Dormant legacy scripts remain in the tree. Search callers before modifying or enabling them.
 
 Use current file contents rather than old review line numbers. Update these docs when behavior, state ownership or test results change.
+
+## FPV Operator source implementation (2026-10-30)
+
+Station lifecycle, bounded crewless drone director, target fairness/cover checks, optional-addon wave selection, Debug entry and PL/EN HUD/search area are implemented. See [FPV_OPERATOR.md](FPV_OPERATOR.md) and [addon integration](FPV_MOD_INTEGRATION.md). Fixed settlement candidates supplement explicit sites/markers; they are not editor-verified navigation points. Static checks passed; the adapter/lifecycle harnesses and in-game multiplayer/flight/detonation acceptance remain unrun.
