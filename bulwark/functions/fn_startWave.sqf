@@ -101,7 +101,7 @@ BW_INFANTRY_REMAINING = 0;
 
 //paradrop is in both wave and modifier, mix of para+para is not bad and para + anything mixes well
 
-	_beginerSpecials = ["specCivs","fogWave","thunderstorm","arty", "paraDrop","convoy"];
+	_beginerSpecials = ["specCivs","fogWave","thunderstorm"];
 	_standardModifiers = ["fogWave","nightWave","thunderstorm","arty", "grad", "paraDrop","specMortarWave", "airstrike","convoy"];
 
 	_all = ["specCivs","suicideWave","specMortarWave", "grad","demineWave","defectorWave","nightWave","fogWave","thunderstorm","arty", "paraDrop", "airstrike","encampment","convoy"];
@@ -134,7 +134,7 @@ BW_INFANTRY_REMAINING = 0;
 	_random2Mod = random 100;
 	_isSpecial = _randomSpec < 35+ attkWave;
 	
-	if(attkWave>15) then {
+	if(attkWave>16) then {
 		[_additionalModsAfter15] call _addSpecial;
 	};
 
