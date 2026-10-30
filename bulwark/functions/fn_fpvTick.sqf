@@ -11,12 +11,13 @@ private _aliveDrones = [];
     if (_state != "Cleanup") then {
         private _pos = getPosASL _uav;
         private _target = _d get "target";
+        private _strike = _d getOrDefault ["strikePoint",[]];
         private _velocity = [0,0,0];
         if (_state == "Spawn") then {
             _velocity = [0,0,4];
             if (time >= (_d get "nextSearch")) then {_state = "Search"};
         };
-        if (_state in ["Approach","Attack"] && {
+        if (_state in ["Approach","Attack"] && {_strike isEqualTo []} && {
             !alive _target || {!isPlayer _target} || {side group _target != west} ||
             {lifeState _target == "INCAPACITATED"} || {!isNull objectParent _target} ||
             {!([_uav,_target] call bulwark_fnc_fpvVisible)}
@@ -71,22 +72,28 @@ private _aliveDrones = [];
             _velocity = _horizontal;
         };
         if (_state in ["Approach","Attack"]) then {
-            private _aim = eyePos _target;
+            private _aim = if (_strike isEqualTo []) then {eyePos _target} else {+_strike};
             private _distance = _pos distance _aim;
             if (_state == "Approach" && {_distance < 70} && {time - (_d get "acquired") >= 3}) then {_state = "Attack"};
+            if (_strike isEqualTo [] && {_distance <= 10}) then {
+                _strike = +_aim;
+                _d set ["strikePoint",_strike];
+                _state = "Attack";
+                ["attackCommitted",[_r get "id",_uav,_strike]] call bulwark_fnc_fpvLog;
+            };
             if (_state == "Approach") then {_aim set [2,(_aim select 2) + 12]};
             // Proportional arrival prevents full-speed reversal around the aim point.
             private _toAim = _aim vectorDiff _pos;
             private _speedLimit = if (_state == "Attack") then {22} else {12};
             _velocity = (vectorNormalized _toAim) vectorMultiply (_speedLimit min (2 * vectorMagnitude _toAim));
-            if (_state == "Attack" && {_distance <= 2} && {[_uav,_target] call bulwark_fnc_fpvVisible}) then {_state = "Detonation"};
+            if (_state == "Attack" && {_distance <= 2} && {!(_strike isEqualTo [])}) then {_state = "Detonation"};
         };
         // Test swept previous segment and next segment to avoid tunnelling/terrain.
         private _next = _pos vectorAdd (_velocity vectorMultiply 0.25);
         // Do not test ground/walls BEYOND the player as an obstacle to reaching them.
         // The actual swept segment and final visibility check still gate impact.
         if (_state in ["Attack","Detonation"]) then {
-            private _toTarget = (eyePos _target) vectorDiff _pos;
+            private _toTarget = (if (_strike isEqualTo []) then {eyePos _target} else {_strike}) vectorDiff _pos;
             private _lookAhead = (vectorMagnitude (_velocity vectorMultiply 0.25)) min (vectorMagnitude _toTarget);
             _next = _pos vectorAdd ((vectorNormalized _toTarget) vectorMultiply _lookAhead);
         };
@@ -101,7 +108,7 @@ private _aliveDrones = [];
             if (!terrainIntersectASL [_pos,_up] && {(lineIntersectsSurfaces [_pos,_up,_uav,objNull,true,1,"GEOM","NONE"]) isEqualTo []}) then {_velocity = [0,0,3]};
             _state = "Search"; _d set ["target",objNull];
             _d set ["nextWaypoint",0];
-            if (time - (_d get "blockedSince") >= 5) then {_state = "Cleanup"};
+            if (!(_strike isEqualTo []) || {time - (_d get "blockedSince") >= 5}) then {_state = "Cleanup"};
         } else {_d set ["blockedSince",-1]};
         if (_state == "Detonation") then {
             // The native Hit handler stays disarmed until this atomic commit.
@@ -109,9 +116,10 @@ private _aliveDrones = [];
                 if ((_r get "state") == "active" && {alive (_r get "operator")} && {alive (_r get "device")} &&
                     {alive _uav} && {local _uav} && {!(_uav getVariable ["bw_fpvShotDown",false])} &&
                     {[_r get "wave"] call bulwark_fnc_waveActive} && {time < (_r get "deadline")} &&
-                    {alive _target} && {isPlayer _target} && {side group _target == west} && {isNull objectParent _target} &&
-                    {lifeState _target != "INCAPACITATED"} && {_uav distance (ASLToATL eyePos _target) <= 2} &&
-                    {[_uav,_target] call bulwark_fnc_fpvVisible}) then {
+                    {!(_strike isEqualTo [])} && {time < (_d get "expires")} &&
+                    {(getPosASL _uav) distance _strike <= 2} &&
+                    {!terrainIntersectASL [getPosASL _uav,_strike]} &&
+                    {(lineIntersectsSurfaces [getPosASL _uav,_strike,_uav,_target,true,1,"GEOM","NONE"]) isEqualTo []}) then {
                     _uav setVariable ["UA_FPV_PayloadSwapProtected",false,true];
                     private _done = ["detonate",_uav] call bulwark_fnc_fpvAdapter;
                     ["detonationResult",[_r get "id",_done]] call bulwark_fnc_fpvLog;
