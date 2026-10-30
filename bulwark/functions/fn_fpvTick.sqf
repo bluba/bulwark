@@ -33,14 +33,36 @@ private _aliveDrones = [];
             };
         };
         if (_state == "Search") then {
-            // Search a known defence area, never an unseen player's position.
-            // Retain terrain/geometry collision checks below and the hard TTL.
-            private _area = ATLToASL (_r get "origin");
+            private _origin = _r get "origin";
+            private _area = ATLToASL _origin;
+            private _speed = 14;
+            private _altitude = 25;
+            if (_uav distance2D _origin <= 150 || {_d getOrDefault ["searchInArea",false]}) then {
+                _d set ["searchInArea",true];
+                private _waypoint = _d getOrDefault ["searchWaypoint",[]];
+                if (_waypoint isEqualTo [] || {time >= (_d getOrDefault ["nextWaypoint",0])} ||
+                    {_uav distance2D _waypoint < 10}) then {
+                    // Sample a search area near a defender, not a direct attack aim.
+                    private _people = ([] call bulwark_fnc_humanPlayers) select {
+                        alive _x && {side group _x == west} && {lifeState _x != "INCAPACITATED"} &&
+                        {isNull objectParent _x} && {_x distance2D _origin <= 250}
+                    };
+                    private _center = if (_people isEqualTo []) then {_origin} else {getPosATL (selectRandom _people)};
+                    _waypoint = _center getPos [25 + random 45,random 360];
+                    _waypoint set [2,18 + random 10];
+                    _d set ["searchWaypoint",_waypoint];
+                    _d set ["nextWaypoint",time + 6 + random 4];
+                    ["searchWaypoint",[_r get "id",_uav,_waypoint]] call bulwark_fnc_fpvLog;
+                };
+                _area = ATLToASL _waypoint;
+                _altitude = _waypoint select 2;
+                _speed = 9;
+            };
             private _delta = _area vectorDiff _pos;
             _delta set [2,0];
-            private _horizontal = if (vectorMagnitude _delta > 80) then {(vectorNormalized _delta) vectorMultiply 14} else {[0,0,0]};
+            private _horizontal = (vectorNormalized _delta) vectorMultiply (_speed min (vectorMagnitude _delta));
             private _height = (_pos select 2) - getTerrainHeightASL (getPosATL _uav);
-            _horizontal set [2,(-4 max ((25 - _height) * 2 + 0.5)) min 4];
+            _horizontal set [2,(-4 max ((_altitude - _height) * 2 + 0.5)) min 4];
             _velocity = _horizontal;
         };
         if (_state in ["Approach","Attack"]) then {
@@ -63,6 +85,7 @@ private _aliveDrones = [];
             _velocity = [0,0,0];
             if (!terrainIntersectASL [_pos,_up] && {(lineIntersectsSurfaces [_pos,_up,_uav,objNull,true,1,"GEOM","NONE"]) isEqualTo []}) then {_velocity = [0,0,3]};
             _state = "Search"; _d set ["target",objNull]; _d set ["searchSince",time];
+            _d set ["nextWaypoint",0];
             if (time - (_d get "blockedSince") >= 5) then {_state = "Cleanup"};
         } else {_d set ["blockedSince",-1]};
         if (_state == "Detonation") then {
