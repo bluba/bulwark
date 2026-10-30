@@ -10,8 +10,8 @@ private _sites = ([] call bulwark_fnc_fpvSites) select {_x distance2D _origin >=
 private _position = [];
 {
     private _p = +_x; _p set [2,0];
-    if ([_p,_origin] call bulwark_fnc_fpvSiteClear) exitWith {_position = _p};
-} forEach (([_sites] call BIS_fnc_arrayShuffle) select [0,32]);
+    if ([_p,_origin,objNull,true] call bulwark_fnc_fpvSiteClear) exitWith {_position = _p};
+} forEach (([_sites] call BIS_fnc_arrayShuffle) select [0,96]);
 if (_position isEqualTo []) exitWith {[_id,"noSite"] call bulwark_fnc_endFpv};
 private _side = if (missionNamespace getVariable ["defectorWave",false]) then {resistance} else {east};
 private _pool = missionNamespace getVariable [if (_side == resistance) then {"DEFECTOR_INF"} else {"HOSTILE_LEVEL_2"},[]];

@@ -25,7 +25,7 @@ Invalid numeric settings reject the modifier. Missed launches are not accumulate
 
 Set `BW_FPV_SITES = [[x,y,0], ...]` for explicit ATL sites; an empty array disables placement. Alternatively create markers named `fpv_station_...`; these take precedence over the fallback. Without either, Altis uses a cached fixed layout of offsets around map-authored settlements. These fallback points have **not** been individually walked or verified in the editor.
 
-At most 32 nearby candidates are checked. A site must be 300–700 m from the Bulwark, on land, nearly level, off roads, clear of nearby obstacles, hidden from living defenders and at least 200 m from them. Vertical and short walk-out rays reject enclosed sites. Geometry checks cannot prove navigation connectivity; curated markers are preferred. If no site passes, the wave continues without a station.
+At most 96 nearby candidates are checked. A site must be 300–700 m from the Bulwark, on land, nearly level, off roads, clear of nearby obstacles, hidden from living defenders and at least 200 m from them. Vertical and short walk-out rays reject enclosed sites. Geometry checks cannot prove navigation connectivity; curated markers are preferred. If no site passes, the wave continues without a station.
 
 ## Flight and counterplay
 
@@ -56,3 +56,5 @@ The lifecycle harness checks actual setup, singleton/caps, protected crewless sp
 Required engine acceptance: crewless flight stability and sound; exactly one native detonation; direct-bullet interception; cover and terrain; cancellation during capacity waits; addon absent; all players in vehicles; two-client fairness; JIP/respawn marker cleanup; owner migration; debug forcing and normal wave endings. Audit RPT for errors and surviving objects. The addon may change its internal protection flags in future updates; repeat the adapter probe after updating it.
 
 Verbose server RPT diagnostics default to enabled (`BW_FPV_LOG = true`). Search for `[BW FPV]` for setup, activation, launch attempts (ID, success, active count, launches, station state), target selection, state transitions, five-second position/velocity heartbeats, detonation results and termination reasons. Set the option to false to disable. Runtime log acceptance remains pending.
+
+Placement diagnostics now emit `siteRejected` with the rejected position and stage, or `siteAccepted`. The Altis settlement fallback uses fixed 15-degree bearings at 150/350/550/750 m offsets to reduce sparse-catalogue failures. Existing range, visibility and geometry constraints remain in force. Runtime placement acceptance is pending.

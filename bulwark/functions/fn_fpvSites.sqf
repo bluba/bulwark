@@ -15,8 +15,8 @@ if (toLower worldName == "altis") then {
         private _center = locationPosition _x;
         {
             private _radius = _x;
-            {_sites pushBack (_center getPos [_radius, _x])} forEach [0,45,90,135,180,225,270,315];
-        } forEach [350,550];
+            {_sites pushBack (_center getPos [_radius, _x])} forEach [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345];
+        } forEach [150,350,550,750];
     } forEach nearestLocations [[worldSize / 2,worldSize / 2,0], ["NameVillage","NameCity","NameCityCapital"], worldSize];
 };
 BW_FPV_SITES = _sites;
