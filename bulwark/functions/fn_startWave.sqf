@@ -246,7 +246,9 @@ BW_INFANTRY_REMAINING = 0;
 				private _convoyJob = [_waveId] spawn {
                     params ["_waveId"];
 					_pos = [([] call bulwark_fnc_spawnAnchor), BULWARK_RADIUS+100, BULWARK_RADIUS+300,20,0] call BIS_fnc_findSafePos;
-					for "_i" from 0 to (_waveId/3)  do {  						
+					private _convoyCount = 1 max floor (_waveId / 3);
+					diag_log format ["Bulwark vehicles: wave %1, special convoy trucks %2", _waveId, _convoyCount];
+					for "_i" from 1 to _convoyCount do {
 						if !([_waveId] call bulwark_fnc_waveActive) exitWith {};
                         [[_pos], "hostiles\spawnUaz.sqf"] call bulwark_fnc_queueHostiles;
 						sleep 1;  

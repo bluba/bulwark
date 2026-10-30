@@ -1,5 +1,25 @@
 # Special-wave review
 
+## Wave-six vehicle investigation — 2026-10-30
+
+There is no unconditional wave-six special in the inspected source. With the default vehicle threshold of 5 and normal random mode, wave 6 independently rolls:
+
+| Producer | Chance | Count before fix, one human | Count after fix, one human |
+| --- | --- | --- | --- |
+| Ordinary armed cars | 36% | 2 | 2 |
+| Ordinary attack helicopters | 21% | 1 | 1 |
+| Helicopter troop transports | 37% | 2 | 1 |
+| Truck troop transports | 36% | 2 | 1 |
+| Heavy armour | Ineligible until wave 10 with default settings | 0 | 0 |
+
+These rolls are independent: about 79.6% of normal wave-six plans select at least one automatic vehicle producer, before accounting for a special. A 41% special roll can additionally select one of six beginner effects, including convoy or paradrop. A wave-six convoy previously created three trucks through an inclusive zero-based loop; it now creates two. Multiple categories can still stack. With one human, the maximum selected vehicles across those automatic paths plus convoy falls from ten to seven; not every plan selects every path, and missing content/spawn cancellation can reduce actual creation.
+
+**Bugs fixed:** the two transport loops began at zero and used fractional random upper bounds, giving two transports even when the wave divisor was zero. Counts are now explicit positive integers and loops run from one through that count. The convoy loop also uses an explicit integer count rather than spawning an extra vehicle. Vehicle and ordinary infantry scaling now use the same connected-human roster helper as other mission systems, instead of `playersNumber`, which can count lobby/AI slots in other configurations. This mission currently sets `disabledAI=1`, so AI-slot inflation alone does not explain default play; see [Bohemia's command contract](https://community.bistudio.com/wiki/playersNumber).
+
+Added `Bulwark vehicles:` RPT records with the wave number, category and selected count; regular categories also report human count. These record requested plans, not successful asset creation. Probability formulas, stacking rules, content catalogues, vehicle-start/Never gating and debug-forced-wave behavior remain as before. Specials Off still does not disable ordinary automatic vehicles.
+
+Source-level lexical and count-bound checks passed. No Arma simulation was run. Reproduce with one and four clients, review wave 5/6/9/10 counts in the RPT, test Specials Off and Vehicles Never, and confirm debug-forced waves still suppress automatic additions. If vehicles remain excessive, a shared per-wave vehicle budget would be a separate balance change.
+
 Baseline: Altis.bulwarkFixed. Code inspection and static validation completed; no Arma engine test was run.
 
 ## Confirmed bugs fixed

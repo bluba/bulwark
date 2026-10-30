@@ -1,5 +1,11 @@
 # Bulwark fixes
 
+## Early-wave vehicle overproduction (2026-10-30)
+
+Wave-six investigation found three inclusive zero-based count loops. Ordinary helicopter/truck transport rolls spawned two vehicles each at early waves, and a wave-six convoy spawned three trucks. Transport counts now use explicit positive integer random counts (one vehicle at wave six) and one-based loops; a wave-six convoy now requests two trucks. Player scaling uses connected humans rather than occupied lobby/AI slots. Added per-category `Bulwark vehicles:` RPT logging to diagnose requested counts during play.
+
+Four independent automatic vehicle rolls can still stack with a convoy/paradrop special; there is no unconditional wave-six event. The original probability and eligibility rules are retained. See [SPECIAL_WAVES_REVIEW.md](SPECIAL_WAVES_REVIEW.md) for exact default wave-six probabilities and before/after counts. Source-level checks passed; in-engine verification is pending.
+
 ## Debug Zeus reset (2026-10-30)
 
 Added **Reset Zeus** to Shop + > DEBUG beside the enemy-kill button. The fixed server action unassigns/reassigns `mainZeus` to the requesting host/admin's current unit, retaining existing shop proximity, caller validation and cooldown checks. Missing/conflicting modules and another living player's assignment are refused with feedback. Reset remains available during forced-wave transitions. Close the shop and press Y after a moment to enter Zeus. Source structure/wiring/layout checks passed; Arma UI and multiplayer recovery tests remain unrun. No PBO created.
