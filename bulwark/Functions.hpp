@@ -46,6 +46,7 @@ class bulwark
         class enemyGroupAllowed {};
         class controlEnemyGroup {};
         class spawnLimited {};
+        class fpvAdapter {};
         class queueHostiles {};
         class waitForAircraft {};
         class handleDamage {};
