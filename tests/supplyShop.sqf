@@ -7,7 +7,7 @@ if (!isServer || {!hasInterface} || {isRemoteExecuted} || {!canSuspend}) exitWit
 if (missionNamespace getVariable ["runMissionLoop", false] ||
     {!alive player} || {lifeState player == "INCAPACITATED"} || {side group player != west} ||
     {player getVariable ["buildItemHeld", false]}) exitWith {diag_log "SUPPLY SHOP test needs an idle hosted WEST player with a free holding slot"};
-private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK",
+private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK","BW_DRONE_SUPPLY_ENABLED","BW_DRONE_SUPPLY_CLASS",
     "LOOT_WHITELIST_MODE","LOOT_WHITELIST_ITEM","LOOT_WHITELIST_EXPLOSIVE","LOOT_BLACKLIST","runMissionLoop","missionExtract","buildPhase","attkWave","bulwarkBox",
     "bulwark_fnc_receivePurchase","BW_supplyShopTestReceived"];
 private _saved = _names apply {[!isNil _x,missionNamespace getVariable [_x,false]]};
@@ -25,7 +25,7 @@ bulwarkBox = _anchor; runMissionLoop = true; missionExtract = false; buildPhase 
 BW_SUPPLY_ENABLED = true; BW_ENGINEERING_ENABLED = true;
 BW_SUPPLY_CLASS = "Box_NATO_Equip_F"; BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_SUPPLY_STOCK = [["FirstAidKit",6],["Medikit",1]];
-BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002]];
+BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002],[3000,"STR_BW_BUY_DRONES","drone",9003]];
 LOOT_WHITELIST_MODE = 0; LOOT_BLACKLIST = []; LOOT_WHITELIST_ITEM = []; LOOT_WHITELIST_EXPLOSIVE = [];
 bulwark_fnc_receivePurchase = {params ["_object"]; BW_supplyShopTestReceived = _object};
 player setVariable ["killPoints",10000,true]; player setVariable ["buildItemHeld",false,true];
@@ -74,6 +74,27 @@ player setVariable ["buildItemHeld",false,true];
 private _second = [player,9001] call loot_fnc_purchaseSupply;
 if (!isNull _second) then {_objects pushBack _second; [_second] call _waitCallback};
 [!isNull _second && {player getVariable ["killPoints",0] == 1000},"another paid crate can be bought in the same wave"] call _check;
+player setVariable ["buildItemHeld",false,true];
+player setVariable ["killPoints",6000,true];
+BW_DRONE_SUPPLY_CLASS = "B_supplyCrate_F"; BW_DRONE_SUPPLY_ENABLED = false;
+[isNull ([player,9003] call loot_fnc_purchaseSupply) && {player getVariable ["killPoints",0] == 6000},"disabled drone supply cannot debit"] call _check;
+BW_DRONE_SUPPLY_ENABLED = true;
+private _droneStock = ["drone"] call loot_fnc_supplyManifest;
+private _drones = [player,9003] call loot_fnc_purchaseSupply;
+if (_droneStock isEqualTo []) then {
+    [isNull _drones && {player getVariable ["killPoints",0] == 6000},"missing drone content cannot debit"] call _check;
+} else {
+    [!isNull _drones && {player getVariable ["killPoints",0] == 3000},"drone crate charged once"] call _check;
+    if (!isNull _drones) then {
+        _objects pushBack _drones; [_drones] call _waitCallback;
+        {
+            _x params ["_tag","_class","_count"];
+            private _cargo = switch (_tag) do {case "item": {getItemCargo _drones}; case "backpack": {getBackpackCargo _drones}; default {getMagazineCargo _drones}};
+            private _index = (_cargo select 0) find _class;
+            [_index >= 0 && {(_cargo select 1 select _index) == _count},"drone kit preserves typed cargo quantities"] call _check;
+        } forEach _droneStock;
+    };
+};
 {deleteVehicle _x} forEach _objects;
 deleteVehicle _anchor;
 player setVariable ["killPoints",_balance,true]; player setVariable ["buildItemHeld",_held,true];

@@ -1,5 +1,8 @@
 # Dynamic Bulwarks — feature and mechanics backlog
 
+**Drone supply shop revision (2026-10-31):** the FPV drone supply crate is also in Supplies (ID 9003), costing 3,000 personal points. It retains the former FPV supply drop's complete fixed kit, including packed drone/component magazines, four UAV terminals, two toolkits and four carryall backpacks. Normal carry/place/move controls apply; no paradrop or communications token. The old FPV support entry/dispatch is removed and legacy drone-delivery calls are disabled. Required missing mod content or insufficient capacity rejects the purchase without charge. Standard ammo Supply Drop remains unchanged.
+
+
 Prepared and updated: 2026-10-29. Status: implementation backlog; entries distinguish source implementation from pending gameplay acceptance.
 
 Implementation tracking: F01 skip-only, F09 recurring existing FOBs, F12 status board plus manual tactical pings, and F15 medical caches are implemented in source. Static checks passed; Arma regression and multiplayer/UI acceptance remain pending. The F15 engineering-cache extension is also implemented in source; its in-game acceptance is pending. New FOB variants, vote extensions and support-charge availability remain deferred. Other entries remain proposals unless marked otherwise.

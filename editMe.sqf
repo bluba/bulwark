@@ -65,6 +65,8 @@ BW_SUPPLY_CLASS = "Box_NATO_Equip_F";
 BW_SUPPLY_STOCK = [["FirstAidKit", 6], ["Medikit", 1]];
 
 // Engineering purchase contents (no automatic spawn roll or delivery).
+BW_DRONE_SUPPLY_ENABLED = true;
+BW_DRONE_SUPPLY_CLASS = "B_supplyCrate_F";
 BW_ENGINEERING_ENABLED = true;
 BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_ENGINEERING_AP_POOL = ["APERSMine_Range_Mag", "APERSBoundingMine_Range_Mag", "APERSTripMine_Wire_Mag"];
@@ -2194,7 +2196,8 @@ HOSTILE_ARMOUR_POINT_SCORE = 4;
 // Supplies are available without unlocking the communications/support menu.
 BULWARK_SUPPLYITEMS = [
     [3000, "STR_BW_BUY_MEDICAL", "medical", 9001],
-    [3000, "STR_BW_BUY_ENGINEERING", "engineering", 9002]
+    [3000, "STR_BW_BUY_ENGINEERING", "engineering", 9002],
+    [3000, "STR_BW_BUY_DRONES", "drone", 9003]
 ];
 
 BULWARK_SUPPORTITEMS = [
@@ -2213,7 +2216,6 @@ BULWARK_SUPPORTITEMS = [
     //[5930,  "Mind Control Gas",        "mindConGas",  8007, 1],
    // [6666,  "ARMAKART TM",             "armaKart",    8008, 1],
     [7500,  "Predator Drone",          "droneControl",8005, 1],
-    [3000, "FPV Drone Supply Drop", "droneSupply", 8009, 1],
     [3000,  "Supply Drop",          "ammoRequest",8006, 1],
     [5000,  "Mortar strike",          "mortarStrike",8007, 1],
     [5000,  "Artilery strike coordinates",          "artyStrike",8008, 1]

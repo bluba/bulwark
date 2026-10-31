@@ -1,6 +1,9 @@
 # F15 — purchasable medical and engineering crates
 
-Current behavior (2026-10-31): both crates are ordinary placeable purchases in **Shop -> Supplies -> Supply crates**. This supersedes the former random-cache and paradrop designs. There are no automatic spawn rolls, aircraft, parachutes, temporary cache markers, delivery workers, expiry timers or wave/relocation cleanup for purchased supplies.
+**Drone supply shop revision (2026-10-31):** the FPV drone supply crate is also in Supplies (ID 9003), costing 3,000 personal points. It retains the former FPV supply drop's complete fixed kit, including packed drone/component magazines, four UAV terminals, two toolkits and four carryall backpacks. Normal carry/place/move controls apply; no paradrop or communications token. The old FPV support entry/dispatch is removed and legacy drone-delivery calls are disabled. Required missing mod content or insufficient capacity rejects the purchase without charge. Standard ammo Supply Drop remains unchanged.
+
+
+Current behavior (2026-10-31): all three crates are ordinary placeable purchases in **Shop -> Supplies -> Supply crates**. This supersedes the former random-cache and paradrop designs. There are no automatic spawn rolls, aircraft, parachutes, temporary cache markers, delivery workers, expiry timers or wave/relocation cleanup for purchased supplies.
 
 ## Buying and placing
 
@@ -8,6 +11,7 @@ Current behavior (2026-10-31): both crates are ordinary placeable purchases in *
 | --- | --- | --- | --- |
 | Medical crate | **3,000** | `9001` | Six FirstAidKits and one Medikit |
 | Engineering crate | **3,000** | `9002` | Random 1–2 AP mines, 1–2 AT mines, 1–3 frag grenades, two smoke grenades and one of each allowed tool |
+| FPV drone supply crate | **3,000** | `9003` | Complete former drone support kit; see the revision above |
 
 Edit prices in `BULWARK_SUPPLYITEMS` in `editMe.sqf`. The new Supplies tab is independent of the satellite/support-menu unlock. Its catalogue is published for JIP. The existing Supply Drop support in the Support tab retains its normal delivery behavior; only F15 crate purchases changed.
 
@@ -29,6 +33,8 @@ Contents are resolved once at purchase and held in normal shared inventory. Plac
 
 All stock respects `LOOT_BLACKLIST`. Strict whitelist mode also requires medical/tools in `LOOT_WHITELIST_ITEM`, and mines/grenades/smoke in `LOOT_WHITELIST_EXPLOSIVE`. Modes 0/2 retain only curated candidates. Empty categories do not transfer budget elsewhere. Engineering requires at least one allowed AP or AT mine. If filtering/configuration leaves no usable stock, the transaction fails without payment.
 
+The fixed drone kit preserves the former support's stock policy rather than using the medical/engineering loot filters; all required classes must exist or the purchase is rejected. Packed drones/components are magazines, terminals/tools are items, and carryalls use backpack cargo.
+
 Tools are item cargo; mines, grenades and smoke are magazine cargo. Generation never creates live explosives. Duplicate random selections are aggregated. No additional rifle ammunition, rockets, satchels, IEDs or demolition charges are included. The old chance, lifetime, relocation and delivery settings are no longer shop settings. The legacy automatic-cache entry point now returns false and has no wave-start callers.
 
 ## Server ownership and integration
@@ -47,7 +53,7 @@ The former `tests/supplyCache.sqf`, `tests/engineeringCache.sqf` and `tests/supp
 
 Hosted/dedicated acceptance still required:
 
-1. Open Build -> Supplies -> Support -> Debug repeatedly. Exactly two supply entries appear with correct prices/preview; no duplicate list callbacks or purchases. Supplies work while Support is locked; ordinary build/support/debug actions remain correct.
+1. Open Build -> Supplies -> Support -> Debug repeatedly. Exactly three supply entries appear with correct prices/preview; no duplicate list callbacks or purchases. Supplies work while Support is locked; ordinary build/support/debug actions remain correct.
 2. Buy either crate during preparation/combat; carry and place/drop it, reopen inventory, pick it up and move it again. Stock must remain unchanged except actual inventory transfers. Confirm unrelated player actions remain available.
 3. Two clients send overlapping requests. Each accepted crate debits its own buyer once; repeating while carrying is rejected. Spoof another player's object/ID or call the supply handler from too far away: no crate or debit.
 4. Clear waves, move/replace the truck and wait beyond the former expiry. Purchased crates remain. There are no automatic F15 drops or cache aircraft. The separately purchased Supply Drop support still works.
@@ -56,3 +62,5 @@ Hosted/dedicated acceptance still required:
 No Arma/SQF runtime is available here; source checks are not compilation or gameplay validation. No PBO is built. The authorized sync/commit/push workflow applies to this change.
 
 Source verification passed for delimiters/strings in 20 changed SQF/config files, three function registrations/references, catalogue IDs/prices and JIP publication, transaction/placement wiring, disabled automatic activation, retired harness guards, localization references and local documentation links. XML parsing/translation placeholders passed. The new hosted regression and actual placement/multiplayer checks have not run.
+
+Drone-shop source checks passed for 13 SQF/config files, catalogue/dispatch and localization wiring. All 23 typed stock entries were compared exactly against the committed former support. No Arma runtime test was run.

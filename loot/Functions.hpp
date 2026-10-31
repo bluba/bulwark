@@ -9,6 +9,7 @@ class loot
         class supplyManifest {};
         class engineeringManifest {};
         class supplyMass {};
+        class droneSupplyManifest {};
         class purchaseSupply {};
         class supplyFamily {};
         class supplyExclusions {};

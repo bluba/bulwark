@@ -1,5 +1,8 @@
 # Handoff and current status
 
+**Drone supply shop revision (2026-10-31):** the FPV drone supply crate is also in Supplies (ID 9003), costing 3,000 personal points. It retains the former FPV supply drop's complete fixed kit, including packed drone/component magazines, four UAV terminals, two toolkits and four carryall backpacks. Normal carry/place/move controls apply; no paradrop or communications token. The old FPV support entry/dispatch is removed and legacy drone-delivery calls are disabled. Required missing mod content or insufficient capacity rejects the purchase without charge. Standard ammo Supply Drop remains unchanged.
+
+
 ## Source of truth
 
 Work in [dynamicBulwarks.Altis](../), the current workspace root and parent of this docs directory. The source was previously named Altis.bulwarkFixed; older reports use that name. There is no separate active mission subdirectory in this workspace.

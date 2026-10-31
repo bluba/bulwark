@@ -1,5 +1,9 @@
 # Bulwark fixes
 
+## Placeable FPV drone supply crate (2026-10-31)
+
+Moved the 3,000-point FPV supply kit from Support to Supplies, ID 9003. Preserved its complete stock using magazine/item/backpack cargo, class/mass validation and the existing atomic paid placement transaction. Removed the old communications entry and delivery dispatch; standard ammo support is unchanged. Missing FPV content fails without charge. Extended the hosted shop harness; Arma acceptance remains pending.
+
 ## Supplies shop purchases (2026-10-31)
 
 Medical and engineering crates now appear in a separate Supplies tab, priced at 3,000/3,000 personal points by default through `BULWARK_SUPPLYITEMS`. Server transactions validate caller, ID, price, holding slot, stock and capacity, then create/fill/debit once and invoke the ordinary purchase-placement callback. The tab does not require the Support unlock. Engineering stock is randomized once per purchase and remains finite through pickup/movement.

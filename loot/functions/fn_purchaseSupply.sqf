@@ -38,8 +38,10 @@ isNil {
     clearBackpackCargoGlobal _object;
     {
         _x params ["_tag", "_cargoClass", "_count"];
-        if (_tag == "item") then {_object addItemCargoGlobal [_cargoClass, _count]} else {
-            _object addMagazineCargoGlobal [_cargoClass, _count];
+        switch (_tag) do {
+            case "item": {_object addItemCargoGlobal [_cargoClass, _count]};
+            case "magazine": {_object addMagazineCargoGlobal [_cargoClass, _count]};
+            case "backpack": {_object addBackpackCargoGlobal [_cargoClass, _count]};
         };
     } forEach _manifest;
     _object setVariable ["bw_supplyPurchase", _family, true];

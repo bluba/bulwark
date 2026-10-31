@@ -135,14 +135,3 @@ class mortarStrike
     enable = "1";
     removeAfterExpressionCall = 1;
 };
-class droneSupply
-{
-    text = "FPV Drone Supply Drop";
-    submenu = "";
-    expression = "[_this select 0, _this select 1, 'droneSupply'] remoteExec ['killPoints_fnc_support', 2];";
-    icon = "\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\attack_ca.paa";
-    cursor = "\a3\Ui_f\data\IGUI\Cfg\Cursors\iconCursorSupport_ca.paa";
-    enable = "1";
-    removeAfterExpressionCall = 1;
-};
-

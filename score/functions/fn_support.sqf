@@ -45,10 +45,7 @@ switch (_type) do {
     case ("telePlode"): {
     [_player] call supports_fnc_telePlode;
     };
-    case ("droneSupply"): {
-        [_player, _target] call supports_fnc_droneSupply;
-    };
-    case ("ammoRequest"): {
+case ("ammoRequest"): {
         [_player, _target] call supports_fnc_ammoRequest;
     };
     case ("mortarStrike"): {

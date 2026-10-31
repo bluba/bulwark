@@ -52,6 +52,7 @@ publicVariable "BULWARK_SUPPORTITEMS";
 publicVariable "BULWARK_SUPPLYITEMS";
 publicVariable "BW_SUPPLY_CLASS";
 publicVariable "BW_ENGINEERING_CLASS";
+publicVariable "BW_DRONE_SUPPLY_CLASS";
 publicVariable "BULWARK_BUILDITEMS";
 publicVariable "PLAYER_STARTWEAPON";
 publicVariable "PLAYER_STARTMAP";

@@ -1,2 +1,2 @@
-params ["_player", ["_targetPos", []]];
-[_player, _targetPos, true] call supports_fnc_ammoRequest;
+// Retired support entry. FPV supplies are now purchased and placed from Supplies.
+if (!isServer) exitWith {};

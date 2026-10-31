@@ -1,6 +1,10 @@
 // Only these two server-defined families may select lifecycle namespace keys.
 params [["_family", "medical"]];
 switch (_family) do {
+    case "drone": {[
+        "BW_DRONE_SUPPLY_CACHE", "BW_DRONE_SUPPLY_LAST_ATTEMPT", "BW_DRONE_SUPPLY_LAST_RESULT", "BW_DRONE_SUPPLY_STATUS",
+        "BW_DRONE_SUPPLY_ENABLED", "BW_DRONE_SUPPLY_CHANCE", "BW_DRONE_SUPPLY_CLASS", "BW_DRONE_SUPPLY_DELIVERY_STATUS"
+    ]};
     case "medical": {[
         "BW_SUPPLY_CACHE", "BW_SUPPLY_LAST_ATTEMPT", "BW_SUPPLY_LAST_RESULT", "BW_SUPPLY_STATUS",
         "BW_SUPPLY_ENABLED", "BW_SUPPLY_CHANCE", "BW_SUPPLY_CLASS", "BW_SUPPLY_DELIVERY_STATUS"
