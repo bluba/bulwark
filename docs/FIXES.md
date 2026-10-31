@@ -1,5 +1,8 @@
 # Bulwark fixes
 
+**AA crate implemented (2026-10-31):** Supplies entry 9005 costs 6,000 personal points: three ready-to-fire PSZ Groms, three ready-to-fire CUP Iglas, two carryall backpacks, four white smoke grenades and one pair of binoculars. Both installed launchers are CBA disposables; the approved Grom revision gives three shots instead of one launcher with unusable spare missiles. There are no loose AA missiles. Ordinary finite-stock carry/place/move behavior applies. Missing content/disposable support, incompatible firing ammunition or insufficient crate capacity rejects the purchase without charge. In-game equipment/firing and multiplayer placement checks remain pending.
+
+
 ## Purchasable anti-tank weapons crate (2026-10-31)
 
 Added the approved fixed RPG-7V/Spike kit to Supplies for 6,000 points (9004). Extended typed cargo/mass handling for weapons, preserved normal placement and finite stock, and validate complete content plus loaded launcher/ammunition compatibility before charging. Missing/incompatible kit or insufficient capacity fails without payment. Extended the hosted supply shop harness; live PSZ firing and multiplayer placement remain unverified.

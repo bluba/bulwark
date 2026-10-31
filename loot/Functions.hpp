@@ -11,6 +11,7 @@ class loot
         class supplyMass {};
         class droneSupplyManifest {};
         class atSupplyManifest {};
+        class aaSupplyManifest {};
         class purchaseSupply {};
         class supplyFamily {};
         class supplyExclusions {};

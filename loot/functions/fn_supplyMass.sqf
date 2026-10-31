@@ -12,7 +12,7 @@ private _mass = 0;
     private _cfg = configFile >> _root >> _class;
     if (!isClass _cfg) exitWith {_valid = false};
     if (_tag == "backpack" && {getNumber (_cfg >> "isBackpack") != 1}) exitWith {_valid = false};
-    if (_tag == "weapon" && {!(getNumber (_cfg >> "type") in [1,2,4])}) exitWith {_valid = false};
+    if (_tag == "weapon" && {!(getNumber (_cfg >> "type") in [1,2,4,4096])}) exitWith {_valid = false};
     private _unitMass = switch (_tag) do {
         case "item": {getNumber (_cfg >> "ItemInfo" >> "mass")};
         case "weapon": {getNumber (_cfg >> "WeaponSlotsInfo" >> "mass")};

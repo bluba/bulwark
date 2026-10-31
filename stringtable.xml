@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="DynamicBulwarks">
   <Package name="TacticalStatus">
+    <Key ID="STR_BW_BUY_AA"><Original>Anti-air weapons crate</Original><Polish>Skrzynia uzbrojenia przeciwlotniczego</Polish></Key>
     <Key ID="STR_BW_BUY_AT"><Original>Anti-tank weapons crate</Original><Polish>Skrzynia uzbrojenia przeciwpancernego</Polish></Key>
     <Key ID="STR_BW_BUY_DRONES"><Original>FPV drone supply crate</Original><Polish>Skrzynia zaopatrzenia dronów FPV</Polish></Key>
     <Key ID="STR_BW_SUPPLIES_TAB"><Original>SUPPLIES</Original><Polish>ZAOPATRZENIE</Polish></Key>

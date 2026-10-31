@@ -1,5 +1,8 @@
 # Handoff and current status
 
+**AA crate implemented (2026-10-31):** Supplies entry 9005 costs 6,000 personal points: three ready-to-fire PSZ Groms, three ready-to-fire CUP Iglas, two carryall backpacks, four white smoke grenades and one pair of binoculars. Both installed launchers are CBA disposables; the approved Grom revision gives three shots instead of one launcher with unusable spare missiles. There are no loose AA missiles. Ordinary finite-stock carry/place/move behavior applies. Missing content/disposable support, incompatible firing ammunition or insufficient crate capacity rejects the purchase without charge. In-game equipment/firing and multiplayer placement checks remain pending.
+
+
 **Approved AT crate implemented (2026-10-31):** Supplies entry 9004 costs 6,000 personal points: two PSZ RPG-7V launchers, six `PSZ_PG7VR_THEAT` tandem-HEAT rounds, one PSZ Spike LR, two `PSZ_Spike_THEAT` missiles, two carryalls and four white smoke grenades. Normal finite-stock placement; no delivery/refill/expiry. Both launcher/ammunition pairs are checked against loaded compatible magazines before payment. Missing classes, incompatible ammunition or insufficient crate capacity reject the entire purchase without charge. PSZ in-game firing/placement tests remain pending.
 
 

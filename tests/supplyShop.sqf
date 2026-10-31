@@ -7,7 +7,7 @@ if (!isServer || {!hasInterface} || {isRemoteExecuted} || {!canSuspend}) exitWit
 if (missionNamespace getVariable ["runMissionLoop", false] ||
     {!alive player} || {lifeState player == "INCAPACITATED"} || {side group player != west} ||
     {player getVariable ["buildItemHeld", false]}) exitWith {diag_log "SUPPLY SHOP test needs an idle hosted WEST player with a free holding slot"};
-private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK","BW_DRONE_SUPPLY_ENABLED","BW_DRONE_SUPPLY_CLASS","BW_AT_SUPPLY_ENABLED","BW_AT_SUPPLY_CLASS","BIS_fnc_compatibleMagazines",
+private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK","BW_DRONE_SUPPLY_ENABLED","BW_DRONE_SUPPLY_CLASS","BW_AT_SUPPLY_ENABLED","BW_AT_SUPPLY_CLASS","BW_AA_SUPPLY_ENABLED","BW_AA_SUPPLY_CLASS","BIS_fnc_compatibleMagazines",
     "LOOT_WHITELIST_MODE","LOOT_WHITELIST_ITEM","LOOT_WHITELIST_EXPLOSIVE","LOOT_BLACKLIST","runMissionLoop","missionExtract","buildPhase","attkWave","bulwarkBox",
     "bulwark_fnc_receivePurchase","BW_supplyShopTestReceived"];
 private _saved = _names apply {[!isNil _x,missionNamespace getVariable [_x,false]]};
@@ -25,7 +25,7 @@ bulwarkBox = _anchor; runMissionLoop = true; missionExtract = false; buildPhase 
 BW_SUPPLY_ENABLED = true; BW_ENGINEERING_ENABLED = true;
 BW_SUPPLY_CLASS = "Box_NATO_Equip_F"; BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_SUPPLY_STOCK = [["FirstAidKit",6],["Medikit",1]];
-BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002],[3000,"STR_BW_BUY_DRONES","drone",9003],[6000,"STR_BW_BUY_AT","antitank",9004]];
+BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002],[3000,"STR_BW_BUY_DRONES","drone",9003],[6000,"STR_BW_BUY_AT","antitank",9004],[6000,"STR_BW_BUY_AA","antiair",9005]];
 LOOT_WHITELIST_MODE = 0; LOOT_BLACKLIST = []; LOOT_WHITELIST_ITEM = []; LOOT_WHITELIST_EXPLOSIVE = [];
 bulwark_fnc_receivePurchase = {params ["_object"]; BW_supplyShopTestReceived = _object};
 player setVariable ["killPoints",10000,true]; player setVariable ["buildItemHeld",false,true];
@@ -119,6 +119,33 @@ if (_atStock isEqualTo []) then {
             private _index = (_cargo select 0) find _class;
             [_index >= 0 && {(_cargo select 1 select _index) == _count},"AT weapon/magazine/backpack stock matches manifest"] call _check;
         } forEach _atStock;
+    };
+};
+player setVariable ["buildItemHeld",false,true];
+player setVariable ["killPoints",12000,true];
+BW_AA_SUPPLY_CLASS = "B_supplyCrate_F"; BW_AA_SUPPLY_ENABLED = false;
+[isNull ([player,9005] call loot_fnc_purchaseSupply) && {player getVariable ["killPoints",0] == 12000},"disabled AA supply cannot debit"] call _check;
+BW_AA_SUPPLY_ENABLED = true;
+BIS_fnc_compatibleMagazines = {[]};
+[isNull ([player,9005] call loot_fnc_purchaseSupply) && {player getVariable ["killPoints",0] == 12000},"incompatible AA ammunition cannot debit"] call _check;
+BIS_fnc_compatibleMagazines = _nativeCompatible;
+private _aaStock = ["antiair"] call loot_fnc_supplyManifest;
+private _aa = [player,9005] call loot_fnc_purchaseSupply;
+if (_aaStock isEqualTo []) then {
+    [isNull _aa && {player getVariable ["killPoints",0] == 12000},"missing AA content rejected without debit"] call _check;
+} else {
+    [_aaStock isEqualTo [["weapon","PSZ_Grom",3],["weapon","CUP_launch_Igla",3],["backpack","B_Carryall_mcamo",2],["magazine","SmokeShell",4],["weapon","Binocular",1]],"exact approved AA loadout"] call _check;
+    [!isNull _aa && {player getVariable ["killPoints",0] == 6000},"AA crate charges 6000 once"] call _check;
+    if (!isNull _aa) then {
+        _objects pushBack _aa; [_aa] call _waitCallback;
+        {
+            _x params ["_tag","_class","_count"];
+            private _cargo = switch (_tag) do {case "weapon": {getWeaponCargo _aa}; case "backpack": {getBackpackCargo _aa}; default {getMagazineCargo _aa}};
+            private _index = (_cargo select 0) find _class;
+            [_index >= 0 && {(_cargo select 1 select _index) == _count},"AA typed cargo matches manifest"] call _check;
+        } forEach _aaStock;
+        [((magazineCargo _aa) findIf {toLowerANSI _x in ["cup_igla_m","psz_grom_aa"]}) == -1,"no loose AA missiles"] call _check;
+        [(_aa getVariable ["bw_supplyPurchase",""]) == "antiair" && {(_aa getVariable ["bw_supplyCacheId",-1]) == -1},"AA uses ordinary finite-stock placement"] call _check;
     };
 };
 {deleteVehicle _x} forEach _objects;

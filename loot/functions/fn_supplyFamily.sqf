@@ -1,6 +1,10 @@
 // Only explicit server-defined families may select purchase/configuration keys.
 params [["_family", "medical"]];
 switch (_family) do {
+    case "antiair": {[
+        "BW_AA_SUPPLY_CACHE", "BW_AA_SUPPLY_LAST_ATTEMPT", "BW_AA_SUPPLY_LAST_RESULT", "BW_AA_SUPPLY_STATUS",
+        "BW_AA_SUPPLY_ENABLED", "BW_AA_SUPPLY_CHANCE", "BW_AA_SUPPLY_CLASS", "BW_AA_SUPPLY_DELIVERY_STATUS"
+    ]};
     case "antitank": {[
         "BW_AT_SUPPLY_CACHE", "BW_AT_SUPPLY_LAST_ATTEMPT", "BW_AT_SUPPLY_LAST_RESULT", "BW_AT_SUPPLY_STATUS",
         "BW_AT_SUPPLY_ENABLED", "BW_AT_SUPPLY_CHANCE", "BW_AT_SUPPLY_CLASS", "BW_AT_SUPPLY_DELIVERY_STATUS"
