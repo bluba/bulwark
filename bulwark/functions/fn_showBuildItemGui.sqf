@@ -52,10 +52,29 @@ if !(_display getVariable ["bw_shopHandlersReady", false]) then {
 			_itemIndex = _itemIndex + 1;					
 			};
 		} forEach BULWARK_SUPPORTITEMS;		
-	};	
+	};
+	if (CAT_OPEN == 3 && {_catIndex == 0}) then {
+		_ctrl ctrlEnable true;
+		{
+			private _row = _ctrl lbAdd format ["%1 - %2", _x select 0, localize (_x select 1)];
+			_ctrl lbSetValue [_row, _x select 3];
+		} forEach (missionNamespace getVariable ["BULWARK_SUPPLYITEMS", []]);
+	};
 }];
 
 (_display displayCtrl 1501) ctrlAddEventHandler ['LBSelChanged', {
+	if (CAT_OPEN == 3) exitWith {
+		private _id = lbValue [1501, lbCurSel 1501];
+		private _catalogue = missionNamespace getVariable ["BULWARK_SUPPLYITEMS", []];
+		private _index = _catalogue findIf {(_x select 3) == _id};
+		if (_index >= 0) then {
+			private _keys = [(_catalogue select _index) select 2] call loot_fnc_supplyFamily;
+			if !(_keys isEqualTo []) then {
+				private _class = missionNamespace getVariable [_keys select 6, "Box_NATO_Equip_F"];
+				ctrlSetText [1200, getText (configFile >> "CfgVehicles" >> _class >> "editorPreview")];
+			};
+		};
+	};
 	if(CAT_OPEN == 0) then 
 	{
 		_ctrl = (findDisplay 9998) displayCtrl 1501;

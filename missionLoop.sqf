@@ -3,6 +3,7 @@ private _downTime = "DOWN_TIME" call BIS_fnc_getParamValue;
 private _additionalDownTime = "ADDITIONAL_DOWN_TIME" call BIS_fnc_getParamValue;
 private _maxWaves = "MAX_WAVES" call BIS_fnc_getParamValue;
 waveUnits = [[], [], []];
+// Empty compatibility snapshots only; shop crates never register temporary caches.
 BW_SUPPLY_CACHE = createHashMap;
 BW_ENGINEERING_CACHE = createHashMap;
 BW_SUPPLY_SERIAL = 0;
@@ -103,8 +104,6 @@ runMissionLoop = false;
 [(BW_FPV_OPERATOR getOrDefault ["id",-1]),"missionEnded"] call bulwark_fnc_endFpv;
 [(BW_OFFICER_HUNT getOrDefault ["id", -1]), "missionEnded"] call bulwark_fnc_endOfficerHunt;
 [] call bulwark_fnc_endStorm;
-[(BW_SUPPLY_CACHE getOrDefault ["id", -1]), if (missionExtract) then {"extraction"} else {"missionEnded"}] call loot_fnc_endSupplyCache;
-[(BW_ENGINEERING_CACHE getOrDefault ["id", -1]), if (missionExtract) then {"extraction"} else {"missionEnded"}, "engineering"] call loot_fnc_endSupplyCache;
 [] call bulwark_fnc_tacticalState;
 missionNamespace setVariable ["buildPhase", true, true];
 _ending call BIS_fnc_endMissionServer;

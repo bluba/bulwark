@@ -1,6 +1,6 @@
 # Bulwark Fixed — start here
 
-This directory is the documentation entry point for continuing work on the recovered Arma 3 cooperative scenario. Current source: **dynamicBulwarks.Altis**, the parent of this directory. Documentation updated 2026-10-30. Earlier records use the historical source name Altis.bulwarkFixed.
+This directory is the documentation entry point for continuing work on the recovered Arma 3 cooperative scenario. Current source: **dynamicBulwarks.Altis**, the parent of this directory. Documentation updated 2026-10-31. Earlier records use the historical source name Altis.bulwarkFixed.
 
 ## Read in this order
 
@@ -21,7 +21,7 @@ This directory is the documentation entry point for continuing work on the recov
 | [F01 ready vote](READY_VOTE.md) | Strict majority; minimum preparation and shared final countdown; live eligibility and phase-bound requests. | Static checks passed; Arma acceptance pending. |
 | [F09 recurring FOBs](FIXES.md#f09-recurring-fobs) | Eligible from wave 7 onward; singleton setup and two intervening waves by default. New variants deferred. | Static checks passed; Arma acceptance pending. |
 | [F12 tactical coordination](TACTICAL_STATUS.md) | Team status board and four expiring manual pings; English/Polish labels. Support charges deferred. | Static checks passed; Arma acceptance pending. |
-| [F15 medical/engineering caches](SUPPLY_CACHES.md) | Independent 20% rolls, VTOL/parachute delivery, finite stock, separated landing zones and post-landing expiry/preparation/JIP support. | Static checks passed; Arma acceptance pending. |
+| [F15 medical/engineering caches](SUPPLY_CACHES.md) | Supplies shop tab; paid, placeable medical/engineering crates with finite stock. Random spawns and F15 paradrops removed. | Static checks passed; Arma acceptance pending. |
 
 [Feature backlog](FEATURE_BACKLOG.md) tracks implementation scope and remaining proposals. [Feasibility review](FEATURE_FEASIBILITY_REVIEW.md) records costs, integration constraints and delivery gates. Source implementation does not mean gameplay acceptance has passed.
 

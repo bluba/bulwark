@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="DynamicBulwarks">
   <Package name="TacticalStatus">
+    <Key ID="STR_BW_SUPPLIES_TAB"><Original>SUPPLIES</Original><Polish>ZAOPATRZENIE</Polish></Key>
+    <Key ID="STR_BW_SUPPLY_CRATES"><Original>Supply crates</Original><Polish>Skrzynie zaopatrzenia</Polish></Key>
+    <Key ID="STR_BW_BUY_MEDICAL"><Original>Medical crate</Original><Polish>Skrzynia medyczna</Polish></Key>
+    <Key ID="STR_BW_BUY_ENGINEERING"><Original>Engineering crate</Original><Polish>Skrzynia inżynieryjna</Polish></Key>
+    <Key ID="STR_BW_SUPPLIES_INFO"><Original>Buy with personal points, then place like a building item. Finite shared stock; moving the crate does not refill it. No delivery or expiry.</Original><Polish>Kup za własne punkty i ustaw jak element budowlany. Skończone wspólne zapasy; przesuwanie nie uzupełnia zawartości. Bez dostawy i limitu czasu.</Polish></Key>
     <Key ID="STR_BW_OFFICER_SEARCH"><Original>Enemy officer search area</Original><Polish>Obszar poszukiwań wrogiego oficera</Polish></Key>
     <Key ID="STR_BW_OFFICER_HUD"><Original>Enemy officer active — reinforcements incoming (%1s)</Original><Polish>Wrogi oficer aktywny — nadchodzą posiłki (%1 s)</Polish></Key>
     <Key ID="STR_BW_OFFICER_START"><Original>Enemy command post detected. Search the marked area and eliminate the officer to stop reinforcements.</Original><Polish>Wykryto wrogi posterunek dowodzenia. Przeszukaj oznaczony obszar i wyeliminuj oficera, aby zatrzymać posiłki.</Polish></Key>

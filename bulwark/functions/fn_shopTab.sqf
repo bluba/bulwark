@@ -1,10 +1,11 @@
 // Shared visibility switch; reserve CAT_OPEN 2 for standalone debug buttons.
 params [["_tab", 0, [0]]];
-if (!hasInterface || {!(_tab in [0, 1, 2])}) exitWith {};
+if (!hasInterface || {!(_tab in [0, 1, 2, 3])}) exitWith {};
 disableSerialization;
 private _display = findDisplay 9998;
 if (isNull _display) exitWith {};
 CAT_OPEN = _tab;
+(_display displayCtrl 1501) ctrlSetTooltip "";
 private _debug = _tab == 2;
 {(_display displayCtrl _x) ctrlShow (!_debug)} forEach [1500, 1501, 1602, 1200];
 {(_display displayCtrl _x) ctrlShow _debug} forEach [1611, 1010, 1510, 1612, 1613];

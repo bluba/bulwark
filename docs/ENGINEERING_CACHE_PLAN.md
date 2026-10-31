@@ -4,6 +4,8 @@ Status: implemented in source; Arma acceptance pending. This document preserves 
 
 **Delivery revision (2026-10-30):** the user requested paradrops matching the support supply drop. The implemented delivery now supersedes ground-spawn/indoor-placement details below: open outdoor LZ, VTOL approach, parachute descent and blue smoke; stock and lifetime begin after safe landing. Aircraft/crew/chute assets are owned by the cache record and cancel with it. See [current delivery behavior](SUPPLY_CACHES.md#paradrop-delivery).
 
+**Shop revision (2026-10-31):** the user replaced random drops and paradrop delivery with paid, normally placeable crates in a separate Supplies tab. Current behavior is [documented here](SUPPLY_CACHES.md). The former delivery/lifetime/once-per-wave rules below are historical and do not apply to purchased crates.
+
 ## Gameplay proposal
 
 Add a marked engineering cache with a small random mix of AP/AT mines, a few fragmentation grenades, smoke and engineering tools. Players collect finite cargo through ordinary shared inventory. Reuse the medical cache's placement, 180-second lifetime, preparation survival, relocation cancellation and next-combat cleanup. No new guards, claim rewards, automatic repairs or refill action.

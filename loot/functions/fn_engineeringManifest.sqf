@@ -1,4 +1,4 @@
-// Called once by the server worker. Explicit inventory pools, never live explosives.
+// Resolve once per server purchase. Explicit inventory pools, never live explosives.
 private _mode = missionNamespace getVariable ["LOOT_WHITELIST_MODE", 0];
 private _blacklist = missionNamespace getVariable ["LOOT_BLACKLIST", []];
 private _items = missionNamespace getVariable ["LOOT_WHITELIST_ITEM", []];

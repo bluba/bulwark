@@ -1,3 +1,5 @@
+// Retired: automatic cache drops were replaced by shop supplies on 2026-10-31.
+if (true) exitWith {diag_log "Retired cache/drop harness: use tests\supplyShop.sqf and the shop multiplayer checklist."};
 /* Disposable idle server/editor: [] execVM "tests\supplyDelivery.sqf";
    Normal loop stopped, neither family active, living WEST human on land.
    Real delivery/worker/cleanup/parachute code. Replaces aircraft spawning/transit

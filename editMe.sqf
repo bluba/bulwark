@@ -59,21 +59,13 @@ BW_OFFICER_LIFETIME = 600;
 BW_OFFICER_CLASSES = ["O_officer_F"];
 BW_OFFICER_DEFECTOR_CLASSES = ["B_officer_F"];
 
-// F15: optional, finite medical cache; independent of ordinary loot and hostiles.
+// F15 shop supplies: finite contents, carried/placed like ordinary build purchases.
 BW_SUPPLY_ENABLED = true;
-BW_SUPPLY_CHANCE = 0.20; // One independent roll per combat wave, including wave one.
 BW_SUPPLY_CLASS = "Box_NATO_Equip_F";
 BW_SUPPLY_STOCK = [["FirstAidKit", 6], ["Medikit", 1]];
-BW_SUPPLY_LIFETIME = 180;
-BW_SUPPLY_RELOCATION = 75;
-// Both cache families arrive like the Supply Drop support.
-BW_SUPPLY_AIRCRAFT = "B_T_VTOL_01_vehicle_F";
-BW_SUPPLY_DELIVERY_TIMEOUT = 180;
-BW_SUPPLY_DESCENT_TIMEOUT = 120;
 
-// Independent engineering-family roll; lifetime/relocation settings above are shared.
+// Engineering purchase contents (no automatic spawn roll or delivery).
 BW_ENGINEERING_ENABLED = true;
-BW_ENGINEERING_CHANCE = 0.20;
 BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_ENGINEERING_AP_POOL = ["APERSMine_Range_Mag", "APERSBoundingMine_Range_Mag", "APERSTripMine_Wire_Mag"];
 BW_ENGINEERING_AT_POOL = ["ATMine_Range_Mag", "SLAMDirectionalMine_Wire_Mag"];
@@ -2197,6 +2189,13 @@ HOSTILE_ARMOUR_POINT_SCORE = 4;
 
 /* Comment out or delete the below support items to prevent the player from buying them */
 /* Category type for the last index*/
+
+// [personal-point price, localized label, server family, catalogue ID]
+// Supplies are available without unlocking the communications/support menu.
+BULWARK_SUPPLYITEMS = [
+    [1000, "STR_BW_BUY_MEDICAL", "medical", 9001],
+    [2000, "STR_BW_BUY_ENGINEERING", "engineering", 9002]
+];
 
 BULWARK_SUPPORTITEMS = [
 	//[5000,  "+1  Ticket",              "+1",  		  8001, 0],

@@ -1,5 +1,11 @@
 # Bulwark fixes
 
+## Supplies shop purchases (2026-10-31)
+
+Medical and engineering crates now appear in a separate Supplies tab, priced at 1,000/2,000 personal points by default through `BULWARK_SUPPLYITEMS`. Server transactions validate caller, ID, price, holding slot, stock and capacity, then create/fill/debit once and invoke the ordinary purchase-placement callback. The tab does not require the Support unlock. Engineering stock is randomized once per purchase and remains finite through pickup/movement.
+
+Removed automatic wave-start calls and chance settings; the legacy automatic entry point is a no-op. Paid crates have no temporary cache ID, delivery, marker, expiry or wave/relocation cleanup. The ordinary Support Drop remains a separate support. Added `tests/supplyShop.sqf`; retired the three superseded cache/drop harnesses. UI, actual placement and dedicated-server acceptance remain pending; no PBO built.
+
 ## Early-wave vehicle overproduction (2026-10-30)
 
 Wave-six investigation found three inclusive zero-based count loops. Ordinary helicopter/truck transport rolls spawned two vehicles each at early waves, and a wave-six convoy spawned three trucks. Transport counts now use explicit positive integer random counts (one vehicle at wave six) and one-based loops; a wave-six convoy now requests two trucks. Player scaling uses connected humans rather than occupied lobby/AI slots. Added per-category `Bulwark vehicles:` RPT logging to diagnose requested counts during play.

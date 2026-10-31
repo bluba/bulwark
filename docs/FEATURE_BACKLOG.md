@@ -47,7 +47,7 @@ Status applies to the ranked first slice in source. **Implemented** does not mea
 | 1 | F09 | Implemented | Later-wave FOBs | 4/5 | 1/5 | 4.00 | A |
 | 2 | F01 | Implemented | Ready-to-skip vote | 4/5 | 1/5 | 4.00 | A |
 | 3 | F12 | Implemented | Team status board | 3/5 | 1/5 | 3.00 | A |
-| 4 | F15 | Implemented | Finite medical cache | 4/5 | 2/5 | 2.00 | A |
+| 4 | F15 | Implemented | Placeable supply crates | 4/5 | 2/5 | 2.00 | A |
 | 5 | F03 | Not implemented | One optional supply objective | 4/5 | 2/5 | 2.00 | A |
 | 6 | F08 | Not implemented | Better special-wave combinations | 4/5 | 2/5 | 2.00 | A |
 | 7 | F20 | Not implemented | Milestone reward choice | 3/5 | 2/5 | 1.50 | B |
@@ -135,29 +135,31 @@ Each card starts with its scored first slice and required changes. The design de
 
 ### F15 — Curated supply caches and salvage runs
 
-**Implementation status:** Medical family implemented; static checks passed and in-game acceptance pending. Each combat wave, including wave one, has an independent **20%** roll (`BW_SUPPLY_CHANCE = 0.20`), with no reroll after a miss or failed placement. At most one medical cache exists, containing six FirstAidKits and one Medikit subject to loot restrictions. Bounded placement/fallback, 180-second expiry, preparation survival, next-combat/relocation/cancellation cleanup and F12/JIP display are implemented. See [behavior and settings](SUPPLY_CACHES.md) and the [medical implementation plan](F15_IMPLEMENTATION_PLAN.md).
+**Implementation status:** Medical and engineering supply purchases implemented; in-game acceptance pending. Medical stock remains six FirstAidKits and one Medikit subject to loot restrictions. Server-owned transactions validate caller, catalogue price, balance, holding slot, crate class and typed stock/capacity before debit. See [behavior and settings](SUPPLY_CACHES.md) and the [medical implementation plan](F15_IMPLEMENTATION_PLAN.md).
+
+**Current shop behavior (2026-10-31):** medical and engineering crates are bought in a separate Supplies tab for 1,000/2,000 personal points by default. They use normal shop carry/place/move/remove controls and finite native cargo. Automatic spawn rolls and F15 paradrops are disabled; purchased crates have no expiry, wave limit, temporary marker or relocation cleanup. This supersedes the cache/drop lifecycle descriptions below. See [current settings and acceptance](SUPPLY_CACHES.md).
 
 **Delivery tracking:**
 
-**Delivery revision (2026-10-30):** both implemented families are now paradropped by VTOL with a cargo parachute and blue landing smoke, matching the active Supply Drop support. Open outdoor LZ selection replaces indoor placement. Stock and the 180-second lifetime start after validated landing; transit/descent deadlines, in-flight cancellation/asset cleanup and inbound/descending map/HUD states are implemented. Contents/chances are unchanged. `tests/supplyDelivery.sqf` adds controlled delivery regression coverage; actual VTOL flight, wind/descent and multiplayer acceptance remain pending.
+**Previous delivery design:** random cache placement and the 2026-10-30 VTOL/parachute revision are retired. Their lifecycle scripts are retained without automatic activation; use the shop transaction/placement acceptance checks instead of the retired delivery harnesses.
 
 | Slice | Source status | Scope / remaining gate |
 | --- | --- | --- |
-| Medical cache — ranked first slice | Implemented; Arma acceptance pending | Finite medical stock, independent 20% roll, bounded site selection, lifecycle and JIP. Run `tests/supplyCache.sqf` in its isolated test environment, then dedicated-server inventory/access/UI checks. |
-| Engineering cache — delivered extension | Implemented; Arma acceptance pending | Random mines/grenades and utility stock; mixed item/magazine cargo, independent family state/rolls, two-cache UI and cleanup isolation. [Detailed plan](ENGINEERING_CACHE_PLAN.md). |
+| Medical crate — ranked first slice | Implemented; Arma acceptance pending | Paid finite stock, normal construction placement and native cargo. Run `tests/supplyShop.sqf` in its hosted test environment, then dedicated-server purchase/placement checks. |
+| Engineering cache — delivered extension | Implemented; Arma acceptance pending | Paid random mines/grenades and utility stock, typed cargo, normal placement and no refill. [Detailed plan](ENGINEERING_CACHE_PLAN.md). |
 | Ammunition caches and salvage rewards | Deferred; not implemented | Tested weapon/magazine compatibility or a separate validated delivery/reward lifecycle, respectively. |
 
 **Engineering contents implemented:** 1–2 random AP mines, 1–2 random AT mines, 1–3 fragmentation grenades, two smoke grenades, one mine detector and one toolkit where native interactions are usable. Apply category caps and existing item/explosive whitelist/blacklist rules before content selection; skip the engineering deployment if neither mine category remains. Demolition charges are a later opt-in addition, disabled in the first engineering slice.
 
-**Engineering spawn/lifecycle implemented:** an independent **20% roll** alongside medical, preserving its current chance. One attempt and at most one cache per family, with at most **two caches total**; use shared lifecycle code, unique instance IDs and sites at least 20 metres apart. Medical stock/behavior is preserved. Cleanup removes uncollected cargo, not player-carried supplies or mines already placed. Static checks cover source integration; engine/multiplayer acceptance has not run.
+**Engineering purchase behavior:** randomized stock is resolved once per paid purchase. Multiple paid crates may be bought after placement, including in the same wave. Moving/reopening a crate never refills it. Engineering tools use native mechanics; no role trait or new repair service is granted. Engine/multiplayer acceptance has not run.
 
 **Engineering incremental estimate:** Benefit **3/5**, Cost **3/5**, Value **1.00**, Grade **C**. This additional medium-scope change delivered family isolation, typed item/magazine cargo and capacity checks, concurrent placement and multi-cache UI. Its extra acceptance work remains pending. This extension keeps ID F15 and does not inherit the first slice's Grade A or change the 24-feature ranking.
 
 **Rank 4 · Benefit 4/5 · Cost 2/5 · Value 2.00.**
 
-**Ranked first slice:** One marked medical-cache family with finite shared contents; implemented in source.
+**Ranked first slice:** One purchasable, normally placeable medical crate with finite shared contents; engineering is also implemented as the separately scored extension.
 
-**Required changes / feasibility gate:** Medical stock validation, position fallback, expiry and ordinary shared inventory are implemented; verify access, simultaneous transfers and lifecycle in Arma. Engineering now has typed item/magazine manifests, family-bound roll/state/cleanup and two-cache placement/UI; validate native tools, category caps and family isolation in Arma. No extra garrison or custom claim RPC.
+**Required changes / feasibility gate:** Supplies tab/catalogue, validated personal-point transactions, finite typed cargo and the existing normal placement callback are implemented. Verify tab switching, caller ownership, simultaneous requests, movement without refill and persistence. No extra garrison, delivery worker, timer or custom claim reward.
 
 **Outside the first-slice score:** Implemented engineering extension; deferred ammunition families, salvage chains and personalized ammunition refill.
 
@@ -167,7 +169,7 @@ Each card starts with its scored first slice and required changes. The design de
 
 **Integration:** `loot/functions/fn_supplyManifest.sqf`, the bounded site selector and start/watch/end supply lifecycle; `missionLoop.sqf`, `fn_startWave.sqf`, F12 map/HUD and `stringtable.xml`. Deployment follows ordinary loot refresh without depending on `loot/spawnLoot.sqf` succeeding. F03 may reuse helpers later; it is not a prerequisite.
 
-**Accept when:** medical caches are accessible and contain only the allowed finite stock; chance misses cannot reroll; simultaneous transfers and reconnects cannot generate a refill; preparation/ready-skip, expiry, relocation and cancellation clean the correct object/marker; ordinary loot remains independent. For the implemented engineering extension, additionally verify category caps, correct item/magazine cargo, usable native tools, simultaneous families, separated sites, JIP and cleanup isolation. Collected/placed explosives remain outside cache cleanup; test friendly damage and long-session mine accumulation. Weapon/magazine compatibility belongs to the deferred ammunition family.
+**Accept when:** the Supplies tab sells both crates at server-resolved prices; invalid, duplicate-while-carrying, unaffordable or unavailable-stock requests cannot debit points; normal placement/movement preserves contents; wave/truck changes do not remove paid objects; JIP gets the catalogue and remaining native cargo. Validate engineering caps, native tools, friendly mine behavior and inventory concurrency. No automatic cache roll, aircraft, temporary marker or expiry remains active for these purchases.
 
 ### F03 — Optional objective catalogue
 

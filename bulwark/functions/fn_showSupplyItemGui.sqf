@@ -1,0 +1,16 @@
+if (!hasInterface) exitWith {};
+disableSerialization;
+private _display = findDisplay 9998;
+if (isNull _display) exitWith {};
+[3] call bulwark_fnc_shopTab;
+private _categories = _display displayCtrl 1500;
+private _items = _display displayCtrl 1501;
+_categories lbSetCurSel -1;
+lbClear _categories;
+lbClear _items;
+_categories ctrlEnable true;
+_items ctrlEnable true;
+_items ctrlSetTooltip localize "STR_BW_SUPPLIES_INFO";
+(_display displayCtrl 1200) ctrlSetText "#(argb,8,8,3)color(0,0,0,0.5)";
+_categories lbAdd localize "STR_BW_SUPPLY_CRATES";
+_categories lbSetCurSel 0;

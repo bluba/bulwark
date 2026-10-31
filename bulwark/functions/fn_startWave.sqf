@@ -31,9 +31,6 @@ while {time < _deadline && {!missionExtract} && {runMissionLoop} &&
 };
 if (missionExtract || {!runMissionLoop} || {(missionNamespace getVariable ["BW_DEBUG_NEXT_SPECIAL", ""]) != ""}) exitWith {};
 
-// F15 remains usable throughout preparation; retire it only at combat transition.
-[(BW_SUPPLY_CACHE getOrDefault ["id", -1]), "nextWave"] call loot_fnc_endSupplyCache;
-[(BW_ENGINEERING_CACHE getOrDefault ["id", -1]), "nextWave", "engineering"] call loot_fnc_endSupplyCache;
 
 // Delete
 [(missionNamespace getVariable ["BW_FPV_OPERATOR",createHashMap]) getOrDefault ["id",-1],"nextWave"] call bulwark_fnc_endFpv;
@@ -296,5 +293,3 @@ BW_INFANTRY_REMAINING = 0;
 		_spawnLoot = execVM "loot\spawnLoot.sqf";
 		waitUntil {sleep 0.1; scriptDone _spawnLoot || {missionExtract}};
 	};
-    [_waveId] call loot_fnc_startSupplyCache;
-    [_waveId, "engineering"] call loot_fnc_startSupplyCache;

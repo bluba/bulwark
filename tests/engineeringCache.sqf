@@ -1,3 +1,5 @@
+// Retired: automatic cache drops were replaced by shop supplies on 2026-10-31.
+if (true) exitWith {diag_log "Retired cache/drop harness: use tests\supplyShop.sqf and the shop multiplayer checklist."};
 /* Disposable idle server/editor only: [] execVM "tests\engineeringCache.sqf";
    Normal mission loop stopped, neither cache active, living WEST human on land.
    Uses real manifests/workers/cargo. Finds two real safe sites first, then swaps

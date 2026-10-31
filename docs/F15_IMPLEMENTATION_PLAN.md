@@ -4,6 +4,8 @@ Status: first medical-cache slice implemented in source; Arma acceptance pending
 
 **Delivery revision (2026-10-30):** the user requested paradrops matching the support supply drop. The implemented delivery now supersedes ground-spawn/indoor-placement details below: open outdoor LZ, VTOL approach, parachute descent and blue smoke; stock and lifetime begin after safe landing. Aircraft/crew/chute assets are owned by the cache record and cancel with it. See [current delivery behavior](SUPPLY_CACHES.md#paradrop-delivery).
 
+**Shop revision (2026-10-31):** the user replaced random drops and paradrop delivery with paid, normally placeable crates in a separate Supplies tab. Current behavior is [documented here](SUPPLY_CACHES.md). The former delivery/lifetime/once-per-wave rules below are historical and do not apply to purchased crates.
+
 ## Recommended first release
 
 Add one **marked medical cache** outside the immediate defense perimeter. Players collect a small, finite stock through normal crate inventory. Keep ordinary random loot, the white bonus objective and enemy FOBs intact. The cache is optional and never prevents wave completion.

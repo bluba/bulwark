@@ -1,6 +1,7 @@
 // Only catalogue IDs cross the network; prices and classes come from the server.
 params [["_player", objNull, [objNull]], ["_kind", "", [""]], ["_id", -1, [0]]];
 if (!([_player, true] call bulwark_fnc_validCaller) || {!finite _id}) exitWith {};
+if (_kind == "supply") exitWith {[_player, _id] call loot_fnc_purchaseSupply};
 private _catalogue = [];
 private _idField = 7;
 if (_kind == "build") then {_catalogue = BULWARK_BUILDITEMS};

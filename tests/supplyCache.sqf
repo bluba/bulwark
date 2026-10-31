@@ -1,3 +1,5 @@
+// Retired: automatic cache drops were replaced by shop supplies on 2026-10-31.
+if (true) exitWith {diag_log "Retired cache/drop harness: use tests\supplyShop.sqf and the shop multiplayer checklist."};
 /* Isolated idle server/editor only: [] execVM "tests\supplyCache.sqf";
    Requires a WEST human on land with a valid supply site nearby and normal loop
    stopped. Exercises real workers/cargo; temporarily replaces delivery and the placement

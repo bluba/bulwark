@@ -48,6 +48,16 @@ class startBox_DialogNew
 			idc = 1610;
 			action = "[2] call bulwark_fnc_shopTab;";
 			text = "DEBUG";
+			x = 0.73625 * safezoneW + safezoneX;
+			y = 0.248 * safezoneH + safezoneY;
+			w = 0.068 * safezoneW;
+			h = 0.07 * safezoneH;
+		};
+		class btnBulwarkShowSupplies: RscButton
+		{
+			idc = 1614;
+			action = "[] call bulwark_fnc_showSupplyItemGui;";
+			text = "$STR_BW_SUPPLIES_TAB";
 			x = 0.425625 * safezoneW + safezoneX;
 			y = 0.248 * safezoneH + safezoneY;
 			w = 0.068 * safezoneW;

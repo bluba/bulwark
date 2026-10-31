@@ -8,6 +8,8 @@ class loot
         class deleteIfEmpty {};
         class supplyManifest {};
         class engineeringManifest {};
+        class supplyMass {};
+        class purchaseSupply {};
         class supplyFamily {};
         class supplyExclusions {};
         class supplySiteClear {};
