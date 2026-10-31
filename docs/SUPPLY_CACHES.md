@@ -6,8 +6,8 @@ Current behavior (2026-10-31): both crates are ordinary placeable purchases in *
 
 | Catalogue item | Default personal-point price | ID | Contents |
 | --- | --- | --- | --- |
-| Medical crate | **1,000** | `9001` | Six FirstAidKits and one Medikit |
-| Engineering crate | **2,000** | `9002` | Random 1–2 AP mines, 1–2 AT mines, 1–3 frag grenades, two smoke grenades and one of each allowed tool |
+| Medical crate | **3,000** | `9001` | Six FirstAidKits and one Medikit |
+| Engineering crate | **3,000** | `9002` | Random 1–2 AP mines, 1–2 AT mines, 1–3 frag grenades, two smoke grenades and one of each allowed tool |
 
 Edit prices in `BULWARK_SUPPLYITEMS` in `editMe.sqf`. The new Supplies tab is independent of the satellite/support-menu unlock. Its catalogue is published for JIP. The existing Supply Drop support in the Support tab retains its normal delivery behavior; only F15 crate purchases changed.
 

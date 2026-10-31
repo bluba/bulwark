@@ -137,7 +137,7 @@ Each card starts with its scored first slice and required changes. The design de
 
 **Implementation status:** Medical and engineering supply purchases implemented; in-game acceptance pending. Medical stock remains six FirstAidKits and one Medikit subject to loot restrictions. Server-owned transactions validate caller, catalogue price, balance, holding slot, crate class and typed stock/capacity before debit. See [behavior and settings](SUPPLY_CACHES.md) and the [medical implementation plan](F15_IMPLEMENTATION_PLAN.md).
 
-**Current shop behavior (2026-10-31):** medical and engineering crates are bought in a separate Supplies tab for 1,000/2,000 personal points by default. They use normal shop carry/place/move/remove controls and finite native cargo. Automatic spawn rolls and F15 paradrops are disabled; purchased crates have no expiry, wave limit, temporary marker or relocation cleanup. This supersedes the cache/drop lifecycle descriptions below. See [current settings and acceptance](SUPPLY_CACHES.md).
+**Current shop behavior (2026-10-31):** medical and engineering crates are bought in a separate Supplies tab for 3,000/3,000 personal points by default. They use normal shop carry/place/move/remove controls and finite native cargo. Automatic spawn rolls and F15 paradrops are disabled; purchased crates have no expiry, wave limit, temporary marker or relocation cleanup. This supersedes the cache/drop lifecycle descriptions below. See [current settings and acceptance](SUPPLY_CACHES.md).
 
 **Delivery tracking:**
 

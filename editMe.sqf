@@ -2193,8 +2193,8 @@ HOSTILE_ARMOUR_POINT_SCORE = 4;
 // [personal-point price, localized label, server family, catalogue ID]
 // Supplies are available without unlocking the communications/support menu.
 BULWARK_SUPPLYITEMS = [
-    [1000, "STR_BW_BUY_MEDICAL", "medical", 9001],
-    [2000, "STR_BW_BUY_ENGINEERING", "engineering", 9002]
+    [3000, "STR_BW_BUY_MEDICAL", "medical", 9001],
+    [3000, "STR_BW_BUY_ENGINEERING", "engineering", 9002]
 ];
 
 BULWARK_SUPPORTITEMS = [
