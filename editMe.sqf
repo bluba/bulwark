@@ -67,6 +67,8 @@ BW_SUPPLY_STOCK = [["FirstAidKit", 6], ["Medikit", 1]];
 // Engineering purchase contents (no automatic spawn roll or delivery).
 BW_DRONE_SUPPLY_ENABLED = true;
 BW_DRONE_SUPPLY_CLASS = "B_supplyCrate_F";
+BW_AT_SUPPLY_ENABLED = true;
+BW_AT_SUPPLY_CLASS = "B_supplyCrate_F";
 BW_ENGINEERING_ENABLED = true;
 BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_ENGINEERING_AP_POOL = ["APERSMine_Range_Mag", "APERSBoundingMine_Range_Mag", "APERSTripMine_Wire_Mag"];
@@ -2197,7 +2199,8 @@ HOSTILE_ARMOUR_POINT_SCORE = 4;
 BULWARK_SUPPLYITEMS = [
     [3000, "STR_BW_BUY_MEDICAL", "medical", 9001],
     [3000, "STR_BW_BUY_ENGINEERING", "engineering", 9002],
-    [3000, "STR_BW_BUY_DRONES", "drone", 9003]
+    [3000, "STR_BW_BUY_DRONES", "drone", 9003],
+    [6000, "STR_BW_BUY_AT", "antitank", 9004]
 ];
 
 BULWARK_SUPPORTITEMS = [

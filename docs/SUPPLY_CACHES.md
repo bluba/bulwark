@@ -1,9 +1,12 @@
 # F15 — purchasable medical and engineering crates
 
+**Approved AT crate implemented (2026-10-31):** Supplies entry 9004 costs 6,000 personal points: two PSZ RPG-7V launchers, six `PSZ_PG7VR_THEAT` tandem-HEAT rounds, one PSZ Spike LR, two `PSZ_Spike_THEAT` missiles, two carryalls and four white smoke grenades. Normal finite-stock placement; no delivery/refill/expiry. Both launcher/ammunition pairs are checked against loaded compatible magazines before payment. Missing classes, incompatible ammunition or insufficient crate capacity reject the entire purchase without charge. PSZ in-game firing/placement tests remain pending.
+
+
 **Drone supply shop revision (2026-10-31):** the FPV drone supply crate is also in Supplies (ID 9003), costing 3,000 personal points. It retains the former FPV supply drop's complete fixed kit, including packed drone/component magazines, four UAV terminals, two toolkits and four carryall backpacks. Normal carry/place/move controls apply; no paradrop or communications token. The old FPV support entry/dispatch is removed and legacy drone-delivery calls are disabled. Required missing mod content or insufficient capacity rejects the purchase without charge. Standard ammo Supply Drop remains unchanged.
 
 
-Current behavior (2026-10-31): all three crates are ordinary placeable purchases in **Shop -> Supplies -> Supply crates**. This supersedes the former random-cache and paradrop designs. There are no automatic spawn rolls, aircraft, parachutes, temporary cache markers, delivery workers, expiry timers or wave/relocation cleanup for purchased supplies.
+Current behavior (2026-10-31): all four crates are ordinary placeable purchases in **Shop -> Supplies -> Supply crates**. This supersedes the former random-cache and paradrop designs. There are no automatic spawn rolls, aircraft, parachutes, temporary cache markers, delivery workers, expiry timers or wave/relocation cleanup for purchased supplies.
 
 ## Buying and placing
 
@@ -12,6 +15,7 @@ Current behavior (2026-10-31): all three crates are ordinary placeable purchases
 | Medical crate | **3,000** | `9001` | Six FirstAidKits and one Medikit |
 | Engineering crate | **3,000** | `9002` | Random 1–2 AP mines, 1–2 AT mines, 1–3 frag grenades, two smoke grenades and one of each allowed tool |
 | FPV drone supply crate | **3,000** | `9003` | Complete former drone support kit; see the revision above |
+| Anti-tank weapons crate | **6,000** | `9004` | Approved RPG-7V/Spike loadout; see above |
 
 Edit prices in `BULWARK_SUPPLYITEMS` in `editMe.sqf`. The new Supplies tab is independent of the satellite/support-menu unlock. Its catalogue is published for JIP. The existing Supply Drop support in the Support tab retains its normal delivery behavior; only F15 crate purchases changed.
 
@@ -53,7 +57,7 @@ The former `tests/supplyCache.sqf`, `tests/engineeringCache.sqf` and `tests/supp
 
 Hosted/dedicated acceptance still required:
 
-1. Open Build -> Supplies -> Support -> Debug repeatedly. Exactly three supply entries appear with correct prices/preview; no duplicate list callbacks or purchases. Supplies work while Support is locked; ordinary build/support/debug actions remain correct.
+1. Open Build -> Supplies -> Support -> Debug repeatedly. Exactly four supply entries appear with correct prices/preview; no duplicate list callbacks or purchases. Supplies work while Support is locked; ordinary build/support/debug actions remain correct.
 2. Buy either crate during preparation/combat; carry and place/drop it, reopen inventory, pick it up and move it again. Stock must remain unchanged except actual inventory transfers. Confirm unrelated player actions remain available.
 3. Two clients send overlapping requests. Each accepted crate debits its own buyer once; repeating while carrying is rejected. Spoof another player's object/ID or call the supply handler from too far away: no crate or debit.
 4. Clear waves, move/replace the truck and wait beyond the former expiry. Purchased crates remain. There are no automatic F15 drops or cache aircraft. The separately purchased Supply Drop support still works.
@@ -64,3 +68,5 @@ No Arma/SQF runtime is available here; source checks are not compilation or game
 Source verification passed for delimiters/strings in 20 changed SQF/config files, three function registrations/references, catalogue IDs/prices and JIP publication, transaction/placement wiring, disabled automatic activation, retired harness guards, localization references and local documentation links. XML parsing/translation placeholders passed. The new hosted regression and actual placement/multiplayer checks have not run.
 
 Drone-shop source checks passed for 13 SQF/config files, catalogue/dispatch and localization wiring. All 23 typed stock entries were compared exactly against the committed former support. No Arma runtime test was run.
+
+AT settings: `BW_AT_SUPPLY_ENABLED` (true), `BW_AT_SUPPLY_CLASS` (`B_supplyCrate_F`), and the price in `BULWARK_SUPPLYITEMS`. The fixed AT kit uses the same complete-kit policy as drone supplies, not the medical/engineering random-loot filters. Weapon cargo uses `addWeaponCargoGlobal`; capacity validation reads launcher mass from `WeaponSlotsInfo`. Compatibility resolves the loaded weapon configuration through [BIS_fnc_compatibleMagazines](https://community.bistudio.com/wiki/BIS_fnc_compatibleMagazines), compared without classname case sensitivity. Test the shop harness with PSZ loaded and again with missing/incompatible content; verify no partial kit or debit on failure.

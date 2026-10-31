@@ -1,6 +1,10 @@
-// Only these two server-defined families may select lifecycle namespace keys.
+// Only explicit server-defined families may select purchase/configuration keys.
 params [["_family", "medical"]];
 switch (_family) do {
+    case "antitank": {[
+        "BW_AT_SUPPLY_CACHE", "BW_AT_SUPPLY_LAST_ATTEMPT", "BW_AT_SUPPLY_LAST_RESULT", "BW_AT_SUPPLY_STATUS",
+        "BW_AT_SUPPLY_ENABLED", "BW_AT_SUPPLY_CHANCE", "BW_AT_SUPPLY_CLASS", "BW_AT_SUPPLY_DELIVERY_STATUS"
+    ]};
     case "drone": {[
         "BW_DRONE_SUPPLY_CACHE", "BW_DRONE_SUPPLY_LAST_ATTEMPT", "BW_DRONE_SUPPLY_LAST_RESULT", "BW_DRONE_SUPPLY_STATUS",
         "BW_DRONE_SUPPLY_ENABLED", "BW_DRONE_SUPPLY_CHANCE", "BW_DRONE_SUPPLY_CLASS", "BW_DRONE_SUPPLY_DELIVERY_STATUS"

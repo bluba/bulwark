@@ -1,5 +1,8 @@
 # Dynamic Bulwarks — feature and mechanics backlog
 
+**Approved AT crate implemented (2026-10-31):** Supplies entry 9004 costs 6,000 personal points: two PSZ RPG-7V launchers, six `PSZ_PG7VR_THEAT` tandem-HEAT rounds, one PSZ Spike LR, two `PSZ_Spike_THEAT` missiles, two carryalls and four white smoke grenades. Normal finite-stock placement; no delivery/refill/expiry. Both launcher/ammunition pairs are checked against loaded compatible magazines before payment. Missing classes, incompatible ammunition or insufficient crate capacity reject the entire purchase without charge. PSZ in-game firing/placement tests remain pending.
+
+
 **Drone supply shop revision (2026-10-31):** the FPV drone supply crate is also in Supplies (ID 9003), costing 3,000 personal points. It retains the former FPV supply drop's complete fixed kit, including packed drone/component magazines, four UAV terminals, two toolkits and four carryall backpacks. Normal carry/place/move controls apply; no paradrop or communications token. The old FPV support entry/dispatch is removed and legacy drone-delivery calls are disabled. Required missing mod content or insufficient capacity rejects the purchase without charge. Standard ammo Supply Drop remains unchanged.
 
 

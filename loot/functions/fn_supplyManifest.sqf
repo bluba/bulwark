@@ -1,5 +1,6 @@
 // Tagged cargo format shared by both families; no player-inventory scanning.
 params [["_family", "medical"]];
+if (_family == "antitank") exitWith {[] call loot_fnc_atSupplyManifest};
 if (_family == "drone") exitWith {[] call loot_fnc_droneSupplyManifest};
 if (_family == "engineering") exitWith {[] call loot_fnc_engineeringManifest};
 if (_family != "medical") exitWith {[]};

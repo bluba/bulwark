@@ -7,7 +7,7 @@ if (!isServer || {!hasInterface} || {isRemoteExecuted} || {!canSuspend}) exitWit
 if (missionNamespace getVariable ["runMissionLoop", false] ||
     {!alive player} || {lifeState player == "INCAPACITATED"} || {side group player != west} ||
     {player getVariable ["buildItemHeld", false]}) exitWith {diag_log "SUPPLY SHOP test needs an idle hosted WEST player with a free holding slot"};
-private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK","BW_DRONE_SUPPLY_ENABLED","BW_DRONE_SUPPLY_CLASS",
+private _names = ["BULWARK_SUPPLYITEMS","BW_SUPPLY_ENABLED","BW_ENGINEERING_ENABLED","BW_SUPPLY_CLASS","BW_ENGINEERING_CLASS","BW_SUPPLY_STOCK","BW_DRONE_SUPPLY_ENABLED","BW_DRONE_SUPPLY_CLASS","BW_AT_SUPPLY_ENABLED","BW_AT_SUPPLY_CLASS","BIS_fnc_compatibleMagazines",
     "LOOT_WHITELIST_MODE","LOOT_WHITELIST_ITEM","LOOT_WHITELIST_EXPLOSIVE","LOOT_BLACKLIST","runMissionLoop","missionExtract","buildPhase","attkWave","bulwarkBox",
     "bulwark_fnc_receivePurchase","BW_supplyShopTestReceived"];
 private _saved = _names apply {[!isNil _x,missionNamespace getVariable [_x,false]]};
@@ -25,7 +25,7 @@ bulwarkBox = _anchor; runMissionLoop = true; missionExtract = false; buildPhase 
 BW_SUPPLY_ENABLED = true; BW_ENGINEERING_ENABLED = true;
 BW_SUPPLY_CLASS = "Box_NATO_Equip_F"; BW_ENGINEERING_CLASS = "Box_NATO_Equip_F";
 BW_SUPPLY_STOCK = [["FirstAidKit",6],["Medikit",1]];
-BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002],[3000,"STR_BW_BUY_DRONES","drone",9003]];
+BULWARK_SUPPLYITEMS = [[3000,"STR_BW_BUY_MEDICAL","medical",9001],[3000,"STR_BW_BUY_ENGINEERING","engineering",9002],[3000,"STR_BW_BUY_DRONES","drone",9003],[6000,"STR_BW_BUY_AT","antitank",9004]];
 LOOT_WHITELIST_MODE = 0; LOOT_BLACKLIST = []; LOOT_WHITELIST_ITEM = []; LOOT_WHITELIST_EXPLOSIVE = [];
 bulwark_fnc_receivePurchase = {params ["_object"]; BW_supplyShopTestReceived = _object};
 player setVariable ["killPoints",10000,true]; player setVariable ["buildItemHeld",false,true];
@@ -93,6 +93,32 @@ if (_droneStock isEqualTo []) then {
             private _index = (_cargo select 0) find _class;
             [_index >= 0 && {(_cargo select 1 select _index) == _count},"drone kit preserves typed cargo quantities"] call _check;
         } forEach _droneStock;
+    };
+};
+player setVariable ["buildItemHeld",false,true];
+player setVariable ["killPoints",12000,true];
+BW_AT_SUPPLY_CLASS = "B_supplyCrate_F"; BW_AT_SUPPLY_ENABLED = false;
+[isNull ([player,9004] call loot_fnc_purchaseSupply) && {player getVariable ["killPoints",0] == 12000},"disabled AT supply cannot debit"] call _check;
+BW_AT_SUPPLY_ENABLED = true;
+private _nativeCompatible = BIS_fnc_compatibleMagazines;
+BIS_fnc_compatibleMagazines = {[]};
+[isNull ([player,9004] call loot_fnc_purchaseSupply) && {player getVariable ["killPoints",0] == 12000},"unavailable/incompatible AT ammunition cannot debit"] call _check;
+BIS_fnc_compatibleMagazines = _nativeCompatible;
+private _atStock = ["antitank"] call loot_fnc_supplyManifest;
+private _at = [player,9004] call loot_fnc_purchaseSupply;
+if (_atStock isEqualTo []) then {
+    [isNull _at && {player getVariable ["killPoints",0] == 12000},"missing/incompatible PSZ kit rejected without debit"] call _check;
+} else {
+    [_atStock isEqualTo [["weapon","PSZ_RPG7V",2],["magazine","PSZ_PG7VR_THEAT",6],["weapon","PSZ_Spike_LR",1],["magazine","PSZ_Spike_THEAT",2],["backpack","B_Carryall_mcamo",2],["magazine","SmokeShell",4]],"exact approved AT loadout"] call _check;
+    [!isNull _at && {player getVariable ["killPoints",0] == 6000},"AT crate charges 6000 once"] call _check;
+    if (!isNull _at) then {
+        _objects pushBack _at; [_at] call _waitCallback;
+        {
+            _x params ["_tag","_class","_count"];
+            private _cargo = switch (_tag) do {case "weapon": {getWeaponCargo _at}; case "backpack": {getBackpackCargo _at}; default {getMagazineCargo _at}};
+            private _index = (_cargo select 0) find _class;
+            [_index >= 0 && {(_cargo select 1 select _index) == _count},"AT weapon/magazine/backpack stock matches manifest"] call _check;
+        } forEach _atStock;
     };
 };
 {deleteVehicle _x} forEach _objects;

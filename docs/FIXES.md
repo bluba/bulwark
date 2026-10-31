@@ -1,5 +1,9 @@
 # Bulwark fixes
 
+## Purchasable anti-tank weapons crate (2026-10-31)
+
+Added the approved fixed RPG-7V/Spike kit to Supplies for 6,000 points (9004). Extended typed cargo/mass handling for weapons, preserved normal placement and finite stock, and validate complete content plus loaded launcher/ammunition compatibility before charging. Missing/incompatible kit or insufficient capacity fails without payment. Extended the hosted supply shop harness; live PSZ firing and multiplayer placement remain unverified.
+
 ## Placeable FPV drone supply crate (2026-10-31)
 
 Moved the 3,000-point FPV supply kit from Support to Supplies, ID 9003. Preserved its complete stock using magazine/item/backpack cargo, class/mass validation and the existing atomic paid placement transaction. Removed the old communications entry and delivery dispatch; standard ammo support is unchanged. Missing FPV content fails without charge. Extended the hosted shop harness; Arma acceptance remains pending.

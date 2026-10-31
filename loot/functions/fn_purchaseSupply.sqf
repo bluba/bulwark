@@ -39,6 +39,7 @@ isNil {
     {
         _x params ["_tag", "_cargoClass", "_count"];
         switch (_tag) do {
+            case "weapon": {_object addWeaponCargoGlobal [_cargoClass, _count]};
             case "item": {_object addItemCargoGlobal [_cargoClass, _count]};
             case "magazine": {_object addMagazineCargoGlobal [_cargoClass, _count]};
             case "backpack": {_object addBackpackCargoGlobal [_cargoClass, _count]};
