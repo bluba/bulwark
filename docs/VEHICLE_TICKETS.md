@@ -51,3 +51,5 @@ All regular catalogue vehicles are eligible from ARMOUR_START_WAVE if affordable
 The first purchase is drawn from entries costing at least ceil(75% of the most expensive affordable candidate). Theme and recent-use weights select within that band. Subsequent purchases use the remaining budget for support. This guarantees an upper-band main purchase while allowing several strong alternatives, without overspending.
 
 Cost review: BRDM-2 scout 4; Vodnik AGS and Hunter/Ifrit GMG 6; ZU-23 truck 8; armed light helicopter 10; Mi-8 troop transport 7; Ghost Hawk troop transport 8. Other prices retained. These balance estimates account for protection, explosive weapons, mobility and paid cargo; in-game tuning remains necessary.
+
+Review follow-up: the anti-repeat weight now remembers the first successfully deployed purchase of the preceding wave, rather than its final support vehicle. Each helicopter passenger also rechecks the live carrier distance against the drop zone before exiting; drifting out of range aborts the remaining drop. Ticket prices are unchanged by this review. Static checks passed; transport behaviour still needs an Arma playtest.

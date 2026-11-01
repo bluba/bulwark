@@ -4,6 +4,7 @@ private _side = if (_defector) then {resistance} else {east};
 private _entries = _plan get "entries";
 if (_entries isEqualTo []) exitWith {_plan set ["outcomes",[]]};
 private _outcomes = [];
+private _recordedMain = false;
 _plan set ["outcomes",_outcomes];
 diag_log format ["BW vehicle plan wave=%1 budget=%2 unused=%3 entries=%4",_wave,_plan get "budget",_plan get "unused",_entries];
 private _register = {
@@ -48,7 +49,8 @@ waitUntil {sleep 0.5; time >= _initial || {!([_wave] call bulwark_fnc_waveActive
     _record set [3,"failed"];
    } else {
     _record set [3,"deployed"];
-    BW_VEHICLE_LAST = _class;
+    // Remember the first deployed purchase, not the support vehicle spawned last.
+    if (!_recordedMain) then {BW_VEHICLE_LAST = _class; _recordedMain = true};
     _vehicle setVariable ["bw_regularWave",_wave];
     _vehicle setVariable ["bw_ticketRole",_role];
     _vehicle setVariable ["aiMode","NonCQB"];
@@ -94,7 +96,7 @@ waitUntil {sleep 0.5; time >= _initial || {!([_wave] call bulwark_fnc_waveActive
       {
        if !([_wave] call bulwark_fnc_waveActive) exitWith {};
        if (alive _x && {vehicle _x == _vehicle}) then {
-        if (_air && {alive _vehicle} && {!_arrived || {private _height = (getPosATL _vehicle) select 2; _height > 2 && {_height < 50}}}) then {
+        if (_air && {alive _vehicle} && {!_arrived || {_vehicle distance2D _anchor >= 150} || {private _height = (getPosATL _vehicle) select 2; _height > 2 && {_height < 50}}}) then {
          // A failed approach or unsafe jump altitude must not expose passengers to a remote/low drop.
          _arrived = false;
          deleteVehicle _x;
