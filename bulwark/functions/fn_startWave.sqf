@@ -82,6 +82,8 @@ BW_ENEMY_LIMIT = 120 min (30 + 4 * count ([] call bulwark_fnc_humanPlayers));
 BW_SPAWN_QUEUE = [];
 BW_SPAWN_JOBS = [];
 BW_SPAWN_SERIAL = 0;
+call compile preprocessFileLineNumbers "hostiles\vehicleSettings.sqf";
+BW_VEHICLE_TICKETS_ACTIVE = BW_VEHICLE_TICKETS;
 BW_INFANTRY_REMAINING = 0;
 [_waveId] execVM "bulwark\defendLocationBonus.sqf";
 

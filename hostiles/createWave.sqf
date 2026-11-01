@@ -14,6 +14,13 @@ private _vehiclesEnabled = _armourStartWave < 9999 && {!([attkWave] call bulwark
 private _vehicleAge = attkWave - _armourStartWave;
 private _humanCount = count ([] call bulwark_fnc_humanPlayers);
 
+if (missionNamespace getVariable ["BW_VEHICLE_TICKETS_ACTIVE", true]) then {
+ if (_vehiclesEnabled) then {
+  private _plan = [attkWave, _armourStartWave, _humanCount, [] call bulwark_fnc_vehicleCatalogue, [], missionNamespace getVariable ["BW_VEHICLE_LAST", ""], [BW_VEHICLE_BASE,BW_VEHICLE_GROWTH,BW_VEHICLE_PLAYER_STEP,BW_VEHICLE_PLAYER_CAP,BW_VEHICLE_TARGET_CAP,BW_VEHICLE_SPREAD]] call bulwark_fnc_vehiclePlan;
+  BW_VEHICLE_PLAN = _plan;
+  [[attkWave, _plan, defectorWave], "hostiles\vehicleSchedule.sqf"] call bulwark_fnc_queueHostiles;
+ };
+} else {
 if(_vehiclesEnabled && {_vehicleAge >= 7 && {random 100 < (65 min (15 + 3 * (_vehicleAge - 7)))}} || _allSpawnTest) then{
 	ArmourCount = floor ((_vehicleAge - 7) / 20)+1;
 	ArmourCount = ArmourCount + floor(random (floor (_humanCount / 4)+1));
@@ -64,6 +71,7 @@ catch {
 	hint str _exception
 };
 
+};
 // Keep fractional player scaling; round only the final infantry budget.
 _noOfPlayers = 1 max (_humanCount * HOSTILE_TEAM_MULTIPLIER);
 _multiplierBase = HOSTILE_MULTIPLIER;

@@ -86,6 +86,7 @@ waitUntil {sleep 1; _vechicle distance2D _pPos < 100 || {!alive _vechicle} || {d
 				_x leaveVehicle _vechicle;
 
 		} forEach (units _grp);
+_vechicle setVariable ["bw_arrivalChannel", ""];
 _grp setVariable ["bw_scriptedMovement", false, true];
 if ([_wave] call bulwark_fnc_waveActive) then {[_grp, _wave] call bulwark_fnc_controlEnemyGroup};
 private _leaveAt = time + 30;

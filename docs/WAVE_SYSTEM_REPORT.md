@@ -1,5 +1,7 @@
 # Wave system: detailed combined report
 
+> Regular vehicle tickets are now enabled by default. Sections 4–6 describe the retained compatibility mode. See [implemented ticket rules](VEHICLE_TICKETS.md) and hostiles/vehicleSettings.sqf; specials remain separate.
+
 Updated 1 November 2026. Covers normal gameplay using current scripts. Defaults: RU vs PL faction mode, vehicle start wave 5, hostile multiplier 2, team multiplier 0.5. Lobby overrides change these results. Exact configured class arrays appear in the appendix.
 
 ## 1. Wave composition

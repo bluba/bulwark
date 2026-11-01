@@ -1,0 +1,8 @@
+// Server configuration. Changes take effect at the next wave.
+BW_VEHICLE_TICKETS = true;
+BW_VEHICLE_BASE = 3;
+BW_VEHICLE_GROWTH = 0.75;
+BW_VEHICLE_PLAYER_STEP = 0.10;
+BW_VEHICLE_PLAYER_CAP = 2;
+BW_VEHICLE_TARGET_CAP = 30;
+BW_VEHICLE_SPREAD = 0.20;

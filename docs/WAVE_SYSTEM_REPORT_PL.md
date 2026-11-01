@@ -1,5 +1,7 @@
 # System fal: szczegółowy raport zbiorczy
 
+> Domyślnie działa teraz system punktów pojazdów. Sekcje 4–6 opisują zachowany tryb zgodności. Zasady implementacji: [VEHICLE_TICKETS.md](VEHICLE_TICKETS.md); zdarzenia specjalne pozostają osobne.
+
 Aktualizacja: 1 listopada 2026 r. Raport opisuje zwykłą rozgrywkę według aktualnych skryptów. Ustawienia domyślne: tryb frakcji RU vs PL, pojazdy od fali 5, mnożnik przeciwników 2, mnożnik zespołu 0.5. Zmiany parametrów w lobby wpływają na wyniki. Dokładne tablice klas znajdują się w aneksie.
 
 ## 1. Skład fali

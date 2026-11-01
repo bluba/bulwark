@@ -1,5 +1,7 @@
 # Waves, spawning and enemy AI
 
+> Regular vehicles now use [ticket planning](VEHICLE_TICKETS.md) by default. The old independent rolls remain available through the compatibility toggle.
+
 ## Wave selection
 
 [fn_startWave.sqf](../bulwark/functions/fn_startWave.sqf) rolls a base special with probability random(100) < 35 + wave. The primary pool depends on wave range:

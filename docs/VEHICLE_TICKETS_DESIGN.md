@@ -1,7 +1,7 @@
 # Vehicle tickets: final design and implementation plan
 
 Date: 1 November 2026
-Status: approved direction expressed as an implementation-ready proposal; gameplay implementation is not part of this document change. Numerical defaults below are initial tuning values requiring playtests.
+Status: design baseline. Initial implementation is documented in [VEHICLE_TICKETS.md](VEHICLE_TICKETS.md), including implementation choices and outstanding engine playtests. Numerical defaults below are initial tuning values requiring playtests.
 
 ## 1. Scope and decisions
 
