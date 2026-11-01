@@ -16,7 +16,7 @@
 | 17–20 | Primary combat pool plus 75% / 25% chances of two standard modifiers. |
 | 21+ | Primary combat pool plus wave×3% / wave×2% chances (effectively capped at 100%). |
 
-After wave 15, an additional mortar/paradrop/convoy draw occurs independently of the base roll. After wave 20, a failed base roll still has a 25% chance of a standard modifier. The entire plan is cleared when specials are disabled.
+From wave 17, an additional mortar/paradrop/convoy draw occurs independently of the base roll. After wave 20, a failed base roll still has a 25% chance of a standard modifier. The entire plan is cleared when specials are disabled.
 
 Each draw filters fog/night/thunderstorm already selected and vehicle specials forbidden by ARMOUR_START_WAVE (9999 means Never). A draw from an empty eligible pool produces no effect; it never retries indefinitely. Other combat specials may repeat. Defector faction state is established before dispatch, so script order does not choose the mortar faction accidentally.
 
@@ -28,7 +28,7 @@ F09 adds encampment to the later primary combat pool as well as the wave 7–9 f
 
 ## Intermission and team state
 
-The [Debug shop](DEBUG_SHOP.md) can force any of the 15 implemented specials. The server queues one choice; the mission loop cancels/drains the current wave and starts the next number with just that modifier plus ordinary infantry, skipping preparation and automatic enemy vehicles. An exact wave/type override bypasses selection restrictions without changing lobby settings; normal behavior resumes on the following wave. Objective safety/capacity and content validation remain in force.
+The [Debug shop](DEBUG_SHOP.md) can force any of the 16 implemented specials. The server queues one choice; the mission loop cancels/drains the current wave and starts the next number with just that modifier plus ordinary infantry, skipping preparation and automatic enemy vehicles. An exact wave/type override bypasses selection restrictions without changing lobby settings; normal behavior resumes on the following wave. Objective safety/capacity and content validation remain in force.
 
 F01 uses a server preparation deadline shared with the final 15-second start warning. A strict majority of living conscious WEST humans can shorten the wait after the configured minimum; phase IDs prevent stale votes affecting a later wave. See [READY_VOTE.md](READY_VOTE.md).
 

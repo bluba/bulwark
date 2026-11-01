@@ -34,7 +34,7 @@ Run on a server/editor with mission functions loaded:
 [] execVM "tests\vehicleTickets.sqf";
 ~~~
 
-This exercises the real planner across waves 1–100, seven player counts and three deterministic random streams (2,100 plans), including spending, unlocks, composition limits, repeatability, Never and empty catalogues. It creates no units. Existing tests/spawnCapacity.sqf checks the manpower gateway; it requires an idle server as documented in that file.
+This exercises the real planner across waves 1–100, seven player counts and three deterministic random streams (2,100 plans), including spending, global start/Never handling, budget-only eligibility, composition limits, repeatability, Never and empty catalogues. It creates no units. Existing tests/spawnCapacity.sqf checks the manpower gateway; it requires an idle server as documented in that file.
 
 Runtime acceptance still requires Arma: verify convoy/airstrike overlap, cargo unloading/parachutes, blocked-channel timeout, extraction and debug cancellation, missing addons, and score/AI behaviour. No Arma runtime is available in the coding environment; added SQF tests are not claimed as executed here.
 

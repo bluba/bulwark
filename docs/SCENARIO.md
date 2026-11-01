@@ -20,6 +20,8 @@ The HUD shows points, wave/phase, tickets, shared bank and public FOB/bonus obje
 
 ## Enemies and specials
 
+Regular vehicles use [ticket budgets](VEHICLE_TICKETS.md) by default. All valid models become eligible at the global start wave if affordable. Budgets grow with wave age and gain 30% per player above two, capped at 2×. The first purchase selects a stronger affordable package before support; separate specials spend no vehicle tickets. See [current state](CURRENT_STATE.md) for formulas and deployment limits.
+
 In Polish-versus-Russian mode, the catalogues select Russian enemy tiers and PSZ allies/vehicles. Legacy mode uses alternate lists. Defectors use RESISTANCE and are hostile to both WEST and EAST.
 
 Specials include fog, night, suicide bombers, drones, mortars, artillery/Grad salvos, aircraft strikes, paradrops, truck transports and reinforcement FOBs. A FOB has a destructible ammunition cache; it keeps producing reinforcements and prevents wave completion until destroyed. Its surviving defenders then attack. The existing FOB is eligible from wave 7 onward with at most one active/setup instance. By default, two intervening waves separate successful deployments (wave 7 permits another from wave 10); selection remains probabilistic.

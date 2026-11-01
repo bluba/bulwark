@@ -1,5 +1,7 @@
 # Handoff and current status
 
+> Current baseline update (2026-11-01): read [CURRENT_STATE.md](CURRENT_STATE.md) and [VEHICLE_TICKETS.md](VEHICLE_TICKETS.md) for the implemented vehicle redesign. Ticket mode is enabled, per-player increase is 0.30 above two (2× cap), models have no individual wave gates, and the first purchase uses the upper affordable price band. Specials remain separate. Static checks passed; engine acceptance remains pending.
+
 **Supply crate collision fix (2026-11-01):** crates now spawn at an isolated staging position, with simulation and physics collisions disabled before the buyer receives them. Held/re-picked crates remain non-colliding on all machines, with an object-bound JIP collision state. Drop/place restores physics only after a vehicle-footprint check; moving a placed supply crate uses the same check. Horizontal world bounding boxes plus a 0.5 m margin protect the Bulwark and nearby vehicles, including ground-snap/floating placement. Placement blocked by a vehicle retains the crate and carrying actions without another charge. This uses Arma 3 2.18+ `setPhysicsCollisionFlag`; player-only `disableCollisionWith` is insufficient for PhysX crates. Hosted purchase/overlap assertions were extended; live hosted/dedicated collision, JIP and placement checks remain pending.
 
 

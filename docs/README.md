@@ -1,6 +1,10 @@
 # Bulwark Fixed — start here
 
-This directory is the documentation entry point for continuing work on the recovered Arma 3 cooperative scenario. Current source: **dynamicBulwarks.Altis**, the parent of this directory. Documentation updated 2026-10-31. Earlier records use the historical source name Altis.bulwarkFixed.
+This directory is the documentation entry point for continuing work on the recovered Arma 3 cooperative scenario. Current source: **dynamicBulwarks.Altis**, the parent of this directory. Documentation updated 2026-11-01. Earlier records use the historical source name Altis.bulwarkFixed.
+
+## Current implementation
+
+[Current state](CURRENT_STATE.md) summarizes the enabled ticket-based vehicle system, +30% player scaling, budget-only model eligibility, separate specials, current shop supplies and verification limits. See the [repository README](../README.md) for setup and overview, and [vehicle implementation](VEHICLE_TICKETS.md) for settings and prices.
 
 ## Read in this order
 
@@ -27,7 +31,7 @@ This directory is the documentation entry point for continuing work on the recov
 
 [F15 implementation plan](F15_IMPLEMENTATION_PLAN.md) records the first medical-cache family's design and outstanding acceptance checks; [SUPPLY_CACHES.md](SUPPLY_CACHES.md) describes its source implementation.
 
-[Engineering cache plan](ENGINEERING_CACHE_PLAN.md) records the implemented extension's design: random AP/AT mines, grenades, smoke and tools, independent spawning and shared lifecycle code. In-game acceptance remains pending.
+[Engineering cache plan](ENGINEERING_CACHE_PLAN.md) preserves the earlier extension design. The current engineering crate is a paid, placeable purchase; see SUPPLY_CACHES.md for its stock and validation. In-game acceptance remains pending.
 
 [Officer Hunt](OFFICER_HUNT.md) implements an officer command post, bounded reinforcement teams, a search objective and owner-local cleanup. Source checks passed; Arma acceptance remains pending. The [implementation plan](OFFICER_HUNT_IMPLEMENTATION_PLAN.md) preserves the design and acceptance cases.
 
