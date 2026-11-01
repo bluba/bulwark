@@ -23,7 +23,7 @@ If vehicles are Never, wave < S, or wave is debug-forced:
 Otherwise:
     age = wave - S
     base = 3 + 0.75 * age
-    playerScale = min(2, 1 + 0.10 * max(0, H - 2))
+    playerScale = min(2, 1 + 0.30 * max(0, H - 2))
     target = min(30, base * playerScale)
     lower = max(2, floor(target * 0.80))
     upper = max(lower, ceil(target * 1.20))

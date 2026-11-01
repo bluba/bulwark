@@ -4,7 +4,7 @@ Regular vehicle tickets are enabled by default. Configure hostiles/vehicleSettin
 
 ## Budget and selection
 
-Starting at ARMOUR_START_WAVE, target = min(30, (3 + 0.75*age) * min(2, 1 + 0.10*max(0, humans-2))). Roll an integer from max(2,floor(target*0.8)) through ceil(target*1.2). Never and debug-forced specials suppress regular vehicles. Infantry retains fractional player scaling.
+Starting at ARMOUR_START_WAVE, target = min(30, (3 + 0.75*age) * min(2, 1 + 0.30*max(0, humans-2))). Roll an integer from max(2,floor(target*0.8)) through ceil(target*1.2). Never and debug-forced specials suppress regular vehicles. Infantry retains fractional player scaling.
 
 The planner purchases exact class/cargo packages from fn_vehicleCatalogue.sqf. It filters absent/non-public classes and insufficient cargo capacity. Package prices include crew and cargo. Catalogue arrays are [class, cost, unlock offset, role, cargo count]. No dynamic unknown-class fallback; mortars, artillery, unarmed scouts and ambiguous base classes are excluded. RU, curated vanilla Legacy, and NATO defector pools are supplied.
 

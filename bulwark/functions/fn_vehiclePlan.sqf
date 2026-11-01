@@ -1,5 +1,5 @@
 // No engine spawning. Optional [0,1) samples make plans reproducible in tests.
-params ["_wave","_start","_humans","_catalogue",["_samples",[]],["_last",""],["_settings",[3,0.75,0.10,2,30,0.20]]];
+params ["_wave","_start","_humans","_catalogue",["_samples",[]],["_last",""],["_settings",[3,0.75,0.30,2,30,0.20]]];
 _samples = +_samples;
 private _draw = {private _v = if (_samples isEqualTo []) then {random 1} else {_samples deleteAt 0}; 0 max (0.999999 min _v)};
 private _plan = createHashMapFromArray [["wave",_wave],["budget",0],["unused",0],["entries",[]]];
