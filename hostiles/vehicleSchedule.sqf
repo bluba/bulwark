@@ -2,6 +2,7 @@
 params ["_wave","_plan","_defector"];
 private _side = if (_defector) then {resistance} else {east};
 private _entries = _plan get "entries";
+if (_entries isEqualTo []) exitWith {_plan set ["outcomes",[]]};
 private _outcomes = [];
 _plan set ["outcomes",_outcomes];
 diag_log format ["BW vehicle plan wave=%1 budget=%2 unused=%3 entries=%4",_wave,_plan get "budget",_plan get "unused",_entries];
@@ -15,6 +16,7 @@ private _initial = time + 15 + random 10;
 waitUntil {sleep 0.5; time >= _initial || {!([_wave] call bulwark_fnc_waveActive)}};
 {
  private _entry = _x;
+ private _purchaseIndex = _forEachIndex;
  _entry params ["_class","_cost","_offset","_role","_cargoCount"];
  private _record = [_forEachIndex,_class,_cost,"waiting"];
  _outcomes pushBack _record;
@@ -66,33 +68,61 @@ waitUntil {sleep 0.5; time >= _initial || {!([_wave] call bulwark_fnc_waveActive
      _troops setVariable ["bw_scriptedMovement",true,true];
      if !(_pool isEqualTo []) then {
       for "_i" from 1 to _cargoCount do {
-       private _unit = [[_troops,[selectRandom _pool,_position,[],0,"NONE"]],"unit",_wave,false,_vehicle,_deadline] call bulwark_fnc_spawnLimited;
+       private _loadPosition = getPosATL _vehicle;
+       _loadPosition set [2,0];
+       private _unit = [[_troops,[selectRandom _pool,_loadPosition,[],0,"NONE"]],"unit",_wave,false,_vehicle,_deadline] call bulwark_fnc_spawnLimited;
        if (isNull _unit) exitWith {};
-       [_unit,2] call _register;
-       _unit moveInCargo _vehicle;
-       if (_air) then {removeBackpack _unit; _unit addBackpack "B_Parachute"};
+       private _seated = false;
+       isNil {
+        if (alive _vehicle && {[_wave] call bulwark_fnc_waveActive}) then {
+         _unit allowDamage false;
+         if (_air) then {removeBackpack _unit; _unit addBackpack "B_Parachute"};
+         _unit moveInCargo _vehicle;
+         _seated = vehicle _unit == _vehicle;
+         if (_seated) then {[_unit,2] call _register; _unit allowDamage true};
+        };
+        if (!_seated) then {deleteVehicle _unit};
+       };
+       if (!_seated) exitWith {};
       };
      };
      private _wp = _group addWaypoint [_anchor,0]; _wp setWaypointSpeed "FULL";
      private _delivery = time + 120;
      waitUntil {sleep 1; !alive _vehicle || {_vehicle distance2D _anchor < 150} || {time >= _delivery} || {!([_wave] call bulwark_fnc_waveActive)}};
+     private _arrived = alive _vehicle && {_vehicle distance2D _anchor < 150};
      if ([_wave] call bulwark_fnc_waveActive) then {
       {
-       if (_air && {vehicle _x != _x}) then {moveOut _x; _x action ["OpenParachute",_x]} else {unassignVehicle _x; moveOut _x};
+       if !([_wave] call bulwark_fnc_waveActive) exitWith {};
+       if (alive _x && {vehicle _x == _vehicle}) then {
+        if (_air && {alive _vehicle} && {!_arrived || {private _height = (getPosATL _vehicle) select 2; _height > 2 && {_height < 50}}}) then {
+         // A failed approach or unsafe jump altitude must not expose passengers to a remote/low drop.
+         _arrived = false;
+         deleteVehicle _x;
+        } else {
+         private _jump = _air && {((getPosATL _vehicle) select 2) > 30};
+         unassignVehicle _x; moveOut _x;
+         if (_jump) then {_x action ["OpenParachute",_x]};
+         if (_air) then {sleep 0.7};
+        };
+       };
        _x setVariable ["aiMode","rush"];
       } forEach units _troops;
+     };
+     if ([_wave] call bulwark_fnc_waveActive) then {
       _troops setVariable ["bw_scriptedMovement",false,true];
       [_troops,_wave] call bulwark_fnc_controlEnemyGroup;
-     } else { {deleteVehicle _x} forEach units _troops; };
+     } else {{deleteVehicle _x} forEach units _troops};
      if (units _troops isEqualTo []) then {deleteGroup _troops};
      // The delivery is finite; remove the carrier and its crew after unloading.
      {deleteVehicle _x} forEach _crew; deleteVehicle _vehicle; deleteGroup _group;
-     _record set [3,"completed"];
+     _record set [3,if !([_wave] call bulwark_fnc_waveActive) then {"cancelled"} else {if (_arrived) then {"completed"} else {"deliveryFailed"}}];
     };
    };
   };
   diag_log format ["BW vehicle purchase wave=%1 result=%2",_wave,_record];
-  private _next = time + 25;
-  waitUntil {sleep 0.5; time >= _next || {!([_wave] call bulwark_fnc_waveActive)}};
+  if (_purchaseIndex < count _entries - 1) then {
+   private _next = time + 25;
+   waitUntil {sleep 0.5; time >= _next || {!([_wave] call bulwark_fnc_waveActive)}};
+  };
  };
 } forEach _entries;

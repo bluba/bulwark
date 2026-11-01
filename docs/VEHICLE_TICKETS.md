@@ -37,3 +37,9 @@ Run on a server/editor with mission functions loaded:
 This exercises the real planner across waves 1–100, seven player counts and three deterministic random streams (2,100 plans), including spending, unlocks, composition limits, repeatability, Never and empty catalogues. It creates no units. Existing tests/spawnCapacity.sqf checks the manpower gateway; it requires an idle server as documented in that file.
 
 Runtime acceptance still requires Arma: verify convoy/airstrike overlap, cargo unloading/parachutes, blocked-channel timeout, extraction and debug cancellation, missing addons, and score/AI behaviour. No Arma runtime is available in the coding environment; added SQF tests are not claimed as executed here.
+
+## Scheduler bug fixes
+
+Empty purchase plans now return immediately. The 25-second interval only applies between purchases, so there is no final artificial wait. Cargo uses a current carrier position, verifies successful boarding atomically, and discards unseated units. Helicopter disembarkation is staggered; a failed live-aircraft approach no longer drops troops at its timeout location. Outcomes distinguish failed deliveries and cancellation from successful arrival.
+
+Additional engine regression: run tests/vehicleTicketEmptyPlan.sqf during an active wave. It checks that an empty plan returns promptly without spawning. This test requires Arma and has not been executed in the coding environment.
