@@ -14,19 +14,23 @@ Selection is not a deployment guarantee: missing addons, invalid classes, unsuit
 H = human player count (excluding headless clients)
 T = HOSTILE_TEAM_MULTIPLIER / 100
 M = HOSTILE_MULTIPLIER / 100
-Player factor = max(1, floor(H * T))
+Player factor = max(1, H * T)
 For waves 1–2 only, M = 1
 Infantry count = floor(wave * M * Player factor)
 ```
 
 | Humans | Default player factor | Wave 2 | Wave 6 | Wave 10 |
 | --- | ---: | ---: | ---: | ---: |
-| 1–3 | 1 | 2 | 12 | 20 |
-| 4–5 | 2 | 4 | 24 | 40 |
-| 6–7 | 3 | 6 | 36 | 60 |
-| 8–9 | 4 | 8 | 48 | 80 |
+| 1–2 | 1 | 2 | 12 | 20 |
+| 3 | 1.5 | 3 | 18 | 30 |
+| 4 | 2 | 4 | 24 | 40 |
+| 5 | 2.5 | 5 | 30 | 50 |
+| 6 | 3 | 6 | 36 | 60 |
+| 7 | 3.5 | 7 | 42 | 70 |
+| 8 | 4 | 8 | 48 | 80 |
+| 9 | 4.5 | 9 | 54 | 90 |
 
-Rounding creates steps: the fourth player doubles ordinary infantry compared with three. Vehicle crews, transported troops and special reinforcements are additional to this total.
+Fractional player scaling is preserved until the final infantry count is rounded down. At defaults, each player above two adds half a player factor: wave 6 has 12/18/24/30 ordinary infantry for 2/3/4/5 humans. This raises formerly rounded-down odd-player totals while preserving even-player totals. Vehicle crews, transported troops and special reinforcements are additional to this total.
 
 ## 3. Infantry progression
 

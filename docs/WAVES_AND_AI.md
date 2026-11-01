@@ -37,16 +37,16 @@ F12 reads existing wave/phase, ticket, bank and public objective state for the t
 [createWave.sqf](../hostiles/createWave.sqf) calculates ordinary infantry as:
 
 ~~~text
-teamFactor = max(1, floor(playersNumber west × HOSTILE_TEAM_MULTIPLIER))
+teamFactor = max(1, humanPlayerCount × HOSTILE_TEAM_MULTIPLIER)
 multiplier = 1 for waves 1–2, otherwise HOSTILE_MULTIPLIER
 ordinaryBudget = floor(wave × multiplier × teamFactor)
 activeLimit = min(120, 30 + 4 × humanPlayerCount)
 ordinaryThreshold = floor(activeLimit × 0.8)
 ~~~
 
-The budget uses WEST player count, while capacity uses humanPlayers (excluding headless clients). These are deliberately documented as different code inputs; don't silently replace one with the other. Capacity is fixed for the wave, not recalculated on every join/leave.
+Both budget and capacity use humanPlayers (excluding headless clients). Fractional player scaling is retained until the final budget is rounded down. Capacity is fixed for the wave, not recalculated on every join/leave.
 
-Example: 25 WEST players, team multiplier 0.5, multiplier 2, wave 30 gives 720 ordinary infantry total. Active capacity is 120; ordinary infantry can fill only to a total occupancy of 96, leaving room for specials. Specials and crew count toward active occupancy but do not consume the ordinary budget.
+Example: 25 human players, team multiplier 0.5, multiplier 2, wave 30 gives 750 ordinary infantry total. Active capacity is 120; ordinary infantry can fill only to a total occupancy of 96, leaving room for specials. Specials and crew count toward active occupancy but do not consume the ordinary budget.
 
 [fn_spawnLimited.sqf](../bulwark/functions/fn_spawnLimited.sqf) is the shared server scheduled gateway for active enemy unit/group/vehicle creation. It counts living EAST/RESISTANCE units from allUnits, plus granted reservations. Pending requests retry every five seconds. Group requests reserve their full squad; vehicle requests conservatively count driver and nested turret crew slots. Reservations are allocated in a non-suspending block to prevent concurrent producers exceeding capacity. It is not a strict FIFO queue.
 

@@ -14,19 +14,23 @@ Wylosowanie zagrożenia nie gwarantuje jego pojawienia się. Brak dodatków, nie
 H = liczba graczy ludzkich (bez klientów headless)
 T = HOSTILE_TEAM_MULTIPLIER / 100
 M = HOSTILE_MULTIPLIER / 100
-Współczynnik graczy = max(1, floor(H * T))
+Współczynnik graczy = max(1, H * T)
 Tylko dla fal 1–2: M = 1
 Liczba piechoty = floor(numer fali * M * Współczynnik graczy)
 ```
 
 | Gracze | Domyślny współczynnik graczy | Fala 2 | Fala 6 | Fala 10 |
 | --- | ---: | ---: | ---: | ---: |
-| 1–3 | 1 | 2 | 12 | 20 |
-| 4–5 | 2 | 4 | 24 | 40 |
-| 6–7 | 3 | 6 | 36 | 60 |
-| 8–9 | 4 | 8 | 48 | 80 |
+| 1–2 | 1 | 2 | 12 | 20 |
+| 3 | 1.5 | 3 | 18 | 30 |
+| 4 | 2 | 4 | 24 | 40 |
+| 5 | 2.5 | 5 | 30 | 50 |
+| 6 | 3 | 6 | 36 | 60 |
+| 7 | 3.5 | 7 | 42 | 70 |
+| 8 | 4 | 8 | 48 | 80 |
+| 9 | 4.5 | 9 | 54 | 90 |
 
-Zaokrąglanie powoduje skokowe zmiany: czwarty gracz podwaja liczbę zwykłej piechoty względem trzech graczy. Załogi pojazdów, przewożeni żołnierze i specjalne posiłki są dodawane poza tą liczbą.
+Ułamkowy współczynnik graczy jest zachowany; w dół zaokrąglana jest dopiero końcowa liczba piechoty. Domyślnie każdy gracz powyżej dwóch dodaje 0.5 do współczynnika: fala 6 daje 12/18/24/30 jednostek dla 2/3/4/5 graczy. Liczebność dla nieparzystych grup wzrasta, a dla parzystych pozostaje bez zmian. Załogi pojazdów, przewożeni żołnierze i specjalne posiłki są dodawane poza tą liczbą.
 
 ## 3. Rozwój piechoty
 

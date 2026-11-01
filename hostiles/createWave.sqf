@@ -64,7 +64,8 @@ catch {
 	hint str _exception
 };
 
-_noOfPlayers = 1 max floor (_humanCount * HOSTILE_TEAM_MULTIPLIER);
+// Keep fractional player scaling; round only the final infantry budget.
+_noOfPlayers = 1 max (_humanCount * HOSTILE_TEAM_MULTIPLIER);
 _multiplierBase = HOSTILE_MULTIPLIER;
 
 if (attkWave <= 2) then {
