@@ -1,5 +1,7 @@
 # Vehicle tickets: final design and implementation plan
 
+> Superseded model-unlock policy: regular vehicle models now use affordability alone after the global vehicle start wave. First purchase selects the upper affordable cost band. See VEHICLE_TICKETS.md for current prices and behaviour.
+
 Date: 1 November 2026
 Status: design baseline. Initial implementation is documented in [VEHICLE_TICKETS.md](VEHICLE_TICKETS.md), including implementation choices and outstanding engine playtests. Numerical defaults below are initial tuning values requiring playtests.
 

@@ -6,7 +6,7 @@ Regular vehicle tickets are enabled by default. Configure hostiles/vehicleSettin
 
 Starting at ARMOUR_START_WAVE, target = min(30, (3 + 0.75*age) * min(2, 1 + 0.30*max(0, humans-2))). Roll an integer from max(2,floor(target*0.8)) through ceil(target*1.2). Never and debug-forced specials suppress regular vehicles. Infantry retains fractional player scaling.
 
-The planner purchases exact class/cargo packages from fn_vehicleCatalogue.sqf. It filters absent/non-public classes and insufficient cargo capacity. Package prices include crew and cargo. Catalogue arrays are [class, cost, unlock offset, role, cargo count]. No dynamic unknown-class fallback; mortars, artillery, unarmed scouts and ambiguous base classes are excluded. RU, curated vanilla Legacy, and NATO defector pools are supplied.
+The planner purchases exact class/cargo packages from fn_vehicleCatalogue.sqf. It filters absent/non-public classes and insufficient cargo capacity. Package prices include crew and cargo. Catalogue arrays are [class, cost, reserved zero, role, cargo count]. No dynamic unknown-class fallback; mortars, artillery, unarmed scouts and ambiguous base classes are excluded. RU, curated vanilla Legacy, and NATO defector pools are supplied.
 
 First three vehicle-enabled waves allow two purchases; later waves allow four. At most two identical packages and one combat helicopter. Before age 14, at most one heavy/combatAir purchase; later two. Preference weights favour patrol, motorised, armour or air compositions, normalize by role pool size and reduce recently used class weight. Unused tickets expire.
 
@@ -43,3 +43,11 @@ Runtime acceptance still requires Arma: verify convoy/airstrike overlap, cargo u
 Empty purchase plans now return immediately. The 25-second interval only applies between purchases, so there is no final artificial wait. Cargo uses a current carrier position, verifies successful boarding atomically, and discards unseated units. Helicopter disembarkation is staggered; a failed live-aircraft approach no longer drops troops at its timeout location. Outcomes distinguish failed deliveries and cancellation from successful arrival.
 
 Additional engine regression: run tests/vehicleTicketEmptyPlan.sqf during an active wave. It checks that an empty plan returns promptly without spawning. This test requires Arma and has not been executed in the coding environment.
+
+## Budget-only model eligibility
+
+All regular catalogue vehicles are eligible from ARMOUR_START_WAVE if affordable. Never still disables regular vehicles. The former per-model unlock field is reserved zero and ignored by the planner. Composition and active-arrival limits remain; specials keep their independent selection and quantities.
+
+The first purchase is drawn from entries costing at least ceil(75% of the most expensive affordable candidate). Theme and recent-use weights select within that band. Subsequent purchases use the remaining budget for support. This guarantees an upper-band main purchase while allowing several strong alternatives, without overspending.
+
+Cost review: BRDM-2 scout 4; Vodnik AGS and Hunter/Ifrit GMG 6; ZU-23 truck 8; armed light helicopter 10; Mi-8 troop transport 7; Ghost Hawk troop transport 8. Other prices retained. These balance estimates account for protection, explosive weapons, mobility and paid cargo; in-game tuning remains necessary.

@@ -17,7 +17,7 @@ waitUntil {sleep 0.5; time >= _initial || {!([_wave] call bulwark_fnc_waveActive
 {
  private _entry = _x;
  private _purchaseIndex = _forEachIndex;
- _entry params ["_class","_cost","_offset","_role","_cargoCount"];
+ _entry params ["_class","_cost","_reserved","_role","_cargoCount"];
  private _record = [_forEachIndex,_class,_cost,"waiting"];
  _outcomes pushBack _record;
  if !([_wave] call bulwark_fnc_waveActive) then {

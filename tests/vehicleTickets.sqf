@@ -12,7 +12,7 @@ private _catalogue = [["light",2,0,"patrol",0],["truck",3,2,"truck",5],["tank",1
    private _sum = 0; {_sum = _sum + (_x select 1)} forEach _entries;
    [_sum + (_p get "unused") == (_p get "budget"),"accounting"] call _check;
    [(_p get "budget") <= 36,"budget cap"] call _check;
-   [(_entries findIf {(_x select 2) > _wave - 5}) < 0,"unlock"] call _check;
+
    [count _entries <= (if (_wave < 8) then {2} else {4}),"package cap"] call _check;
    [({(_x select 3) == "combatAir"} count _entries) <= 1,"air cap"] call _check;
    if (_wave < 19) then {[({(_x select 3) in ["heavy","combatAir"]} count _entries) <= 1,"early heavy cap"] call _check};
@@ -25,5 +25,12 @@ private _catalogue = [["light",2,0,"patrol",0],["truck",3,2,"truck",5],["tank",1
 } forEach [1,2,3,4,8,16,32];
 [(([100,9999,8,_catalogue] call bulwark_fnc_vehiclePlan) get "budget") == 0,"Never"] call _check;
 [(([20,5,4,[]] call bulwark_fnc_vehiclePlan) get "entries") isEqualTo [],"empty catalogue"] call _check;
+// Fixed budget at the first enabled wave: old model offsets must not gate purchases.
+private _early = [5,5,2,_catalogue,[0,0,0,0,0,0],"",[12,0,0,1,12,0]] call bulwark_fnc_vehiclePlan;
+private _first = (_early get "entries") select 0;
+[(_first select 1) >= 9,"strong affordable purchase comes first"] call _check;
+[(_first select 0) in ["tank","heli"],"no per-model wave gate"] call _check;
+private _only = [5,5,2,[["late",12,99,"heavy",0]],[0,0,0],"",[12,0,0,1,12,0]] call bulwark_fnc_vehiclePlan;
+[count (_only get "entries") == 1,"affordable vehicle ignores legacy offset"] call _check;
 diag_log format ["Vehicle ticket planner tests: %1 failures: %2",count _failures,_failures];
 if !(_failures isEqualTo []) then {throw str _failures};

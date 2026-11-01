@@ -17,12 +17,19 @@ for "_i" from 1 to (if (_age < 3) then {2} else {4}) do {
  private _heavy = {(_x select 3) in ["heavy","combatAir"]} count _entries;
  private _eligible = _catalogue select {
   private _candidate = _x;
-  (_x select 1) > 0 && {(_x select 1) <= _left} && {(_x select 2) <= _age} &&
+  (_x select 1) > 0 && {(_x select 1) <= _left} &&
   {({_x isEqualTo _candidate} count _entries) < 2} &&
   {!((_x select 3) in ["heavy","combatAir"]) || {_heavy < (if (_age < 14) then {1} else {2})}} &&
   {(_x select 3) != "combatAir" || {(_entries findIf {(_x select 3) == "combatAir"}) < 0}}
  };
  if (_eligible isEqualTo []) exitWith {};
+ // Buy a main threat from the upper cost band before filling support slots.
+ // This band follows actual affordable candidates, so sparse addon sets still work.
+ if (_i == 1) then {
+  private _highest = 0; {_highest = _highest max (_x select 1)} forEach _eligible;
+  private _minimum = ceil (_highest * 0.75);
+  _eligible = _eligible select {(_x select 1) >= _minimum};
+ };
  private _weights = _eligible apply {
   private _role = _x select 3;
   (if (_role == _theme) then {2} else {1}) / ({(_x select 3) == _role} count _eligible) * (if ((_x select 0) == _last) then {0.5} else {1})
