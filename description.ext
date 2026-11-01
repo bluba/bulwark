@@ -316,10 +316,10 @@ class Params
 
 	class PISTOL_HOSTILES
 	{
-		title = "Hostiles only use pistols until wave";
+		title = "Replace hostile weapons with pistols through wave";
 		values[] = {0, 1, 2, 3, 4, 5, 10, 15, 20, 25, 30};
 		texts[] = {"Start Fully Armed", "One", "Two", "Three", "Four", "Five", "Ten", "Fifteen", "Twenty", "Twenty Five", "Thirty"};
-		default = 3;
+		default = 0;
 	};
 
 	class BODY_CLEANUP

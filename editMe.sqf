@@ -119,7 +119,7 @@ if(OPFORMODE == 2) then {
 
 HOSTILE_MULTIPLIER = ("HOSTILE_MULTIPLIER" call BIS_fnc_getParamValue) / 100;  // How many hostiles per wave (waveCount x HOSTILE_MULTIPLIER)
 HOSTILE_TEAM_MULTIPLIER = ("HOSTILE_TEAM_MULTIPLIER" call BIS_fnc_getParamValue) / 100;   // How many extra units are added per player
-PISTOL_HOSTILES = ("PISTOL_HOSTILES" call BIS_fnc_getParamValue);  //What wave enemies stop only using pistols
+PISTOL_HOSTILES = ("PISTOL_HOSTILES" call BIS_fnc_getParamValue);  // 0 keeps normal weapons; otherwise replace weapons through this wave (inclusive).
 
 /* LOCATION LIST OPTIONS */
 // List_AllCities - for any random City
