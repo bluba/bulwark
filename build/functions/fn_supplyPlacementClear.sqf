@@ -1,0 +1,39 @@
+// Supply-only placement guard. Compare horizontal world bounding boxes with a margin.
+// Ignoring height also protects against ground snap lowering a crate into a vehicle.
+params ["_object", "_position"];
+if ((_object getVariable ["bw_supplyPurchase", ""]) == "") exitWith {true};
+private _delta = (ATLToASL _position) vectorDiff (ATLToASL (getPosATL _object));
+private _bounds = {
+    params ["_entity", "_offset"];
+    private _box = boundingBoxReal _entity;
+    private _min = _box select 0;
+    private _max = _box select 1;
+    private _xs = [];
+    private _ys = [];
+    {
+        private _xCoord = _x;
+        {
+            private _yCoord = _x;
+            {
+                private _point = (_entity modelToWorldWorld [_xCoord, _yCoord, _x]) vectorAdd _offset;
+                _xs pushBack (_point select 0);
+                _ys pushBack (_point select 1);
+            } forEach [_min select 2, _max select 2];
+        } forEach [_min select 1, _max select 1];
+    } forEach [_min select 0, _max select 0];
+    [selectMin _xs, selectMax _xs, selectMin _ys, selectMax _ys]
+};
+private _crateBounds = [_object, _delta] call _bounds;
+private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship"], 50, true];
+private _bulwark = missionNamespace getVariable ["bulwarkBox", objNull];
+if (!isNull _bulwark) then {_vehicles pushBackUnique _bulwark};
+private _blocked = _vehicles findIf {
+    private _vehicleBounds = [_x, [0,0,0]] call _bounds;
+    _x != _object && {
+        (_crateBounds select 0) < (_vehicleBounds select 1) + 0.5 &&
+        {(_crateBounds select 1) > (_vehicleBounds select 0) - 0.5} &&
+        {(_crateBounds select 2) < (_vehicleBounds select 3) + 0.5} &&
+        {(_crateBounds select 3) > (_vehicleBounds select 2) - 0.5}
+    }
+};
+_blocked < 0

@@ -2,6 +2,10 @@ _object = _this select 0;
 _caller = _this select 1;
 _action = _this select 2;
 
+if (!([_object, getPosATL _object] call build_fnc_supplyPlacementClear)) exitWith {
+    hint "Move the crate clear of vehicles before placing it.";
+};
+
 _objectPos = getPosATL (_object);
 detach _object;
 [_object, false] remoteExec ["enableSimulation", 0];
@@ -61,6 +65,13 @@ _object setVehiclePosition [_object, [], 0, 'CAN_COLLIDE'];
 		[0,0,0.5],2,false,false,'true','true',5
 	]
 ] remoteExec ['addAction', 0];
+
+if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+    _object setVelocity [0,0,0];
+    _object setPhysicsCollisionFlag true;
+    [_object, true] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
+    [_object, true] remoteExecCall ["enableSimulationGlobal", 2];
+};
 
 _caller setVariable ["buildItemHeld", false, true];
 _object setVariable ["buildItemHeld", false, true];

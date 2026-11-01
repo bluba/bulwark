@@ -30,8 +30,12 @@ isNil {
         {_class isKindOf ["Box_NATO_Support_F", configFile >> "CfgVehicles"]} ||
         {getNumber (_cfg >> "maximumLoad") < _mass}) exitWith {_message = "The supply crate class is unavailable or too small."};
     private _radius = 0.8;
-    _object = createVehicle [_class, _player getPos [_radius + 3, getDir _player], [], 0, "CAN_COLLIDE"];
+    // Stage away from the shop before any physics-enabled object can overlap it.
+    _object = createVehicle [_class, [0, 0, 1000], [], 0, "CAN_COLLIDE"];
     if (isNull _object) exitWith {_message = "The supply crate could not be created."};
+    _object enableSimulationGlobal false;
+    _object setPhysicsCollisionFlag false;
+    [_object, false] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
     clearItemCargoGlobal _object;
     clearMagazineCargoGlobal _object;
     clearWeaponCargoGlobal _object;

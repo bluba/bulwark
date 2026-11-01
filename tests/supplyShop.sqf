@@ -35,6 +35,14 @@ private _medical = [player,9001] call loot_fnc_purchaseSupply;
 if (!isNull _medical) then {_objects pushBack _medical; [_medical] call _waitCallback};
 [!isNull _medical && {player getVariable ["killPoints",0] == 7000} && {player getVariable ["buildItemHeld",false]},"medical charged once and holding slot reserved"] call _check;
 if (!isNull _medical) then {
+    [!simulationEnabled _medical && {!getPhysicsCollisionFlag _medical},"purchased crate staged with simulation and physics collisions disabled"] call _check;
+    private _testVehicle = createVehicle ["C_Offroad_01_F",[100,100,1000],[],0,"CAN_COLLIDE"];
+    _testVehicle enableSimulationGlobal false;
+    _testVehicle allowDamage false;
+    [!([_medical,getPosATL _testVehicle] call build_fnc_supplyPlacementClear),"crate placement overlapping a vehicle rejected"] call _check;
+    [!([_medical,(getPosATL _testVehicle) vectorAdd [0,0,100]] call build_fnc_supplyPlacementClear),"floating overlap rejected before ground snap"] call _check;
+    [[_medical,[150,100,1000]] call build_fnc_supplyPlacementClear,"clear vehicle separation accepted"] call _check;
+    deleteVehicle _testVehicle;
     private _cargo = getItemCargo _medical;
     private _classes = _cargo select 0; private _counts = _cargo select 1;
     [count _classes == 2 && {(_classes find "FirstAidKit") >= 0} && {(_classes find "Medikit") >= 0} &&

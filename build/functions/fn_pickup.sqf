@@ -9,6 +9,13 @@ _playerArr = [_caller];
 
 if (!(player getVariable ["buildItemHeld", false])) then {
 
+        // Supply crates must be ghosts before attachment, including repeat pickups.
+        if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+            _object setPhysicsCollisionFlag false;
+            [_object, false] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
+            [_object, false] remoteExecCall ["enableSimulationGlobal", 2];
+        };
+
 		if (_pos isEqualTo []) then {
 			[_object, _caller] call BIS_fnc_attachToRelative ;
 		} else {

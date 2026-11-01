@@ -5,6 +5,7 @@ class build
         file = "build\functions";
         class sell {};
         class pickup {};
+        class supplyPlacementClear {};
         class drop {};
         class reset{};
 		    class move {};
