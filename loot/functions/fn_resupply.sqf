@@ -1,10 +1,11 @@
 // An unscheduled server transaction serializes payment, capacity and cargo additions.
 params [["_player",objNull,[objNull]],["_crate",objNull,[objNull]],["_revision",-1,[0]]];
 if (!([_player,false] call bulwark_fnc_validCaller)) exitWith {false};
+if (!finite _revision || {_revision < 0} || {_revision != floor _revision}) exitWith {false};
 private _success = false;
 private _message = "Resupply unavailable.";
 isNil {
-    if (isNull _crate || {!alive _crate} || {!alive _player} || {lifeState _player == "INCAPACITATED"} ||
+    if (isNull _crate || {!local _crate} || {!alive _crate} || {!alive _player} || {lifeState _player == "INCAPACITATED"} ||
         {side group _player != west} || {_player distance _crate > 5} ||
         {_crate getVariable ["buildItemHeld",true]} || {!isNull attachedTo _crate} ||
         {isNil {_crate getVariable "bw_supplyManifest"}}) exitWith {};
@@ -17,12 +18,35 @@ isNil {
     if (_rows isEqualTo []) exitWith {};
     private _price = _rows select 0 select 0;
     private _balance = _player getVariable ["killPoints",0];
-    if (!finite _price || {_price <= 0} || {_price != floor _price}) exitWith {};
+    if (!(_price isEqualType 0) || {!(_balance isEqualType 0)} || {!finite _balance} || {!finite _price} || {_price <= 0} || {_price != floor _price}) exitWith {};
     if (_balance < _price) exitWith {_message = "Not enough points."};
     private _manifest = [_family] call loot_fnc_supplyManifest;
     private _mass = [_manifest] call loot_fnc_supplyMass;
     if (_mass <= 0) exitWith {_message = "Required supply equipment is unavailable."};
-    if ((loadAbs _crate) + _mass > maxLoad _crate) exitWith {_message = "Not enough room for a full supply batch. Remove some equipment first."};
+    // Measure the actual engine cargo mass, including any contents supplied inside backpacks.
+    // The probe never enters the world near players and is deleted before the transaction proceeds.
+    private _probe = createVehicle [typeOf _crate,[0,0,1000],[],0,"CAN_COLLIDE"];
+    if (isNull _probe) exitWith {_message = "Unable to verify supply capacity. Try again."};
+    _probe enableSimulationGlobal false;
+    _probe setPhysicsCollisionFlag false;
+    clearItemCargoGlobal _probe; clearWeaponCargoGlobal _probe;
+    clearMagazineCargoGlobal _probe; clearBackpackCargoGlobal _probe;
+    _probe setMaxLoad 100000000;
+    {
+        _x params ["_tag","_class","_count"];
+        switch (_tag) do {
+            case "weapon": {_probe addWeaponCargoGlobal [_class,_count]};
+            case "item": {_probe addItemCargoGlobal [_class,_count]};
+            case "magazine": {_probe addMagazineCargoGlobal [_class,_count]};
+            case "backpack": {_probe addBackpackCargoGlobal [_class,_count]};
+        };
+    } forEach _manifest;
+    private _batchMass = loadAbs _probe;
+    deleteVehicle _probe;
+    private _used = loadAbs _crate;
+    private _limit = maxLoad _crate;
+    if (!finite _batchMass || {_batchMass <= 0} || {!finite _used} || {!finite _limit} || {_limit <= 0}) exitWith {};
+    if (_used + (_mass max _batchMass) > _limit) exitWith {_message = "Not enough room for a full supply batch. Remove some equipment first."};
     {
         _x params ["_tag","_class","_count"];
         switch (_tag) do {

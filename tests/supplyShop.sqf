@@ -169,6 +169,7 @@ if (!isNull _medical) then {
     [[player,_medical,0] call loot_fnc_resupply,"placed crate accepts paid resupply"] call _check;
     [player getVariable ["killPoints",0] == 7000,"resupply charges current price once"] call _check;
     private _after = getItemCargo _medical;
+    [!([player,_medical,0] call loot_fnc_resupply) && {(getItemCargo _medical) isEqualTo _after},"replayed request cannot duplicate cargo"] call _check;
     {private _index = (_after select 0) find _x;
         [_index >= 0 && {(_after select 1 select _index) == 2 * (_before select 1 select _forEachIndex)},"resupply adds batch preserving original stock"] call _check;
     } forEach (_before select 0);
