@@ -1,5 +1,7 @@
 # Bulwark fixes
 
+**Paid resupply (2026-11-02):** placed purchased crates offer Resupply at their family’s current catalogue price. One fresh batch is added without clearing remaining cargo; engineering is rolled again. Server checks caller, five-metre range, placed/alive state, family availability, funds and current cargo mass plus whole-batch capacity. A revision check and two-second cooldown reject duplicate requests. The action is restored after pickup/placement and for JIP. No crate movement or physics changes occur during resupply. In-game multiplayer/capacity acceptance remains pending.
+
 **Supply crate collision fix (2026-11-01):** crates now spawn at an isolated staging position, with simulation and physics collisions disabled before the buyer receives them. Held/re-picked crates remain non-colliding on all machines, with an object-bound JIP collision state. Drop/place restores physics only after a vehicle-footprint check; moving a placed supply crate uses the same check. Horizontal world bounding boxes plus a 0.5 m margin protect the Bulwark and nearby vehicles, including ground-snap/floating placement. Placement blocked by a vehicle retains the crate and carrying actions without another charge. This uses Arma 3 2.18+ `setPhysicsCollisionFlag`; player-only `disableCollisionWith` is insufficient for PhysX crates. Hosted purchase/overlap assertions were extended; live hosted/dedicated collision, JIP and placement checks remain pending.
 
 

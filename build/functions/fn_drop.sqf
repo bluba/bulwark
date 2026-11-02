@@ -71,6 +71,9 @@ if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
 
 _caller setVariable ["buildItemHeld", false, true];
 _object setVariable ["buildItemHeld", false, true];
+if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+    [_object] remoteExecCall ["loot_fnc_resupplyAction", 0, "bw_resupply_" + netId _object];
+};
 [mainZeus, [[_object], true]] remoteExec ["addCuratorEditableObjects", 0, true];
 PLAYER_OBJECT_LIST pushBack _object;
 sleep 0.1;

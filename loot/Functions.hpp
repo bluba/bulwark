@@ -13,6 +13,8 @@ class loot
         class atSupplyManifest {};
         class aaSupplyManifest {};
         class purchaseSupply {};
+        class resupply {};
+        class resupplyAction {};
         class supplyFamily {};
         class supplyExclusions {};
         class supplySiteClear {};

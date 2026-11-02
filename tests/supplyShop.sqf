@@ -156,6 +156,25 @@ if (_aaStock isEqualTo []) then {
         [(_aa getVariable ["bw_supplyPurchase",""]) == "antiair" && {(_aa getVariable ["bw_supplyCacheId",-1]) == -1},"AA uses ordinary finite-stock placement"] call _check;
     };
 };
+if (!isNull _medical) then {
+    _medical setPosATL (player getPos [3,getDir player]);
+    _medical setVariable ["buildItemHeld",false,true];
+    player setVariable ["killPoints",10000,true];
+    BW_SUPPLY_ENABLED = true; LOOT_WHITELIST_MODE = 0;
+    private _capacity = maxLoad _medical;
+    private _before = getItemCargo _medical;
+    _medical setMaxLoad 1;
+    [!([player,_medical,0] call loot_fnc_resupply) && {player getVariable ["killPoints",0] == 10000} && {(getItemCargo _medical) isEqualTo _before},"full crate resupply preserves cargo and funds"] call _check;
+    _medical setMaxLoad (_capacity max 10000);
+    [[player,_medical,0] call loot_fnc_resupply,"placed crate accepts paid resupply"] call _check;
+    [player getVariable ["killPoints",0] == 7000,"resupply charges current price once"] call _check;
+    private _after = getItemCargo _medical;
+    {private _index = (_after select 0) find _x;
+        [_index >= 0 && {(_after select 1 select _index) == 2 * (_before select 1 select _forEachIndex)},"resupply adds batch preserving original stock"] call _check;
+    } forEach (_before select 0);
+    [!([player,_medical,0] call loot_fnc_resupply) && {player getVariable ["killPoints",0] == 7000},"duplicate revision cannot charge twice"] call _check;
+    _medical setMaxLoad _capacity;
+};
 {deleteVehicle _x} forEach _objects;
 deleteVehicle _anchor;
 player setVariable ["killPoints",_balance,true]; player setVariable ["buildItemHeld",_held,true];
