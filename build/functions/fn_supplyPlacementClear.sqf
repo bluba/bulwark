@@ -1,6 +1,11 @@
 // Shared build placement guard. Compare horizontal world bounding boxes with a margin.
 // Ignoring height also protects against ground snap lowering a crate into a vehicle.
 params ["_object", "_position"];
+// Only vehicles and NPCs use clearance restrictions. Construction and crates
+// retain unrestricted placement and vertical adjustment, including stacking.
+private _restricted = (_object isKindOf "LandVehicle") ||
+    {_object isKindOf "Air"} || {_object isKindOf "Ship"} || {_object isKindOf "Man"};
+if (!_restricted) exitWith {true};
 // Placement is checked before detach. The carrier's bounding box can overlap
 // the held preview; it must not prevent releasing that same object.
 // Do not ignore other players or the carrier's vehicle.
@@ -29,18 +34,8 @@ private _bounds = {
 };
 private _crateBounds = [_object, _delta] call _bounds;
 private _searchRadius = 50 max ((_object getVariable ["Radius", 1]) + 30);
-// Construction may intersect scenery and other construction (sandbag stacking).
-// Vehicles, characters and supply crates still need full geometry clearance.
-private _fullClearance = (_object isKindOf "LandVehicle") ||
-    {_object isKindOf "Air"} || {_object isKindOf "Ship"} ||
-    {_object isKindOf "Man"} || {_object isKindOf "ReammoBox_F"} ||
-    {(_object getVariable ["bw_supplyPurchase", ""]) != ""};
-private _types = ["LandVehicle", "Air", "Ship", "Man"];
-if (_fullClearance) then {_types append ["Thing", "House"]};
-private _vehicles = nearestObjects [_position, _types, _searchRadius, true];
-if (_fullClearance) then {
-    {_vehicles pushBackUnique _x} forEach (nearestTerrainObjects [_position, ["TREE", "SMALL TREE", "ROCK", "ROCKS", "WALL", "FENCE", "HOUSE", "BUILDING"], _searchRadius, false, true]);
-};
+private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship", "Man", "Thing", "House"], _searchRadius, true];
+{_vehicles pushBackUnique _x} forEach (nearestTerrainObjects [_position, ["TREE", "SMALL TREE", "ROCK", "ROCKS", "WALL", "FENCE", "HOUSE", "BUILDING"], _searchRadius, false, true]);
 private _bulwark = missionNamespace getVariable ["bulwarkBox", objNull];
 if (!isNull _bulwark) then {_vehicles pushBackUnique _bulwark};
 private _blocked = _vehicles findIf {

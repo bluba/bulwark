@@ -39,8 +39,8 @@ if (!isNull _medical) then {
     private _testVehicle = createVehicle ["C_Offroad_01_F",[100,100,1000],[],0,"CAN_COLLIDE"];
     _testVehicle enableSimulationGlobal false;
     _testVehicle allowDamage false;
-    [!([_medical,getPosATL _testVehicle] call build_fnc_supplyPlacementClear),"crate placement overlapping a vehicle rejected"] call _check;
-    [!([_medical,(getPosATL _testVehicle) vectorAdd [0,0,100]] call build_fnc_supplyPlacementClear),"floating overlap rejected before ground snap"] call _check;
+    [([_medical,getPosATL _testVehicle] call build_fnc_supplyPlacementClear),"crate placement unrestricted"] call _check;
+    [([_medical,(getPosATL _testVehicle) vectorAdd [0,0,100]] call build_fnc_supplyPlacementClear),"crate vertical adjustment unrestricted"] call _check;
     [[_medical,[150,100,1000]] call build_fnc_supplyPlacementClear,"clear vehicle separation accepted"] call _check;
     deleteVehicle _testVehicle;
     private _cargo = getItemCargo _medical;
