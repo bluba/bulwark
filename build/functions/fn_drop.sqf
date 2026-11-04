@@ -1,9 +1,7 @@
-_object = _this select 0;
-_caller = _this select 1;
-_action = _this select 2;
+params ["_object", "_caller", ["_action", -1]];
 
 if (!([_object, getPosATL _object] call build_fnc_supplyPlacementClear)) exitWith {
-    hint "Move the crate clear of vehicles before placing it.";
+    hint "Move the object clear of players, vehicles and structures before placing it.";
 };
 
 detach _object;
@@ -62,7 +60,7 @@ _object setVehiclePosition [_object, [], 0, 'CAN_COLLIDE'];
 	]
 ] remoteExec ['addAction', 0];
 
-if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+isNil {
     _object setVelocity [0,0,0];
     _object setPhysicsCollisionFlag true;
     [_object, true] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];

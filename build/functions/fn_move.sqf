@@ -8,7 +8,7 @@ _callerPos = getPosATL (_caller);
 _objectPos = getPosATL (_object);
 private _targetPos = _objectPos vectorAdd _movePos;
 if (!([_object, _targetPos] call build_fnc_supplyPlacementClear)) exitWith {
-    hint "Move the crate clear of vehicles before placing it.";
+    hint "Move the object clear of players, vehicles and structures before placing it.";
 };
 [_object, false] remoteExec ["enableSimulation", 0];
 [_object, [

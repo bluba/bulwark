@@ -1,16 +1,14 @@
 // Temporary F15 supplies never enter the construction/pickup lifecycle.
 if (((_this select 0) getVariable ["bw_supplyCacheId", -1]) >= 0) exitWith {};
 if (((_this select 0) getVariable ["bw_fpvId", -1]) >= 0) exitWith {};
-_object = _this select 0;
-_caller = _this select 1;
-_pos = _this param [2, []];
+params ["_object", "_caller", ["_pos", []]];
 
 _playerArr = [_caller];
 
 if (!(player getVariable ["buildItemHeld", false])) then {
 
-        // Supply crates must be ghosts before attachment, including repeat pickups.
-        if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+        // Every held object must be a ghost, including repeat pickups.
+        isNil {
             _object setPhysicsCollisionFlag false;
             [_object, false] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
             [_object, false] remoteExecCall ["enableSimulationGlobal", 2];

@@ -1,16 +1,12 @@
-_object = _this select 0;
-_caller = _this select 1;
-_action = _this select 2;
+params ["_object", "_caller", ["_action", -1]];
 
 if (!([_object, getPosATL _object] call build_fnc_supplyPlacementClear)) exitWith {
-    hint "Move the crate clear of vehicles before placing it.";
+    hint "Move the object clear of players, vehicles and structures before placing it.";
 };
 
-_objectPos = getPosATL (_object);
+private _objectPos = getPosATL _object;
 detach _object;
-[_object, false] remoteExec ["enableSimulation", 0];
-[_object, _objectPos] remoteExec ["setPosATL", 0];
-[_object, true] remoteExec ["enableSimulation", 0];
+_object setPosATL _objectPos;
 
 {
 	[_object, _x] remoteExec ['enableCollisionWith', 0];
@@ -19,7 +15,7 @@ detach _object;
 {_caller removeAction _x} forEach (_caller getVariable ["bw_buildActionIds", []]);
 _caller setVariable ["bw_buildActionIds", nil];
 
-_object setVehiclePosition [_object, [], 0, 'CAN_COLLIDE'];
+// Floating placement preserves the chosen position; do not snap into terrain.
 
 [
 	_object,
@@ -66,7 +62,7 @@ _object setVehiclePosition [_object, [], 0, 'CAN_COLLIDE'];
 	]
 ] remoteExec ['addAction', 0];
 
-if ((_object getVariable ["bw_supplyPurchase", ""]) != "") then {
+isNil {
     _object setVelocity [0,0,0];
     _object setPhysicsCollisionFlag true;
     [_object, true] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];

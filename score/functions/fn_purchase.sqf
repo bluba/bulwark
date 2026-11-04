@@ -30,7 +30,8 @@ isNil {
     if ((_item select 6) == 10) exitWith {_message = "Developer items are unavailable."};
     if (_player getVariable ["buildItemHeld", false]) exitWith {_message = "You are already carrying an object."};
     if (!isClass (configFile >> "CfgVehicles" >> _class)) exitWith {_message = "This item requires a mod that is not loaded."};
-    private _spawn = _player getPos [(_item select 4) + 3, getDir _player];
+    // Stage away from players and structures before disabling physics.
+    private _spawn = [0, 0, 1000];
     private _object = objNull;
     private _crew = [];
     private _group = grpNull;
@@ -47,6 +48,9 @@ isNil {
         } else {_object = createVehicle [_class, _spawn, [], 0, "CAN_COLLIDE"]};
     };
     if (isNull _object) exitWith {_message = "The item could not be created."};
+    _object enableSimulationGlobal false;
+    _object setPhysicsCollisionFlag false;
+    [_object, false] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
     _player setVariable ["killPoints", _balance - _price, true];
     // Reserve immediately, before the client receives the placement callback.
     _player setVariable ["buildItemHeld", true, true];
