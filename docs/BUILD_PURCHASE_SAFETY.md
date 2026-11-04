@@ -4,7 +4,7 @@ Build purchases previously created physics-active objects directly in front of t
 
 All build purchases now stage away from the shop with simulation and physics collisions disabled before delivery. Pickup applies the same collision protection to every object, including repeat pickups. Drop/place restore collisions and global simulation after positioning. Floating placement no longer invokes ground snapping. Placement and move checks now cover all build objects against vehicles, players, structures, props and terrain obstacles, excluding the object's own crew.
 
-The shared guard deliberately uses conservative horizontal bounding boxes, including for floating placement, to prevent ground-snap overlap. This can reject intentional stacked or tightly interlocking construction. It is not an exact geometry or slope solver.
+The shared guard deliberately uses conservative horizontal bounding boxes, including for floating placement, to prevent ground-snap overlap. Construction pieces now ignore scenery and other construction, allowing intentional stacking and interlocking. They still check vehicles and characters, excluding their carrier. Vehicles, NPCs and supply crates retain the full clearance check. It is not an exact geometry or slope solver.
 
 Source checks cover SQF delimiters and the changed lifecycle paths. Arma runtime and dedicated-server physics have not been tested here. Run `tests\buildPurchase.sqf` in a disposable hosted session at Bulwark, plus the existing `tests\supplyShop.sqf`. The new harness checks real build transactions, remote staging, disabled physics, and overlap rejection for a vehicle, crate and fence.
 
