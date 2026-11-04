@@ -94,6 +94,7 @@ if (_droneStock isEqualTo []) then {
 } else {
     [!isNull _drones && {player getVariable ["killPoints",0] == 3000},"drone crate charged once"] call _check;
     if (!isNull _drones) then {
+        [(maxLoad _drones) >= ([_droneStock] call loot_fnc_supplyMass), "drone crate capacity fits complete kit"] call _check;
         _objects pushBack _drones; [_drones] call _waitCallback;
         {
             _x params ["_tag","_class","_count"];

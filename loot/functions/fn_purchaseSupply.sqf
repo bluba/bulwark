@@ -33,8 +33,16 @@ isNil {
         diag_log ("BULWARK SUPPLY: " + _message);
     };
     if (!isClass _cfg || {!(_class isKindOf ["ReammoBox_F", configFile >> "CfgVehicles"])} ||
-        {_class isKindOf ["Box_NATO_Support_F", configFile >> "CfgVehicles"]} ||
-        {getNumber (_cfg >> "maximumLoad") < _mass}) exitWith {_message = "The supply crate class is unavailable or too small."};
+        {_class isKindOf ["Box_NATO_Support_F", configFile >> "CfgVehicles"]}) exitWith {
+        _message = format ["Supply crate class is unavailable or unsupported: %1", _class];
+    };
+    private _capacity = getNumber (_cfg >> "maximumLoad");
+    // Packed drones/components can outweigh the vanilla box's inventory limit.
+    // Size this purchased container for its validated, complete fixed kit.
+    if (_family == "drone") then {_capacity = _capacity max (ceil _mass)};
+    if (_capacity < _mass) exitWith {
+        _message = format ["Supply crate %1 is too small: capacity %2, required %3", _class, _capacity, _mass];
+    };
     private _radius = 0.8;
     // Stage away from the shop before any physics-enabled object can overlap it.
     _object = createVehicle [_class, [0, 0, 1000], [], 0, "CAN_COLLIDE"];
@@ -46,6 +54,7 @@ isNil {
     clearMagazineCargoGlobal _object;
     clearWeaponCargoGlobal _object;
     clearBackpackCargoGlobal _object;
+    if (_family == "drone") then {_object setMaxLoad _capacity};
     {
         _x params ["_tag", "_cargoClass", "_count"];
         switch (_tag) do {
