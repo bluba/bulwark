@@ -34,7 +34,7 @@ _blocker setPhysicsCollisionFlag false;
         [player getVariable ["killPoints", 0] == 90, "charged once"] call _check;
         [player getVariable ["buildItemHeld", false], "holding slot reserved"] call _check;
         [([_object, getPosATL _blocker] call build_fnc_supplyPlacementClear) isEqualTo !(_object isKindOf "LandVehicle"), _class + " clearance restricted to vehicles"] call _check;
-        [([_object, (getPosATL _blocker) vectorAdd [0,0,100]] call build_fnc_supplyPlacementClear) isEqualTo !(_object isKindOf "LandVehicle"), "vertical overlap unrestricted for construction and crates"] call _check;
+        [([_object, (getPosATL _blocker) vectorAdd [0,0,100]] call build_fnc_supplyPlacementClear), "vertically separated objects do not block floating placement"] call _check;
         [_object getVariable ["bw_supplyPurchase", ""] == "", "guard covers non-supply purchases"] call _check;
         deleteVehicle _object;
     };

@@ -1,6 +1,7 @@
 // Shared build placement guard. Compare horizontal world bounding boxes with a margin.
 // Ignoring height also protects against ground snap lowering a crate into a vehicle.
-params ["_object", "_position"];
+params ["_object", "_position", ["_snapToGround", false]];
+missionNamespace setVariable ["BW_PLACEMENT_BLOCKER", ""];
 // Only vehicles and NPCs use clearance restrictions. Construction and crates
 // retain unrestricted placement and vertical adjustment, including stacking.
 private _restricted = (_object isKindOf "LandVehicle") ||
@@ -19,6 +20,7 @@ private _bounds = {
     private _max = _box select 1;
     private _xs = [];
     private _ys = [];
+    private _zs = [];
     {
         private _xCoord = _x;
         {
@@ -27,12 +29,19 @@ private _bounds = {
                 private _point = (_entity modelToWorldWorld [_xCoord, _yCoord, _x]) vectorAdd _offset;
                 _xs pushBack (_point select 0);
                 _ys pushBack (_point select 1);
+                _zs pushBack (_point select 2);
             } forEach [_min select 2, _max select 2];
         } forEach [_min select 1, _max select 1];
     } forEach [_min select 0, _max select 0];
-    [selectMin _xs, selectMax _xs, selectMin _ys, selectMax _ys]
+    [selectMin _xs, selectMax _xs, selectMin _ys, selectMax _ys, selectMin _zs, selectMax _zs]
 };
 private _crateBounds = [_object, _delta] call _bounds;
+if (_snapToGround) then {
+    private _height = (_crateBounds select 5) - (_crateBounds select 4);
+    private _ground = getTerrainHeightASL _position;
+    _crateBounds set [4, _ground + 0.05];
+    _crateBounds set [5, _ground + 0.05 + _height];
+};
 private _searchRadius = 50 max ((_object getVariable ["Radius", 1]) + 30);
 private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship", "Man", "Thing", "House"], _searchRadius, true];
 {_vehicles pushBackUnique _x} forEach (nearestTerrainObjects [_position, ["TREE", "SMALL TREE", "ROCK", "ROCKS", "WALL", "FENCE", "HOUSE", "BUILDING"], _searchRadius, false, true]);
@@ -44,7 +53,16 @@ private _blocked = _vehicles findIf {
         (_crateBounds select 0) < (_vehicleBounds select 1) + 0.5 &&
         {(_crateBounds select 1) > (_vehicleBounds select 0) - 0.5} &&
         {(_crateBounds select 2) < (_vehicleBounds select 3) + 0.5} &&
-        {(_crateBounds select 3) > (_vehicleBounds select 2) - 0.5}
+        {(_crateBounds select 3) > (_vehicleBounds select 2) - 0.5} &&
+        {(_crateBounds select 4) < (_vehicleBounds select 5) - 0.05} &&
+        {(_crateBounds select 5) > (_vehicleBounds select 4) + 0.05}
     }
+};
+if (_blocked >= 0) then {
+    private _obstacle = _vehicles select _blocked;
+    private _label = getText (configFile >> "CfgVehicles" >> typeOf _obstacle >> "displayName");
+    if (_label == "") then {_label = typeOf _obstacle};
+    if (_label == "") then {_label = str _obstacle};
+    missionNamespace setVariable ["BW_PLACEMENT_BLOCKER", _label];
 };
 _blocked < 0

@@ -1,7 +1,7 @@
 params ["_object", "_caller", ["_action", -1]];
 
 if (!([_object, getPosATL _object] call build_fnc_supplyPlacementClear)) exitWith {
-    hint "Move the object clear of players, vehicles and structures before placing it.";
+    hint format ["Placement blocked by %1. Move the object clear before placing it.", missionNamespace getVariable ["BW_PLACEMENT_BLOCKER", "a nearby object"]];
 };
 
 private _objectPos = getPosATL _object;
