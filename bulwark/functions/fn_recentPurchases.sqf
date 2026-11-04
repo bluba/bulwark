@@ -39,6 +39,9 @@ private _display = findDisplay 9998;
 if (isNull _display) exitWith {};
 private _button = _display displayCtrl 1615;
 _button ctrlEnable !(_recent isEqualTo []);
+_button ctrlSetText (if (_recent isEqualTo []) then {"BUY LAST ITEM AGAIN"} else {
+    format ["BUY AGAIN: %1", (_recent select 0) select 3]
+});
 _button ctrlSetTooltip (if (_recent isEqualTo []) then {"Buy an item to enable repeat purchase."} else {
     format ["%1 — %2 points", (_recent select 0) select 3, (_recent select 0) select 2]
 });
