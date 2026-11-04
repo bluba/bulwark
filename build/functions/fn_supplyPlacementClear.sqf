@@ -1,4 +1,4 @@
-// Vehicle/NPC placement guard. Ambient effects are not physical obstacles.
+// Vehicle/NPC placement guard; only other vehicles and players are obstacles.
 params ["_object", "_position", ["_snapToGround", false]];
 missionNamespace setVariable ["BW_PLACEMENT_BLOCKER", ""];
 // Only vehicles and NPCs use clearance restrictions. Construction and crates
@@ -42,20 +42,13 @@ if (_snapToGround) then {
     _crateBounds set [5, _ground + 0.05 + _height];
 };
 private _searchRadius = 50 max ((_object getVariable ["Radius", 1]) + 30);
-private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship", "Man", "Thing", "House"], _searchRadius, true];
-{_vehicles pushBackUnique _x} forEach (nearestTerrainObjects [_position, ["TREE", "SMALL TREE", "ROCK", "ROCKS", "WALL", "FENCE", "HOUSE", "BUILDING"], _searchRadius, false, true]);
-private _bulwark = missionNamespace getVariable ["bulwarkBox", objNull];
-if (!isNull _bulwark) then {_vehicles pushBackUnique _bulwark};
-// Thing includes engine ambient helpers such as FxWindPollen1. Filter before
-// reading bounds: visual/audio helpers can have large non-collision bounds.
-_vehicles = _vehicles select {
-    private _class = toLowerANSI (typeOf _x);
-    private _simulation = toLowerANSI getText (configFile >> "CfgVehicles" >> typeOf _x >> "simulation");
-    !((_class find "fxwind") == 0) &&
-    {!((_class find "fxuswind") == 0)} &&
-    {!(_x isKindOf "ThingEffect")} &&
-    {!(_simulation in ["thingeffect", "particles", "fire", "smoke", "sound", "soundonvehicle", "bird", "seagull", "insect", "butterfly"])}
-};
+// Only vehicles and actual players block placement. No scenery/ambient scans.
+private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship"], _searchRadius, true];
+{
+    if (isPlayer _x && {!(_x isKindOf "HeadlessClient_F")} && {_x distance2D _position <= _searchRadius}) then {
+        _vehicles pushBackUnique _x;
+    };
+} forEach allPlayers;
 private _blocked = _vehicles findIf {
     private _vehicleBounds = [_x, [0,0,0]] call _bounds;
     _x != _object && {_x != _carrier} && {!(_x in crew _object)} && {
