@@ -17,3 +17,7 @@ Loot creation now reads building positions once per building, computes the non-l
 Logs: `BULWARK PERF loot spawn` reports holder/house counts and elapsed time, including pacing. `BULWARK PERF purchase` reports server build/supply transactions taking at least 50 ms. Shop spawning remains atomic and unscheduled; moving creation out requires a separate reservation/refund lifecycle, not simply removing isNil. Spawn-capacity allUnits scans are retained because stale counts can break the enemy cap. No FPS improvement is claimed without runtime profiling.
 
 Checks: four SQF lexical checks, room/pool reuse source assertions, and a cross-building cap model covering a single oversized house, several houses crossing the limit, below-limit totals and many small houses. In-game validation remains required.
+
+## Loot-density correction
+
+Removed the hard 100-holder cutoff introduced in the wave-start follow-up. It stopped visiting later buildings and changed loot availability. All buildings selected by the existing house/room distribution settings are processed again. Cached room positions, the precomputed weapon pool, and five-holder pacing remain; density is no longer reduced as a performance optimization. Source checks verify removal of both cutoff conditions and preservation of distribution settings. In-game density confirmation is pending.

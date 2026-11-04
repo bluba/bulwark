@@ -68,7 +68,7 @@ _houseCount = floor random 3; // Mix up the loot houses a bit
 _houseLoot = 0;
 _roomCount = 0;
 {
-	if (_lootCount >= 100) exitWith {};
+
 	_houseCount = _houseCount + 1;
 	if (_houseCount mod LOOT_HOUSE_DISTRIBUTION == 0) then {
 		_houseLoot = _houseLoot + 1;
@@ -160,7 +160,7 @@ _roomCount = 0;
 					_lootCount =_lootCount +1;
 					// Spread object/network creation across frames in dense towns.
                     if (canSuspend && {_lootCount mod 5 == 0}) then {sleep 0.01};
-                    if (_lootCount >= 100) exitWith {};
+
 				};
 
 			};
