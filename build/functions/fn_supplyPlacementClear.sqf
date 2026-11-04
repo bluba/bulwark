@@ -1,6 +1,11 @@
 // Shared build placement guard. Compare horizontal world bounding boxes with a margin.
 // Ignoring height also protects against ground snap lowering a crate into a vehicle.
 params ["_object", "_position"];
+// Placement is checked before detach. The carrier's bounding box can overlap
+// the held preview; it must not prevent releasing that same object.
+// Do not ignore other players or the carrier's vehicle.
+private _carrier = attachedTo _object;
+if (!(_carrier isKindOf "Man")) then {_carrier = objNull};
 private _delta = (ATLToASL _position) vectorDiff (ATLToASL (getPosATL _object));
 private _bounds = {
     params ["_entity", "_offset"];
@@ -30,7 +35,7 @@ private _bulwark = missionNamespace getVariable ["bulwarkBox", objNull];
 if (!isNull _bulwark) then {_vehicles pushBackUnique _bulwark};
 private _blocked = _vehicles findIf {
     private _vehicleBounds = [_x, [0,0,0]] call _bounds;
-    _x != _object && {!(_x in crew _object)} && {
+    _x != _object && {_x != _carrier} && {!(_x in crew _object)} && {
         (_crateBounds select 0) < (_vehicleBounds select 1) + 0.5 &&
         {(_crateBounds select 1) > (_vehicleBounds select 0) - 0.5} &&
         {(_crateBounds select 2) < (_vehicleBounds select 3) + 0.5} &&
