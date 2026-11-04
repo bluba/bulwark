@@ -1,6 +1,6 @@
 // Client history contains only successful server-confirmed purchases.
 // Entries are [kind, catalogue ID]; labels and prices are resolved live.
-params [["_mode", "show"], ["_kind", ""], ["_id", -1]];
+params [["_mode", "show"], ["_kind", ""], ["_id", -1], ["_slot", 0]];
 if (!hasInterface) exitWith {};
 if (isRemoteExecuted && {remoteExecutedOwner != 2}) exitWith {};
 if (_mode == "record") exitWith {
@@ -30,21 +30,26 @@ private _recent = [];
     };
 } forEach (missionNamespace getVariable ["BW_PURCHASE_HISTORY", []]);
 if (_mode == "buy") exitWith {
-    if (_recent isEqualTo []) exitWith {hint "No previous purchase available."};
-    private _entry = _recent select 0;
+    if (_slot < 0 || {_slot >= count _recent}) exitWith {hint "No previous purchase available."};
+    private _entry = _recent select _slot;
     [player, _entry select 0, _entry select 1] remoteExecCall ["killPoints_fnc_purchase", 2];
 };
 disableSerialization;
 private _display = findDisplay 9998;
 if (isNull _display) exitWith {};
-private _button = _display displayCtrl 1615;
-_button ctrlEnable !(_recent isEqualTo []);
-_button ctrlSetText (if (_recent isEqualTo []) then {"BUY LAST ITEM AGAIN"} else {
-    format ["BUY AGAIN: %1", (_recent select 0) select 3]
-});
-_button ctrlSetTooltip (if (_recent isEqualTo []) then {"Buy an item to enable repeat purchase."} else {
-    format ["%1 — %2 points", (_recent select 0) select 3, (_recent select 0) select 2]
-});
+{
+    private _button = _display displayCtrl _x;
+    private _available = _forEachIndex < count _recent;
+    _button ctrlEnable _available;
+    if (_available) then {
+        private _entry = _recent select _forEachIndex;
+        _button ctrlSetText format ["BUY AGAIN: %1", _entry select 3];
+        _button ctrlSetTooltip format ["%1 — %2 points", _entry select 3, _entry select 2];
+    } else {
+        _button ctrlSetText "BUY AGAIN: —";
+        _button ctrlSetTooltip "Buy another distinct item to fill this slot.";
+    };
+} forEach [1615, 1616];
 if ((missionNamespace getVariable ["CAT_OPEN", 0]) != 0 || {lbCurSel (_display displayCtrl 1500) >= 0}) exitWith {};
 private _list = _display displayCtrl 1501;
 lbClear _list;

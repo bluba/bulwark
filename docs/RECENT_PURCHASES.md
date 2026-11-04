@@ -11,3 +11,5 @@ Extension knobs in client missionNamespace:
 Set these on clients during initialization to show more rows without changing purchase routing. The direct repeat button always selects the newest available entry. No polling loop is added.
 
 Validation: eight changed SQF/config lexical checks, registration/call-site review, and a history model covering ordering, deduplication across kinds and bounded retention. Arma UI/runtime not tested here. Acceptance: buy/place a build item, reopen BUILD, repeat; try insufficient points and occupied holding slot; buy a supply/support item; respawn; show three recent rows; remove a catalogue entry and verify it is skipped.
+
+Two quick-buy buttons now occupy the former wide-button row, with a gap. They show the two newest distinct available purchases, latest on the left. Buying the older entry promotes it to the left. Empty slots are disabled; full item names/prices remain in tooltips. History retention and configurable recent-list rows are unchanged. The optional fourth function argument selects a zero-based quick-buy slot (default 0).
