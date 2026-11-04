@@ -9,10 +9,20 @@
 //activeLoot = [];
 lootDebugMarkers = [];
 
-lootHouses = ((getPos bulwarkBox) nearObjects ["House", 100]) select {count (_x buildingPos -1) > 0};
-if (lootHouses isEqualTo []) exitWith {diag_log "Bulwark: no enterable buildings near the truck"};
+private _started = diag_tickTime;
+private _houseRooms = [];
+lootHouses = [];
 private _lootPositions = [];
-{_lootPositions append (_x buildingPos -1)} forEach lootHouses;
+{
+    private _rooms = _x buildingPos -1;
+    if !(_rooms isEqualTo []) then {
+        lootHouses pushBack _x;
+        _houseRooms pushBack _rooms;
+        _lootPositions append _rooms;
+    };
+} forEach ((getPos bulwarkBox) nearObjects ["House", 100]);
+if (lootHouses isEqualTo []) exitWith {diag_log "Bulwark: no enterable buildings near the truck"};
+private _weaponPool = LOOT_WEAPON_POOL - List_Launchers;
 /* Item to reveal all loot on the Map (1 spawns every wave) */
 droneRoom = selectRandom _lootPositions;
 
@@ -58,12 +68,13 @@ _houseCount = floor random 3; // Mix up the loot houses a bit
 _houseLoot = 0;
 _roomCount = 0;
 {
+	if (_lootCount >= 100) exitWith {};
 	_houseCount = _houseCount + 1;
 	if (_houseCount mod LOOT_HOUSE_DISTRIBUTION == 0) then {
 		_houseLoot = _houseLoot + 1;
 
 		_lootBulding = _x;
-		_lootRooms = _lootBulding buildingPos -1;
+		_lootRooms = _houseRooms select _forEachIndex;
 
 		_roomCount = -1;
 		{
@@ -77,13 +88,13 @@ _roomCount = 0;
 							case 7;
 							case 6;
 							case 0: {
-								_weapon = selectRandom (LOOT_WEAPON_POOL-List_Launchers);
+								_weapon = selectRandom _weaponPool;
 								_ammoArray = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
 								_lootHolder addMagazineCargoGlobal [selectRandom _ammoArray, 1];
 								_lootHolder addWeaponCargoGlobal [_weapon, 1];
 							};
 							case 1: {
-								_weapon = selectRandom (LOOT_WEAPON_POOL-List_Launchers);
+								_weapon = selectRandom _weaponPool;
 								_ammoArray = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
 								_lootHolder addMagazineCargoGlobal [selectRandom _ammoArray, 1 + (floor random 3)];
 							};
@@ -147,7 +158,9 @@ _roomCount = 0;
 							[_container] call loot_fnc_deleteIfEmpty;
 					}]] remoteExec ['addEventHandler', 0];
 					_lootCount =_lootCount +1;
-					if( _lootCount > 100 ) exitWith {};
+					// Spread object/network creation across frames in dense towns.
+                    if (canSuspend && {_lootCount mod 5 == 0}) then {sleep 0.01};
+                    if (_lootCount >= 100) exitWith {};
 				};
 
 			};
@@ -158,3 +171,5 @@ _roomCount = 0;
 
 /* Supply Drop */
 //[bulwarkCity, ["<t color='#00ff00'>" + "FILL AMMO", "supports\ammoDrop.sqf","",2,true,false,"true","true",4], "B_T_VTOL_01_vehicle_F"] remoteExec ["supports_fnc_supplyDrop", 2];
+
+diag_log format ["BULWARK PERF loot spawn: %1 objects, %2 houses, %3 ms elapsed (includes pacing)", _lootCount, count lootHouses, 1000 * (diag_tickTime - _started)];

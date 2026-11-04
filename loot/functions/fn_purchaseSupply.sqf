@@ -13,6 +13,7 @@ if (_keys isEqualTo [] || {!(_price isEqualType 0)} || {!finite _price} ||
     {_price <= 0} || {_price != floor _price}) exitWith {objNull};
 private _object = objNull;
 private _message = "";
+private _transactionStart = diag_tickTime;
 isNil {
     if (!(missionNamespace getVariable ["runMissionLoop", true]) ||
         {missionNamespace getVariable ["missionExtract", false]}) exitWith {_message = "Supplies are unavailable while the mission is ending."};
@@ -72,6 +73,10 @@ isNil {
     // No temporary-cache ID, world marker, lifetime, worker or flight is registered.
     _player setVariable ["killPoints", _balance - _price, true];
     _player setVariable ["buildItemHeld", true, true];
+};
+private _transactionMs = 1000 * (diag_tickTime - _transactionStart);
+if (_transactionMs >= 50) then {
+    diag_log format ["BULWARK PERF purchase: catalogue ID %1, transaction %2 ms", _id, _transactionMs];
 };
 if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
 if (!isNull _object) then {

@@ -12,6 +12,7 @@ private _item = _catalogue select _index;
 private _price = _item select 0;
 private _class = _item select 2;
 private _message = "";
+private _transactionStart = diag_tickTime;
 isNil {
     private _balance = _player getVariable ["killPoints", 0];
     if (_balance < _price) exitWith {_message = "Not enough points."};
@@ -65,6 +66,10 @@ isNil {
     clearMagazineCargoGlobal _object;
     clearBackpackCargoGlobal _object;
     [_object, _player, _item select 4, _item select 3] remoteExecCall ["bulwark_fnc_receivePurchase", _player];
+};
+private _transactionMs = 1000 * (diag_tickTime - _transactionStart);
+if (_transactionMs >= 50) then {
+    diag_log format ["BULWARK PERF purchase: catalogue ID %1, transaction %2 ms", _id, _transactionMs];
 };
 if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
 [] remoteExecCall ["killPoints_fnc_updateHud", _player];

@@ -271,19 +271,12 @@ BW_INFANTRY_REMAINING = 0;
 		};
 	} forEach waveTypes;
 
-	{
-		if (!alive _x) then {
-			deleteVehicle _x;
-		};
-	} foreach allMissionObjects "LandVehicle";
-
-	{
-		if (!alive _x) then {
-			deleteVehicle _x;
-		};
-	} foreach allMissionObjects "Air";
-
-
+    // One snapshot replaces separate whole-world vehicle-type queries.
+    {
+        if (!alive _x && {_x isKindOf "LandVehicle" || {_x isKindOf "Air"}}) then {
+            deleteVehicle _x;
+        };
+    } forEach vehicles;
 
 	// Spawn
 	_createHostiles = [[], "hostiles\createWave.sqf"] call bulwark_fnc_queueHostiles;
