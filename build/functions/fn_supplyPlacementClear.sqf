@@ -1,5 +1,4 @@
-// Shared build placement guard. Compare horizontal world bounding boxes with a margin.
-// Ignoring height also protects against ground snap lowering a crate into a vehicle.
+// Vehicle/NPC placement guard. Ambient effects are not physical obstacles.
 params ["_object", "_position", ["_snapToGround", false]];
 missionNamespace setVariable ["BW_PLACEMENT_BLOCKER", ""];
 // Only vehicles and NPCs use clearance restrictions. Construction and crates
@@ -47,6 +46,16 @@ private _vehicles = nearestObjects [_position, ["LandVehicle", "Air", "Ship", "M
 {_vehicles pushBackUnique _x} forEach (nearestTerrainObjects [_position, ["TREE", "SMALL TREE", "ROCK", "ROCKS", "WALL", "FENCE", "HOUSE", "BUILDING"], _searchRadius, false, true]);
 private _bulwark = missionNamespace getVariable ["bulwarkBox", objNull];
 if (!isNull _bulwark) then {_vehicles pushBackUnique _bulwark};
+// Thing includes engine ambient helpers such as FxWindPollen1. Filter before
+// reading bounds: visual/audio helpers can have large non-collision bounds.
+_vehicles = _vehicles select {
+    private _class = toLowerANSI (typeOf _x);
+    private _simulation = toLowerANSI getText (configFile >> "CfgVehicles" >> typeOf _x >> "simulation");
+    !((_class find "fxwind") == 0) &&
+    {!((_class find "fxuswind") == 0)} &&
+    {!(_x isKindOf "ThingEffect")} &&
+    {!(_simulation in ["thingeffect", "particles", "fire", "smoke", "sound", "soundonvehicle", "bird", "seagull", "insect", "butterfly"])}
+};
 private _blocked = _vehicles findIf {
     private _vehicleBounds = [_x, [0,0,0]] call _bounds;
     _x != _object && {_x != _carrier} && {!(_x in crew _object)} && {
