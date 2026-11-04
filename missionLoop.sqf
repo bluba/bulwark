@@ -75,6 +75,7 @@ while {runMissionLoop} do {
     [] call bulwark_fnc_startWave;
     if (BW_DEBUG_NEXT_SPECIAL == "") then {BW_DEBUG_TRANSITION = false};
     private _defeatSince = -1;
+    private _curatorPlayers = [];
     while {runMissionLoop} do {
         sleep 1;
         [] call bulwark_fnc_tacticalState;
@@ -92,7 +93,11 @@ while {runMissionLoop} do {
         BW_SPAWN_JOBS = BW_SPAWN_JOBS select {!scriptDone _x};
         if (BW_INFANTRY_REMAINING == 0 && {BW_SPAWN_JOBS isEqualTo []} && {BW_SPAWN_QUEUE isEqualTo []} && {(EAST countSide allUnits == 0) && {RESISTANCE countSide allUnits == 0}} &&
             {(BW_ACTIVE_FOBS findIf {alive _x}) < 0}) exitWith {};
-        if (!isNil "mainZeus") then {mainZeus addCuratorEditableObjects [_players, true]};
+        if (!isNil "mainZeus") then {
+            private _newPlayers = _players - _curatorPlayers;
+            if !(_newPlayers isEqualTo []) then {mainZeus addCuratorEditableObjects [_newPlayers, true]};
+            _curatorPlayers = +_players;
+        };
     };
     // Extraction takes priority over failure and the configured wave limit.
     if (missionExtract) exitWith {_ending = "End3"};

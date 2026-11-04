@@ -127,21 +127,18 @@ RESISTANCE setFriend [EAST, 0];
 //[] execVM "checkBulwark.sqf";
 //[] execVM "hostiles\solidObjects.sqf";
 [] spawn {
-  while {true} do {
-    [] execVM "hostiles\moveHosToPlayer.sqf";
+  private _tick = compile preprocessFileLineNumbers "hostiles\moveHosToPlayer.sqf";
+  while {missionNamespace getVariable ["runMissionLoop", true]} do {
+    call _tick;
     sleep 5;
   };
 }; 
 [] spawn {
-  while {true} do {
-    [] execVM "revivePlayers.sqf";
+  private _tick = compile preprocessFileLineNumbers "revivePlayers.sqf";
+  while {missionNamespace getVariable ["runMissionLoop", true]} do {
+    call _tick;
     sleep 5;
   };
 } ;
 
-[] spawn {
-  while {true} do {
-    [] execVM "supports\cleanup.sqf";
-    sleep 10;
-  };
-}; 
+// supports/cleanup.sqf is empty; no polling worker is needed.

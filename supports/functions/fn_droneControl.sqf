@@ -32,10 +32,7 @@ _loiterWP setWaypointLoiterRadius 600;
 _uavGroup setCurrentWaypoint _loiterWP;
 
 while {alive _supportUav} do {
-  _loiterWP setWaypointType "LOITER";
-  _loiterWP setWaypointLoiterType "CIRCLE_L";
-  _loiterWP setWaypointLoiterRadius 600;
-  _uavGroup setCurrentWaypoint _loiterWP;
+  // Loiter configuration is stable; do not broadcast it every half-second.
   sleep 0.5;
   if (magazines _supportUav isEqualTo ["Laserbatteries"]) then {
     sleep 15;
