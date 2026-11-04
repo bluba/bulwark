@@ -22,6 +22,7 @@ private _group = createGroup [west, true];
 private _unit = _group createUnit ["B_Soldier_F", _truck getPos [5, 0], [], 0, "NONE"];
 removeAllWeapons _unit;
 _unit allowDamage false;
+_unit disableAI "PATH"; // Match the shop purchase state.
 _group setVariable ["bw_allyDuty", "patrol", true];
 [_group, _unit] call bulwark_fnc_followBulwark;
 private _job = _group getVariable ["bw_allyServerJob", scriptNull];
@@ -29,6 +30,7 @@ private _job = _group getVariable ["bw_allyServerJob", scriptNull];
 [(_group getVariable ["bw_allyServerJob", scriptNull]) isEqualTo _job, "Registration keeps one server controller"] call _check;
 [_group, _unit, _truck] call bulwark_fnc_controlAllyGroup;
 [(_group getVariable ["bw_allyMode", ""]) == "patrol", "Infantry patrols near stopped truck"] call _check;
+[_unit checkAIFeature "PATH", "Placed purchase restores movement AI"] call _check;
 [((waypoints _group) findIf {(waypointPosition _x) distance2D _truck > 65}) < 0, "Patrol targets remain inside inner radius/tolerance"] call _check;
 
 // A relocated truck invalidates the old placement position.
@@ -54,6 +56,7 @@ _unit setVariable ["buildItemHeld", true, true];
 _unit setVariable ["buildItemHeld", false, true];
 [_group, _unit, _truck] call bulwark_fnc_controlAllyGroup;
 [(_group getVariable ["bw_allyMode", ""]) == "camp", "Placed ally resumes duty"] call _check;
+[_unit checkAIFeature "PATH", "Repeat placement restores movement AI"] call _check;
 
 private _before = waypoints _group apply {waypointPosition _x};
 _unit setVariable ["BIS_fnc_moduleRemoteControl_owner", player];

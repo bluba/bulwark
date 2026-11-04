@@ -4,7 +4,9 @@ if (isRemoteExecuted && {remoteExecutedOwner != 2}) exitWith {};
 if (isNull _group || {!local _group} || {side _group != west} ||
     {!(_group getVariable ["bw_allyManaged", false])} || {!alive _truck}) exitWith {};
 private _allowed = {
-    (units _group findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
+    private _actors = units _group;
+    if (!isNull _asset) then {{_actors pushBackUnique _x} forEach crew _asset};
+    (_actors findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
         {!isNull (_x getVariable ["BIS_fnc_moduleRemoteControl_owner", objNull])}}) < 0
 };
 if !(call _allowed) exitWith {};
@@ -16,17 +18,21 @@ if (_newOwner) then {
     _group setVariable ["bw_allyMachine", clientOwner];
     _group setVariable ["bw_allyMode", ""];
     // Stop our overrides on expiry/ownership change, without resetting player orders.
-    [_group] spawn {
-        params ["_group"];
+    [_group, _asset] spawn {
+        params ["_group", "_asset"];
         waitUntil {
             sleep 1;
+            private _actors = units _group;
+            if (!isNull _asset) then {{_actors pushBackUnique _x} forEach crew _asset};
             isNull _group || {!local _group} || {!(_group getVariable ["bw_allyManaged", false])} ||
             {diag_tickTime > (_group getVariable ["bw_allyLease", 0])} ||
-            {(units _group findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
+            {(_actors findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
                 {!isNull (_x getVariable ["BIS_fnc_moduleRemoteControl_owner", objNull])}}) >= 0}
         };
         if (!isNull _group && {local _group}) then {
-            private _safe = (units _group findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
+            private _actors = units _group;
+            if (!isNull _asset) then {{_actors pushBackUnique _x} forEach crew _asset};
+            private _safe = (_actors findIf {isPlayer _x || {!isNull (remoteControlled _x)} ||
                 {!isNull (_x getVariable ["BIS_fnc_moduleRemoteControl_owner", objNull])}}) < 0;
             if (_safe) then {[_group, true, true] call lambs_wp_fnc_taskReset};
             {if (!isPlayer _x && {isNull (remoteControlled _x)}) then {
@@ -62,7 +68,9 @@ private _changed = _newOwner || {_mode != _oldMode} ||
     {_mode in ["patrol", "camp", "sentry"] && {_center distance2D _oldCenter > 10}};
 if (_changed) then {
     [_group, true, true] call lambs_wp_fnc_taskReset;
-    {_x enableAI "AUTOCOMBAT"; _x setVariable ["lambs_danger_disableAI", nil, true]} forEach _units;
+    // Purchases and repeat pickups disable PATH. Every released duty must
+    // restore it, not just follow mode; held mode disables it again below.
+    {_x enableAI "PATH"; _x enableAI "AUTOCOMBAT"; _x setVariable ["lambs_danger_disableAI", nil, true]} forEach _units;
     _group setBehaviour "AWARE";
     _group setCombatMode "YELLOW";
     _group setVariable ["bw_allyMode", _mode, true];
@@ -91,9 +99,11 @@ if (_changed) then {
 };
 if (_mode == "follow") then {
     // Recall overrides combat movement while retaining target/weapon AI.
-    {_x enableAI "PATH"; _x disableAI "AUTOCOMBAT";
-        _x setVariable ["lambs_danger_disableAI", true, true]} forEach _units;
-    _group setSpeedMode "FULL";
+    if (_changed) then {
+        {_x enableAI "PATH"; _x disableAI "AUTOCOMBAT";
+            _x setVariable ["lambs_danger_disableAI", true, true]} forEach _units;
+        _group setSpeedMode "FULL";
+    };
     private _target = _center getPos [20, (getDir _truck) + 180];
     if (surfaceIsWater _target) then {_target = _center};
     private _oldTarget = _group getVariable ["bw_allyMoveTarget", [0, 0, 0]];
