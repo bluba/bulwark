@@ -21,7 +21,17 @@ class startBox_DialogNew
 			colorBackground[] = {0,0,0,1};
 			colorActive[] = {0,0,0,0.65};
 		};
-		class btnBulwarkShowBuild: RscButton
+		class btnBulwarkBuyAgain: RscButton
+        {
+            idc = 1615;
+            text = "BUY LAST ITEM AGAIN";
+            action = "['buy'] call bulwark_fnc_recentPurchases;";
+            x = 0.276875 * safezoneW + safezoneX;
+            y = 0.77 * safezoneH + safezoneY;
+            w = 0.216562 * safezoneW;
+            h = 0.04 * safezoneH;
+        };
+        class btnBulwarkShowBuild: RscButton
 		{
 			idc = 1600;
 			action = "_nil=[]ExecVM ""bulwark\functions\fn_showBuildItemGui.sqf""";

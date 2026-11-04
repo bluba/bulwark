@@ -10,6 +10,7 @@ class bulwark
         // Registers function to bring up new GUI panel
         class purchaseGuiNew {};		
         class shopTab {};
+        class recentPurchases {};
         class showSupplyItemGui {};
         class requestDebugAction {};
         class debugSpecials {};

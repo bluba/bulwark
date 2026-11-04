@@ -5,6 +5,7 @@ disableSerialization;
 private _display = findDisplay 9998;
 if (isNull _display) exitWith {};
 CAT_OPEN = _tab;
+(_display displayCtrl 1615) ctrlShow (_tab == 0);
 (_display displayCtrl 1501) ctrlSetTooltip "";
 private _debug = _tab == 2;
 {(_display displayCtrl _x) ctrlShow (!_debug)} forEach [1500, 1501, 1602, 1200];

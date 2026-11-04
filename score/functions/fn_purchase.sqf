@@ -12,6 +12,7 @@ private _item = _catalogue select _index;
 private _price = _item select 0;
 private _class = _item select 2;
 private _message = "";
+private _purchased = false;
 private _transactionStart = diag_tickTime;
 isNil {
     private _balance = _player getVariable ["killPoints", 0];
@@ -21,10 +22,12 @@ isNil {
             private _tickets = parseNumber _class;
             if (_tickets <= 0) exitWith {_message = "Invalid ticket item."};
             _player setVariable ["killPoints", _balance - _price, true];
+            _purchased = true;
             [west, _tickets] call BIS_fnc_respawnTickets;
             [] spawn bulwark_fnc_refreshRespawns;
         } else {
             _player setVariable ["killPoints", _balance - _price, true];
+            _purchased = true;
             [_player, _class] remoteExecCall ["BIS_fnc_addCommMenuItem", _player];
         };
     };
@@ -53,6 +56,7 @@ isNil {
     _object setPhysicsCollisionFlag false;
     [_object, false] remoteExecCall ["setPhysicsCollisionFlag", 0, _object];
     _player setVariable ["killPoints", _balance - _price, true];
+            _purchased = true;
     // Reserve immediately, before the client receives the placement callback.
     _player setVariable ["buildItemHeld", true, true];
     _object setVariable ["shopPrice", _price, true];
@@ -73,3 +77,5 @@ if (_transactionMs >= 50) then {
 };
 if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
 [] remoteExecCall ["killPoints_fnc_updateHud", _player];
+
+if (_purchased) then {["record", _kind, _id] remoteExecCall ["bulwark_fnc_recentPurchases", _player]};

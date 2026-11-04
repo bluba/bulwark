@@ -63,6 +63,7 @@ if !(_display getVariable ["bw_shopHandlersReady", false]) then {
 }];
 
 (_display displayCtrl 1501) ctrlAddEventHandler ['LBSelChanged', {
+    if (lbData [1501, lbCurSel 1501] != "") exitWith {ctrlSetText [1200, "#(argb,8,8,3)color(0,0,0,0.5)"]};
 	if (CAT_OPEN == 3) exitWith {
 		private _id = lbValue [1501, lbCurSel 1501];
 		private _catalogue = missionNamespace getVariable ["BULWARK_SUPPLYITEMS", []];
@@ -103,3 +104,5 @@ _ctrl lbAdd " ";
 _ctrl lbAdd "";
 _ctrl lbAdd "  Select the item category on the left ";
 _ctrl lbAdd "      panel to view the build items";
+
+[] call bulwark_fnc_recentPurchases;

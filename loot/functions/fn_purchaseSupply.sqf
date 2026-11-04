@@ -80,6 +80,7 @@ if (_transactionMs >= 50) then {
 };
 if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
 if (!isNull _object) then {
+    ["record", "supply", _id] remoteExecCall ["bulwark_fnc_recentPurchases", _player];
     [_object, _player, 0.8, 0] remoteExecCall ["bulwark_fnc_receivePurchase", _player];
     [] remoteExecCall ["killPoints_fnc_updateHud", _player];
 };
