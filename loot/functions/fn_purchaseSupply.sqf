@@ -22,10 +22,16 @@ isNil {
     if (_balance < _price) exitWith {_message = "Not enough points."};
     private _class = missionNamespace getVariable [_keys select 6, "Box_NATO_Equip_F"];
     if !(_class isEqualType "") exitWith {_message = "Invalid supply crate configuration."};
+    missionNamespace setVariable ["BW_SUPPLY_STOCK_ERROR", ""];
     private _manifest = [_family] call loot_fnc_supplyManifest;
     private _mass = [_manifest] call loot_fnc_supplyMass;
     private _cfg = configFile >> "CfgVehicles" >> _class;
-    if (_mass <= 0) exitWith {_message = "No valid stock is available under the current loot settings."};
+    if (_mass <= 0) exitWith {
+        private _reason = missionNamespace getVariable ["BW_SUPPLY_STOCK_ERROR", ""];
+        if (_reason == "") then {_reason = "Stock is empty or cargo validation failed"};
+        _message = format ["%1 crate unavailable: %2", _family, _reason];
+        diag_log ("BULWARK SUPPLY: " + _message);
+    };
     if (!isClass _cfg || {!(_class isKindOf ["ReammoBox_F", configFile >> "CfgVehicles"])} ||
         {_class isKindOf ["Box_NATO_Support_F", configFile >> "CfgVehicles"]} ||
         {getNumber (_cfg >> "maximumLoad") < _mass}) exitWith {_message = "The supply crate class is unavailable or too small."};

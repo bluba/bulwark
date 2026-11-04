@@ -1,3 +1,4 @@
+missionNamespace setVariable ["BW_SUPPLY_STOCK_ERROR", ""];
 // Same finite stock as the former FPV Drone Supply Drop. No drone is deployed here.
 private _stock = [
     ["magazine","UA_Item_EMPTY",1],
@@ -28,7 +29,7 @@ private _valid = true;
 {
     _x params ["_tag","_class","_count"];
     private _root = switch (_tag) do {case "item": {"CfgWeapons"}; case "backpack": {"CfgVehicles"}; default {"CfgMagazines"}};
-    if (!isClass (configFile >> _root >> _class)) exitWith {_valid = false};
+    if (!isClass (configFile >> _root >> _class)) exitWith {_valid = false; missionNamespace setVariable ["BW_SUPPLY_STOCK_ERROR", format ["Missing %1 class: %2", _root, _class]]};
 } forEach _stock;
 // Fail without payment if the required FPV mod/content is absent; never sell a partial kit.
 if (!_valid) exitWith {[]};
