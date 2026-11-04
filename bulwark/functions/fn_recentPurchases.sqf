@@ -49,7 +49,7 @@ if (isNull _display) exitWith {};
         _button ctrlSetText "BUY AGAIN: —";
         _button ctrlSetTooltip "Buy another distinct item to fill this slot.";
     };
-} forEach [1615, 1616];
+} forEach [1615, 1616, 1617];
 if ((missionNamespace getVariable ["CAT_OPEN", 0]) != 0 || {lbCurSel (_display displayCtrl 1500) >= 0}) exitWith {};
 private _list = _display displayCtrl 1501;
 lbClear _list;

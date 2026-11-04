@@ -28,7 +28,7 @@ class startBox_DialogNew
             action = "['buy'] call bulwark_fnc_recentPurchases;";
             x = 0.276875 * safezoneW + safezoneX;
             y = 0.77 * safezoneH + safezoneY;
-            w = 0.216562 * safezoneW;
+            w = 0.14 * safezoneW;
             h = 0.04 * safezoneH;
         };
         class btnBulwarkBuyPrevious: btnBulwarkBuyAgain
@@ -36,7 +36,14 @@ class startBox_DialogNew
             idc = 1616;
             text = "BUY AGAIN: —";
             action = "['buy', '', -1, 1] call bulwark_fnc_recentPurchases;";
-            x = 0.506563 * safezoneW + safezoneX;
+            x = 0.43 * safezoneW + safezoneX;
+        };
+        class btnBulwarkBuyThird: btnBulwarkBuyAgain
+        {
+            idc = 1617;
+            text = "BUY AGAIN: —";
+            action = "['buy', '', -1, 2] call bulwark_fnc_recentPurchases;";
+            x = 0.583125 * safezoneW + safezoneX;
         };
         class btnBulwarkShowBuild: RscButton
 		{
