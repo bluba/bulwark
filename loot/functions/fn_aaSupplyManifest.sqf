@@ -22,7 +22,9 @@ if (isNil "BIS_fnc_compatibleMagazines" || {isNil "CBA_fnc_firedDisposable"}) ex
 // Validate the real firing version of the disposable, not its fake inventory magazine.
 {
     _x params ["_launcher", "_magazine"];
-    private _compatible = (_launcher call BIS_fnc_compatibleMagazines) apply {toLowerANSI _x};
+    // Disposable launchers use hidden firing magazines; the default lookup
+    // excludes them and incorrectly rejects an otherwise valid AA kit.
+    private _compatible = ([_launcher, true] call BIS_fnc_compatibleMagazines) apply {toLowerANSI _x};
     private _magCfg = configFile >> "CfgMagazines" >> _magazine;
     if (!(toLowerANSI _magazine in _compatible) || {getNumber (_magCfg >> "count") != 1} ||
         {!isClass (configFile >> "CfgAmmo" >> getText (_magCfg >> "ammo"))}) exitWith {_valid = false; missionNamespace setVariable ["BW_SUPPLY_STOCK_ERROR", format ["Incompatible missile: %1 / %2; available: %3", _launcher, _magazine, _compatible]]};
