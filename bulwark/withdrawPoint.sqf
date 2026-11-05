@@ -7,7 +7,7 @@
 */
 _ctrl = (findDisplay 9998) displayCtrl 1400;
 _withdrawAmount = round parseNumber ctrlText _ctrl;
-_ctrl ctrlSetText "Enter Amount";
+_ctrl ctrlSetText "";
 _pointBankAmount = bulwarkBox getVariable "pointBankAmount";
 if(_withdrawAmount < 0) then { hint "Invalid Number!"; } 
 else

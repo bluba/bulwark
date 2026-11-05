@@ -1,16 +1,19 @@
 // Server transaction: clients choose an ID, never stock, family, class or price.
 params [["_player", objNull, [objNull]], ["_id", -1, [0]]];
-if (!([_player, true] call bulwark_fnc_validCaller) || {!finite _id} ||
-    {side group _player != west} || {_player isKindOf "HeadlessClient_F"}) exitWith {objNull};
+if (!([_player] call bulwark_fnc_validCaller) || {!finite _id}) exitWith {objNull};
+if (!([_player, true] call bulwark_fnc_validCaller) || {side group _player != west} || {_player isKindOf "HeadlessClient_F"}) exitWith {
+    [false, "Supply purchase unavailable for your current player state or location."] remoteExecCall ["bulwark_fnc_shopResult", _player];
+    objNull
+};
 private _catalogue = missionNamespace getVariable ["BULWARK_SUPPLYITEMS", []];
 private _index = _catalogue findIf {(_x select 3) == _id};
-if (_index < 0) exitWith {objNull};
+if (_index < 0) exitWith {[false, "Supply item unavailable."] remoteExecCall ["bulwark_fnc_shopResult", _player]; objNull};
 private _item = _catalogue select _index;
 private _price = _item select 0;
 private _family = _item select 2;
 private _keys = [_family] call loot_fnc_supplyFamily;
 if (_keys isEqualTo [] || {!(_price isEqualType 0)} || {!finite _price} ||
-    {_price <= 0} || {_price != floor _price}) exitWith {objNull};
+    {_price <= 0} || {_price != floor _price}) exitWith {[false, "Invalid supply configuration."] remoteExecCall ["bulwark_fnc_shopResult", _player]; objNull};
 private _object = objNull;
 private _message = "";
 private _transactionStart = diag_tickTime;
@@ -78,7 +81,8 @@ private _transactionMs = 1000 * (diag_tickTime - _transactionStart);
 if (_transactionMs >= 50) then {
     diag_log format ["BULWARK PERF purchase: catalogue ID %1, transaction %2 ms", _id, _transactionMs];
 };
-if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
+if (!isNull _object) then {_message = format ["Purchased %1 for %2 points.", localize (_item select 1), _price]};
+[!isNull _object, _message] remoteExecCall ["bulwark_fnc_shopResult", _player];
 if (!isNull _object) then {
     ["record", "supply", _id] remoteExecCall ["bulwark_fnc_recentPurchases", _player];
     [_object, _player, 0.8, 0] remoteExecCall ["bulwark_fnc_receivePurchase", _player];

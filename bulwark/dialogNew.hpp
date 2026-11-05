@@ -1,316 +1,323 @@
 class startBox_DialogNew
 {
-	idd = 9998;
-	movingEnabled = false;
-	onLoad = "{((_this select 0) displayCtrl _x) ctrlShow false} forEach [1611,1010,1510,1612,1613];";
-	
-	class controls
-	{
-		////////////////////////////////////////////////////////
-		// GUI EDITOR OUTPUT START (by SMITH, v1.063, #Totize)
-		////////////////////////////////////////////////////////
-		
-		class RscFrame_1800: RscFrame
-		{
-			idc = 1800;
-		
-			x = 0.26375 * safezoneW + safezoneX;
-			y = 0.234 * safezoneH + safezoneY;
-			w = 0.4725 * safezoneW;
-			h = 0.532 * safezoneH;
-			colorBackground[] = {0,0,0,1};
-			colorActive[] = {0,0,0,0.65};
-		};
-		class btnBulwarkBuyAgain: RscButton
+    idd = 9998;
+    movingEnabled = false;
+    onUnload = "['save'] call bulwark_fnc_shop;";
+    class controlsBackground
+    {
+        class Panel: RscText
         {
-            idc = 1615;
-            text = "BUY LAST ITEM AGAIN";
-            action = "['buy'] call bulwark_fnc_recentPurchases;";
-            x = 0.276875 * safezoneW + safezoneX;
-            y = 0.77 * safezoneH + safezoneY;
-            w = 0.14 * safezoneW;
+            idc = -1;
+            x = 0.10 * safezoneW + safezoneX;
+            y = 0.10 * safezoneH + safezoneY;
+            w = 0.80 * safezoneW;
+            h = 0.79 * safezoneH;
+            colorBackground[] = {0.035,0.045,0.055,0.97};
+        };
+    };
+    class controls
+    {
+        class Title: RscText
+        {
+            idc = 1002;
+            text = "BULWARK";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.12 * safezoneH + safezoneY;
+            w = 0.22 * safezoneW;
+            h = 0.04 * safezoneH;
+
+        };
+        class Balances: RscText
+        {
+            idc = 1005;
+            text = "";
+            x = 0.34 * safezoneW + safezoneX;
+            y = 0.12 * safezoneH + safezoneY;
+            w = 0.48 * safezoneW;
+            h = 0.04 * safezoneH;
+
+        };
+        class Close: RscButton
+        {
+            idc = 1603;
+            text = "Close";
+            x = 0.825 * safezoneW + safezoneX;
+            y = 0.12 * safezoneH + safezoneY;
+            w = 0.06 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "closeDialog 0;";
+        };
+        class Build: RscButton
+        {
+            idc = 1600;
+            text = "Build";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.11 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 0] call bulwark_fnc_shop;";
+        };
+        class Support: RscButton
+        {
+            idc = 1601;
+            text = "Support";
+            x = 0.235 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.11 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 1] call bulwark_fnc_shop;";
+        };
+        class Supplies: RscButton
+        {
+            idc = 1614;
+            text = "Supplies";
+            x = 0.355 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.11 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 3] call bulwark_fnc_shop;";
+        };
+        class Admin: RscButton
+        {
+            idc = 1610;
+            text = "Admin";
+            x = 0.475 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.11 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 2] call bulwark_fnc_shop;";
+        };
+        class AmountLabel: RscText
+        {
+            idc = 1003;
+            text = "Transfer amount";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.23 * safezoneH + safezoneY;
+            w = 0.13 * safezoneW;
+            h = 0.035 * safezoneH;
+
+        };
+        class Amount: RscEdit
+        {
+            idc = 1400;
+            text = "";
+            x = 0.25 * safezoneW + safezoneX;
+            y = 0.23 * safezoneH + safezoneY;
+            w = 0.12 * safezoneW;
+            h = 0.035 * safezoneH;
+            tooltip = "Enter the number of points to transfer.";
+        };
+        class Deposit: RscButton
+        {
+            idc = 1605;
+            text = "Deposit to bank";
+            x = 0.38 * safezoneW + safezoneX;
+            y = 0.23 * safezoneH + safezoneY;
+            w = 0.16 * safezoneW;
+            h = 0.035 * safezoneH;
+            action = "[] execVM 'bulwark\depositPoint.sqf';";
+        };
+        class Withdraw: RscButton
+        {
+            idc = 1604;
+            text = "Withdraw from bank";
+            x = 0.55 * safezoneW + safezoneX;
+            y = 0.23 * safezoneH + safezoneY;
+            w = 0.18 * safezoneW;
+            h = 0.035 * safezoneH;
+            action = "[] execVM 'bulwark\withdrawPoint.sqf';";
+        };
+        class SearchLabel: RscText
+        {
+            idc = 1024;
+            text = "Search all items";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.285 * safezoneH + safezoneY;
+            w = 0.13 * safezoneW;
             h = 0.04 * safezoneH;
         };
-        class btnBulwarkBuyPrevious: btnBulwarkBuyAgain
+        class Search: RscEdit
+        {
+            idc = 1401;
+            text = "";
+            x = 0.25 * safezoneW + safezoneX;
+            y = 0.285 * safezoneH + safezoneY;
+            w = 0.365 * safezoneW;
+            h = 0.04 * safezoneH;
+            tooltip = "Search item names across Build, Support and Supplies.";
+        };
+        class ClearSearch: RscButton
+        {
+            idc = 1606;
+            text = "Clear search";
+            x = 0.625 * safezoneW + safezoneX;
+            y = 0.285 * safezoneH + safezoneY;
+            w = 0.26 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "((findDisplay 9998) displayCtrl 1401) ctrlSetText ''; ['list'] call bulwark_fnc_shop;";
+        };
+        class ItemsLabel: RscText
+        {
+            idc = 1022;
+            text = "Items";
+            x = 0.32 * safezoneW + safezoneX;
+            y = 0.333 * safezoneH + safezoneY;
+            w = 0.325 * safezoneW;
+            h = 0.025 * safezoneH;
+
+        };
+        class Categories: RscListBox
+        {
+            idc = 1500;
+            text = "";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.365 * safezoneH + safezoneY;
+            w = 0.195 * safezoneW;
+            h = 0.36 * safezoneH;
+            colorBackground[] = {0,0,0,0.45};
+        };
+        class Items: RscListBox
+        {
+            idc = 1501;
+            text = "";
+            x = 0.32 * safezoneW + safezoneX;
+            y = 0.365 * safezoneH + safezoneY;
+            w = 0.325 * safezoneW;
+            h = 0.36 * safezoneH;
+            colorBackground[] = {0,0,0,0.45};
+            colorTextRight[] = {1,1,1,1};
+            colorSelectRight[] = {0,0,0,1};
+            colorSelect2Right[] = {0,0,0,1};
+        };
+        class Preview: RscPicture
+        {
+            idc = 1200;
+            text = "";
+            x = 0.66 * safezoneW + safezoneX;
+            y = 0.335 * safezoneH + safezoneY;
+            w = 0.225 * safezoneW;
+            h = 0.135 * safezoneH;
+            style = 48 + 2048;
+        };
+        class Details: RscText
+        {
+            idc = 1020;
+            text = "";
+            x = 0.66 * safezoneW + safezoneX;
+            y = 0.48 * safezoneH + safezoneY;
+            w = 0.225 * safezoneW;
+            h = 0.245 * safezoneH;
+            style = 16; sizeEx = 0.0185 * safezoneH;
+        };
+        class Purchase: RscButton
+        {
+            idc = 1602;
+            text = "Select an item";
+            x = 0.59 * safezoneW + safezoneX;
+            y = 0.74 * safezoneH + safezoneY;
+            w = 0.295 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['buy'] call bulwark_fnc_shop;";
+        };
+        class Feedback: RscText
+        {
+            idc = 1021;
+            text = "";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.735 * safezoneH + safezoneY;
+            w = 0.46 * safezoneW;
+            h = 0.05 * safezoneH;
+            style = 16; sizeEx = 0.020 * safezoneH;
+        };
+        class RecentLabel: RscText
+        {
+            idc = 1023;
+            text = "Buy again - recent purchases";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.79 * safezoneH + safezoneY;
+            w = 0.7 * safezoneW;
+            h = 0.025 * safezoneH;
+
+        };
+        class Recent0: RscButton
+        {
+            idc = 1615;
+            text = "No recent purchase";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.825 * safezoneH + safezoneY;
+            w = 0.25 * safezoneW;
+            h = 0.045 * safezoneH;
+            action = "['buy', '', -1, 0] call bulwark_fnc_recentPurchases;";
+        };
+        class Recent1: RscButton
         {
             idc = 1616;
-            text = "BUY AGAIN: —";
+            text = "No recent purchase";
+            x = 0.375 * safezoneW + safezoneX;
+            y = 0.825 * safezoneH + safezoneY;
+            w = 0.25 * safezoneW;
+            h = 0.045 * safezoneH;
             action = "['buy', '', -1, 1] call bulwark_fnc_recentPurchases;";
-            x = 0.43 * safezoneW + safezoneX;
         };
-        class btnBulwarkBuyThird: btnBulwarkBuyAgain
+        class Recent2: RscButton
         {
             idc = 1617;
-            text = "BUY AGAIN: —";
+            text = "No recent purchase";
+            x = 0.635 * safezoneW + safezoneX;
+            y = 0.825 * safezoneH + safezoneY;
+            w = 0.25 * safezoneW;
+            h = 0.045 * safezoneH;
             action = "['buy', '', -1, 2] call bulwark_fnc_recentPurchases;";
-            x = 0.583125 * safezoneW + safezoneX;
         };
-        class btnBulwarkShowBuild: RscButton
-		{
-			idc = 1600;
-			action = "_nil=[]ExecVM ""bulwark\functions\fn_showBuildItemGui.sqf""";
-		
-			text = "BUILD"; //--- ToDo: Localize;
-			x = 0.276875 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.068 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class btnBulwarkShowSupport: RscButton
-		{
-			idc = 1601;
-			action = "_nil=[]ExecVM ""bulwark\functions\fn_showSupportItemGui.sqf""";
-		
-			text = "SUPPORT"; //--- ToDo: Localize;
-			x = 0.35125 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.068 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class btnBulwarkShowDebug: RscButton
-		{
-			idc = 1610;
-			action = "[2] call bulwark_fnc_shopTab;";
-			text = "DEBUG";
-			x = 0.73625 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.068 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class btnBulwarkShowSupplies: RscButton
-		{
-			idc = 1614;
-			action = "[] call bulwark_fnc_showSupplyItemGui;";
-			text = "$STR_BW_SUPPLIES_TAB";
-			x = 0.425625 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.068 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class btnBulwarkDebugKillEnemies: RscButton
-		{
-			idc = 1611;
-			action = "[player, 'killEnemies'] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];";
-			text = "Kill all enemies";
-			tooltip = "Kills current enemies; queued reinforcements and FOBs remain active.";
-			x = 0.29 * safezoneW + safezoneX;
-			y = 0.36 * safezoneH + safezoneY;
-			w = 0.25 * safezoneW;
-			h = 0.056 * safezoneH;
-		};
-		class btnBulwarkDebugResetZeus: RscButton
-		{
-			idc = 1613;
-			action = "[player, 'resetZeus'] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];";
-			text = "Reset Zeus";
-			tooltip = "Restores your Zeus assignment. Close the shop, wait a moment, then press Y.";
-			x = 0.55 * safezoneW + safezoneX;
-			y = 0.36 * safezoneH + safezoneY;
-			w = 0.16 * safezoneW;
-			h = 0.056 * safezoneH;
-		};
-		class txtBulwarkDebug: RscText
-		{
-			idc = 1010;
-			style = 16;
-			text = "Host/admin debug tools";
-			x = 0.29 * safezoneW + safezoneX;
-			y = 0.332 * safezoneH + safezoneY;
-			w = 0.42 * safezoneW;
-			h = 0.025 * safezoneH;
-		};
-		class listBulwarkDebugSpecials: RscListBox
-		{
-			idc = 1510;
-			x = 0.29 * safezoneW + safezoneX;
-			y = 0.43 * safezoneH + safezoneY;
-			w = 0.42 * safezoneW;
-			h = 0.16 * safezoneH;
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class btnBulwarkDebugForceSpecial: RscButton
-		{
-			idc = 1612;
-			action = "[player, 'forceSpecial', lbData [1510, lbCurSel 1510]] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];";
-			text = "Force selected special";
-			tooltip = "Ends the current wave and starts the selected special. Bypasses normal selection restrictions.";
-			x = 0.29 * safezoneW + safezoneX;
-			y = 0.61 * safezoneH + safezoneY;
-			w = 0.42 * safezoneW;
-			h = 0.05 * safezoneH;
-		};
-		class listBulwarkShopCategory: RscListBox
-		{
-			idc = 1500;
-		
-			x = 0.276875 * safezoneW + safezoneX;
-			y = 0.332 * safezoneH + safezoneY;
-			w = 0.216562 * safezoneW;
-			h = 0.336 * safezoneH;
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class listBulwarkShopItem: RscListBox
-		{
-			idc = 1501;
-		
-			x = 0.5 * safezoneW + safezoneX;
-			y = 0.332 * safezoneH + safezoneY;
-			w = 0.223125 * safezoneW;
-			h = 0.336 * safezoneH;
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class btnBulwarkBuySelected: RscButton
-		{
-			idc = 1602;
-			action = "_nil=[]ExecVM ""bulwark\purchaseNew.sqf""";
-		
-			text = "PURCHASE"; //--- ToDo: Localize;
-			x = 0.276875 * safezoneW + safezoneX;
-			y = 0.682 * safezoneH + safezoneY;
-			w = 0.105 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class btnBulwarkShopClose: RscButton
-		{
-			idc = 1603;
-			action = "_nil=[]ExecVM ""bulwark\functions\fn_closeShop.sqf""";
-		
-			text = "CLOSE"; //--- ToDo: Localize;
-			x = 0.388437 * safezoneW + safezoneX;
-			y = 0.682 * safezoneH + safezoneY;
-			w = 0.105 * safezoneW;
-			h = 0.07 * safezoneH;
-		};
-		class RscText_1001: RscText
-		{
-			idc = 1001;
-		
-			x = 0.499999 * safezoneW + safezoneX;
-			y = 0.724 * safezoneH + safezoneY;
-			w = 0.223125 * safezoneW;
-			h = 0.028 * safezoneH;
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscText_1003: RscText
-		{
-			idc = 1003;
-		
-			text = "BANK"; //--- ToDo: Localize;
-			x = 0.5 * safezoneW + safezoneX;
-			y = 0.29 * safezoneH + safezoneY;
-			w = 0.039375 * safezoneW;
-			h = 0.028 * safezoneH;
-			colorText[] = {1,1,0,1};
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscText_1004: RscText
-		{
-			idc = 1004;
-		
-			text = "POINT"; //--- ToDo: Localize;
-			x = 0.5 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.039375 * safezoneW;
-			h = 0.042 * safezoneH;
-			colorText[] = {1,1,0,1};
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscText_1005: RscText
-		{
-			idc = 1005;
-		
-			text = "0"; //--- ToDo: Localize;
-			x = 0.539375 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.0984375 * safezoneW;
-			h = 0.042 * safezoneH;
-			colorText[] = {0,1,0,1};
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscEdit_1400: RscEdit
-		{
-			idc = 1400;
-			style = "16 + 512";
-		
-			text = "Enter Amount"; //--- ToDo: Localize;
-			x = 0.539375 * safezoneW + safezoneX;
-			y = 0.29 * safezoneH + safezoneY;
-			w = 0.0984375 * safezoneW;
-			h = 0.028 * safezoneH;
-			colorText[] = {0.85,0.5,1,1};
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscButton_1604: RscButton
-		{
-			idc = 1604;
-			action = "_nil=[]ExecVM ""bulwark\withdrawPoint.sqf""";
-		
-			text = "WIDR"; //--- ToDo: Localize;
-			x = 0.644375 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.039375 * safezoneW;
-			h = 0.07 * safezoneH;
-			colorBackground[] = {1,0.5,0.2,0.5};
-		};
-		class RscButton_1605: RscButton
-		{
-			idc = 1605;
-			action = "_nil=[]ExecVM ""bulwark\depositPoint.sqf""";
-		
-			text = "DEPO"; //--- ToDo: Localize;
-			x = 0.68375 * safezoneW + safezoneX;
-			y = 0.248 * safezoneH + safezoneY;
-			w = 0.039375 * safezoneW;
-			h = 0.07 * safezoneH;
-			colorBackground[] = {0,0.5,1,0.5};
-		};
-		class previewPicture: RscPicture
-		{
-			idc = 1200;
-		
-			text = "#(argb,8,8,3)color(0,0,0,0.5)";
-			x = 0.73625 * safezoneW + safezoneX;
-			y = 0.332 * safezoneH + safezoneY;
-			w = 0.164062 * safezoneW;
-			h = 0.224 * safezoneH;
-		};
-		class RscText_1002: RscText
-		{
-			idc = 1002;
-			text = "Dynamic Bulwarks - Willtop & omNomios"; //--- ToDo: Localize;
-			x = 0.499999 * safezoneW + safezoneX;
-			y = 0.682 * safezoneH + safezoneY;
-			w = 0.223125 * safezoneW;
-			h = 0.042 * safezoneH;
-			colorBackground[] = {0,0,0,0.65};
-		};
-		class RscText_1006: RscText
-		{
-			idc = 1004;
-			text = "EDITED BY:"; //--- ToDo: Localize;
-			x = 0.618125 * safezoneW + safezoneX;
-			y = 0.724 * safezoneH + safezoneY;
-			w = 0.0590625 * safezoneW;
-			h = 0.028 * safezoneH;
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0,0,0,0.5};
-		};
-		class RscText_1008: RscText
-		{
-			idc = 1008;
-			text = "SMITH"; //--- ToDo: Localize;
-			x = 0.677188 * safezoneW + safezoneX;
-			y = 0.724 * safezoneH + safezoneY;
-			w = 0.0459375 * safezoneW;
-			h = 0.028 * safezoneH;
-			colorText[] = {1,0,0,1};
-			colorBackground[] = {0,0,0,0.5};
-		};
-		////////////////////////////////////////////////////////
-		// GUI EDITOR OUTPUT END
-		////////////////////////////////////////////////////////
+        class DebugLabel: RscText
+        {
+            idc = 1010;
+            text = "Host/admin tools";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.29 * safezoneH + safezoneY;
+            w = 0.75 * safezoneW;
+            h = 0.04 * safezoneH;
 
-
-	};
+        };
+        class KillEnemies: RscButton
+        {
+            idc = 1611;
+            text = "Kill current enemies";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.35 * safezoneH + safezoneY;
+            w = 0.36 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "[player, 'killEnemies'] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];"; tooltip = "Queued reinforcements and FOBs remain active.";
+        };
+        class ResetZeus: RscButton
+        {
+            idc = 1613;
+            text = "Reset Zeus";
+            x = 0.49 * safezoneW + safezoneX;
+            y = 0.35 * safezoneH + safezoneY;
+            w = 0.395 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "[player, 'resetZeus'] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];"; tooltip = "Close the shop, wait a moment, then press Y.";
+        };
+        class Specials: RscListBox
+        {
+            idc = 1510;
+            text = "";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.41 * safezoneH + safezoneY;
+            w = 0.77 * safezoneW;
+            h = 0.25 * safezoneH;
+            colorBackground[] = {0,0,0,0.45};
+        };
+        class ForceSpecial: RscButton
+        {
+            idc = 1612;
+            text = "Force selected special";
+            x = 0.115 * safezoneW + safezoneX;
+            y = 0.68 * safezoneH + safezoneY;
+            w = 0.77 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "[player, 'forceSpecial', lbData [1510, lbCurSel 1510]] remoteExecCall ['bulwark_fnc_requestDebugAction', 2];"; tooltip = "Ends the wave and starts the selected special, bypassing normal restrictions.";
+        };
+    };
 };
-

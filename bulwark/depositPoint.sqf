@@ -7,7 +7,7 @@
 */
 _ctrl = (findDisplay 9998) displayCtrl 1400;
 _depositAmount = round parseNumber ctrlText _ctrl;
-_ctrl ctrlSetText "Enter Amount";
+_ctrl ctrlSetText "";
 
 if(_depositAmount < 0) then { hint "Invalid Number!"; } 
 else 

@@ -1,13 +1,16 @@
 // Only catalogue IDs cross the network; prices and classes come from the server.
 params [["_player", objNull, [objNull]], ["_kind", "", [""]], ["_id", -1, [0]]];
-if (!([_player, true] call bulwark_fnc_validCaller) || {!finite _id}) exitWith {};
+if (!([_player] call bulwark_fnc_validCaller) || {!finite _id}) exitWith {};
+if (!([_player, true] call bulwark_fnc_validCaller)) exitWith {
+    [false, "Purchase rejected: stay alive and within 10 metres of the Bulwark."] remoteExecCall ["bulwark_fnc_shopResult", _player];
+};
 if (_kind == "supply") exitWith {[_player, _id] call loot_fnc_purchaseSupply};
 private _catalogue = [];
 private _idField = 7;
 if (_kind == "build") then {_catalogue = BULWARK_BUILDITEMS};
 if (_kind == "support" && {SUPPORTMENU}) then {_catalogue = BULWARK_SUPPORTITEMS; _idField = 3};
 private _index = _catalogue findIf {(_x select _idField) == _id};
-if (_index < 0) exitWith {};
+if (_index < 0) exitWith {[false, "Item unavailable. Support requires a satellite dish."] remoteExecCall ["bulwark_fnc_shopResult", _player]};
 private _item = _catalogue select _index;
 private _price = _item select 0;
 private _class = _item select 2;
@@ -75,7 +78,8 @@ private _transactionMs = 1000 * (diag_tickTime - _transactionStart);
 if (_transactionMs >= 50) then {
     diag_log format ["BULWARK PERF purchase: catalogue ID %1, transaction %2 ms", _id, _transactionMs];
 };
-if (_message != "") then {[_message] remoteExecCall ["hint", _player]};
+if (_purchased) then {_message = format ["Purchased %1 for %2 points.", _item select 1, _price]};
+[_purchased, _message] remoteExecCall ["bulwark_fnc_shopResult", _player];
 [] remoteExecCall ["killPoints_fnc_updateHud", _player];
 
 if (_purchased) then {["record", _kind, _id] remoteExecCall ["bulwark_fnc_recentPurchases", _player]};

@@ -26,13 +26,13 @@ private _recent = [];
         private _item = _catalogue select _index;
         private _label = _item select 1;
         if (_entryKind == "supply") then {_label = localize _label};
-        _recent pushBack [_entryKind, _entryId, _item select 0, _label];
+        _recent pushBack [_entryKind, _entryId, _item select 0, _label, _item select 2, if (_entryKind == "build") then {_item select 6} else {if (_entryKind == "support") then {_item select 4} else {0}}];
     };
 } forEach (missionNamespace getVariable ["BW_PURCHASE_HISTORY", []]);
 if (_mode == "buy") exitWith {
     if (_slot < 0 || {_slot >= count _recent}) exitWith {hint "No previous purchase available."};
     private _entry = _recent select _slot;
-    [player, _entry select 0, _entry select 1] remoteExecCall ["killPoints_fnc_purchase", 2];
+    ["buy", _entry] call bulwark_fnc_shop;
 };
 disableSerialization;
 private _display = findDisplay 9998;
@@ -40,23 +40,17 @@ if (isNull _display) exitWith {};
 {
     private _button = _display displayCtrl _x;
     private _available = _forEachIndex < count _recent;
-    _button ctrlEnable _available;
+    _button ctrlEnable false;
     if (_available) then {
         private _entry = _recent select _forEachIndex;
-        _button ctrlSetText format ["BUY AGAIN: %1", _entry select 3];
-        _button ctrlSetTooltip format ["%1 — %2 points", _entry select 3, _entry select 2];
+        private _reason = [_entry] call bulwark_fnc_shopAvailability;
+        _button ctrlEnable (_reason == "" && {!(missionNamespace getVariable ["BW_SHOP_PENDING", false])});
+        private _name = _entry select 3;
+        if (count _name > 23) then {_name = (_name select [0, 20]) + "..."};
+        _button ctrlSetText format ["%1 - %2 pts", _name, _entry select 2];
+        _button ctrlSetTooltip format ["Buy again: %1 - %2 points. %3", _entry select 3, _entry select 2, _reason];
     } else {
-        _button ctrlSetText "BUY AGAIN: —";
+        _button ctrlSetText "No recent purchase";
         _button ctrlSetTooltip "Buy another distinct item to fill this slot.";
     };
 } forEach [1615, 1616, 1617];
-if ((missionNamespace getVariable ["CAT_OPEN", 0]) != 0 || {lbCurSel (_display displayCtrl 1500) >= 0}) exitWith {};
-private _list = _display displayCtrl 1501;
-lbClear _list;
-_list ctrlEnable true;
-{
-    private _row = _list lbAdd format ["Buy again: %1 — %2", _x select 3, _x select 2];
-    _list lbSetValue [_row, _x select 1];
-    _list lbSetData [_row, _x select 0];
-} forEach (_recent select [0, 1 max (missionNamespace getVariable ["BW_RECENT_PURCHASE_COUNT", 1])]);
-if (_recent isEqualTo []) then {_list lbAdd "Select an item category to begin."; _list ctrlEnable false};

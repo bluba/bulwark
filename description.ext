@@ -53,6 +53,7 @@ class CfgRemoteExec
 	{
 		mode = 2;
 		class bulwark_fnc_requestDebugAction { allowedTargets = 2; };
+        class bulwark_fnc_shopResult { allowedTargets = 1; };
 		class init {};
 		class add {};
 		class spend {};
