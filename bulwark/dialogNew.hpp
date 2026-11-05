@@ -213,7 +213,7 @@ class startBox_DialogNew
         {
             idc = 1602;
             text = "Select an item";
-            x = 0.59 * safezoneW + safezoneX;
+            x = 0.115 * safezoneW + safezoneX;
             y = 0.74 * safezoneH + safezoneY;
             w = 0.295 * safezoneW;
             h = 0.04 * safezoneH;
@@ -223,7 +223,7 @@ class startBox_DialogNew
         {
             idc = 1021;
             text = "";
-            x = 0.115 * safezoneW + safezoneX;
+            x = 0.425 * safezoneW + safezoneX;
             y = 0.735 * safezoneH + safezoneY;
             w = 0.46 * safezoneW;
             h = 0.05 * safezoneH;
