@@ -16,7 +16,7 @@ This directory is the documentation entry point for continuing work on the recov
 
 ## Implemented feature slices
 
-[Shop first pass](SHOP_REWORK.md) adds clear personal/team balances, a contained layout, remembered selections, catalogue-wide search, server purchase feedback and recent purchases on every tab. Static checks passed; Arma acceptance remains pending.
+[Shop first pass](SHOP_REWORK.md) adds clear personal/team balances, a contained layout, remembered selections, catalogue-wide search, server purchase feedback and recent purchases on every tab. Its second pass adds persistent personal favourites and separate Vehicles/Allies tabs. Static checks passed; Arma acceptance remains pending.
 
 [Shop Debug tab](DEBUG_SHOP.md) provides host/admin **Kill all enemies** and **Force selected special** controls for all 16 implemented specials. Forcing ends the current wave and starts the selected one through the normal mission loop. Source checks passed; UI/multiplayer acceptance remains pending.
 

@@ -53,3 +53,32 @@ In-game acceptance still required:
 Main implementation: `bulwark/dialogNew.hpp`, `bulwark/functions/fn_shop.sqf`,
 `fn_shopAvailability.sqf`, `fn_shopResult.sqf`, the existing recent-purchase helper,
 and the two server purchase handlers. Existing tab entry points are wrappers.
+
+## Second pass — favourites, Vehicles and Allies
+
+The header now reads Build, Vehicles, Allies, Supplies, Support, Favourites and
+Admin (host/admin only). Vehicles and Allies use the existing build catalogue
+categories 6 and 7; they no longer appear under Build. Prices, IDs, server purchase
+kinds and placement behavior are unchanged. Containers and Static defences keep
+their original category IDs despite their new list positions. Buy remains at the
+lower left, with recent purchases available on all tabs.
+
+Select an item and use **Save favourite** above its preview. Saved items have a
+`*` prefix. **Remove favourite** reverses this, including directly from Favourites.
+The Favourites tab lists saved items across all five shopping sections and offers
+section filters. Search there searches only the selected favourites section;
+other tabs retain catalogue-wide search with readable section labels.
+
+Favourites are personal to the local Arma profile, persisted immediately under
+`BW_SHOP_FAVOURITES_V1`. Each key stores purchase kind, catalogue ID and class or
+supply family. This prevents a reused ID pointing a favourite at a different
+asset. Missing catalogue entries remain saved but are hidden until available
+again. Locked or unaffordable items can be saved; normal purchase restrictions
+still apply. No favourites or prices are sent as purchase authority to the server.
+
+The navigation harness now covers the new section mappings, retained Build
+categories, favourite save/remove, reload on reopening, section/search filtering,
+and removal of the final selected favourite. It temporarily writes favourites and
+restores them on normal completion. The harness and in-game checks remain unrun.
+Also verify persistence after restarting Arma, profile isolation, all seven tabs
+at supported interface sizes, and purchase/placement/rebuy from each new tab.

@@ -53,37 +53,67 @@ class startBox_DialogNew
             text = "Build";
             x = 0.115 * safezoneW + safezoneX;
             y = 0.175 * safezoneH + safezoneY;
-            w = 0.11 * safezoneW;
+            w = 0.1 * safezoneW;
             h = 0.04 * safezoneH;
             action = "['tab', 0] call bulwark_fnc_shop;";
         };
-        class Support: RscButton
+        class Vehicles: RscButton
         {
-            idc = 1601;
-            text = "Support";
-            x = 0.235 * safezoneW + safezoneX;
+            idc = 1618;
+            text = "Vehicles";
+            x = 0.225 * safezoneW + safezoneX;
             y = 0.175 * safezoneH + safezoneY;
-            w = 0.11 * safezoneW;
+            w = 0.1 * safezoneW;
             h = 0.04 * safezoneH;
-            action = "['tab', 1] call bulwark_fnc_shop;";
+            action = "['tab', 4] call bulwark_fnc_shop;";
+        };
+        class Allies: RscButton
+        {
+            idc = 1619;
+            text = "Allies";
+            x = 0.335 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.1 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 5] call bulwark_fnc_shop;";
         };
         class Supplies: RscButton
         {
             idc = 1614;
             text = "Supplies";
-            x = 0.355 * safezoneW + safezoneX;
+            x = 0.445 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.1 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 3] call bulwark_fnc_shop;";
+        };
+        class Support: RscButton
+        {
+            idc = 1601;
+            text = "Support";
+            x = 0.555 * safezoneW + safezoneX;
+            y = 0.175 * safezoneH + safezoneY;
+            w = 0.1 * safezoneW;
+            h = 0.04 * safezoneH;
+            action = "['tab', 1] call bulwark_fnc_shop;";
+        };
+        class Favourites: RscButton
+        {
+            idc = 1620;
+            text = "Favourites";
+            x = 0.665 * safezoneW + safezoneX;
             y = 0.175 * safezoneH + safezoneY;
             w = 0.11 * safezoneW;
             h = 0.04 * safezoneH;
-            action = "['tab', 3] call bulwark_fnc_shop;";
+            action = "['tab', 6] call bulwark_fnc_shop;";
         };
         class Admin: RscButton
         {
             idc = 1610;
             text = "Admin";
-            x = 0.475 * safezoneW + safezoneX;
+            x = 0.785 * safezoneW + safezoneX;
             y = 0.175 * safezoneH + safezoneY;
-            w = 0.11 * safezoneW;
+            w = 0.1 * safezoneW;
             h = 0.04 * safezoneH;
             action = "['tab', 2] call bulwark_fnc_shop;";
         };
@@ -144,7 +174,7 @@ class startBox_DialogNew
             y = 0.285 * safezoneH + safezoneY;
             w = 0.365 * safezoneW;
             h = 0.04 * safezoneH;
-            tooltip = "Search item names across Build, Support and Supplies.";
+            tooltip = "Search item names across Build, Vehicles, Allies, Supplies and Support.";
         };
         class ClearSearch: RscButton
         {
@@ -189,14 +219,25 @@ class startBox_DialogNew
             colorSelectRight[] = {0,0,0,1};
             colorSelect2Right[] = {0,0,0,1};
         };
+        class Favourite: RscButton
+        {
+            idc = 1621;
+            text = "Save favourite";
+            x = 0.66 * safezoneW + safezoneX;
+            y = 0.335 * safezoneH + safezoneY;
+            w = 0.225 * safezoneW;
+            h = 0.03 * safezoneH;
+            tooltip = "Save or remove this item in your personal Favourites tab.";
+            action = "['favourite'] call bulwark_fnc_shop;";
+        };
         class Preview: RscPicture
         {
             idc = 1200;
             text = "";
             x = 0.66 * safezoneW + safezoneX;
-            y = 0.335 * safezoneH + safezoneY;
+            y = 0.37 * safezoneH + safezoneY;
             w = 0.225 * safezoneW;
-            h = 0.135 * safezoneH;
+            h = 0.10 * safezoneH;
             style = 48 + 2048;
         };
         class Details: RscText
